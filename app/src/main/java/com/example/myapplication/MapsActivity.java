@@ -92,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
 
-        //Database Stuff should be seperated
+        //Database Stuff
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Locations");
         nameGetter = findViewById(R.id.editTextTextPersonName);
