@@ -57,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     EditText nameGetter;
-    LocationPlus[] driverLocations;
+    Location[] driverLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Locations");
         nameGetter = findViewById(R.id.editTextTextPersonName);
-        driverLocations = new LocationPlus[10];
+        driverLocations = new Location[10];
         reader();
 
     }
@@ -206,12 +206,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (snapshot != null){
                     mMap.clear();
                     int driverCount = (int) snapshot.getChildrenCount();
-                    driverLocations = new LocationPlus[driverCount];
+                    driverLocations = new Location[driverCount];
                     int i = 0;
                     for (DataSnapshot driverSnapshot : snapshot.getChildren()){
-                        LocationPlus loc = null;
+                        Location loc = null;
                         for (DataSnapshot l : driverSnapshot.getChildren()){
-                            loc = l.getValue(LocationPlus.class);
+                            loc = l.getValue(Location.class);
                         }
 
                         driverLocations[i] = loc;
