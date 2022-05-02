@@ -1,3 +1,7 @@
+package com.example.myapplication;
+
+import android.location.Location;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +128,7 @@ public class Vehicle extends Account //implements Locatable
      * @return location
      */
     public Location getLocation() {
-        return location;
+        return this.location;
     }
 
     /**
