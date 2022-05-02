@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,13 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
@@ -47,6 +54,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Location currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
+    EditText nameGetter;
+    LocationPlus[] driverLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +90,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationResult.getLastLocation();
             }
         };
+
+
+        //Database Stuff
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("Locations");
+        nameGetter = findViewById(R.id.editTextTextPersonName);
+        driverLocations = new LocationPlus[10];
+        reader();
+
     }
 
     /**
@@ -98,17 +118,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 startLocationUpdates();
+                databaseReference.child(nameGetter.getText().toString()).push().setValue(currentLocation);
             }
         });
 
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+        /*mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
             }
-        });
+        });*/
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -162,8 +183,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onSuccess(Location location) {
                     currentLocation = location;
-                    mMap.clear();
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("Long: " + currentLocation.getLongitude() + ", Lat: " +currentLocation.getLatitude()));
+                    //Marker mMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("Long: " + currentLocation.getLongitude() + ", Lat: " +currentLocation.getLatitude()));
                     binding.textView.setText("Lat " +currentLocation.getLatitude() + " , Long " + currentLocation.getLongitude());
                 }
             });
@@ -176,6 +196,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
+
+    public void reader(){
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (snapshot != null){
+                    mMap.clear();
+                    int driverCount = (int) snapshot.getChildrenCount();
+                    driverLocations = new LocationPlus[driverCount];
+                    int i = 0;
+                    for (DataSnapshot driverSnapshot : snapshot.getChildren()){
+                        LocationPlus loc = null;
+                        for (DataSnapshot l : driverSnapshot.getChildren()){
+                            loc = l.getValue(LocationPlus.class);
+                        }
+
+                        driverLocations[i] = loc;
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(driverLocations[i].getLatitude(), driverLocations[i].getLongitude())).title(driverSnapshot.getKey()));
+                        i++;
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
