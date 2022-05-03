@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class Stop implements Locatable
 {
-	private String name ;
-	private Location location ;
-	private ArrayList <Route> routesList ;
+	private String name;
+	private Location location;
+	private ArrayList <Route> routesList;
+	private String companyID;
 
 	/**
 	 * Empty constructor
@@ -21,11 +22,12 @@ public class Stop implements Locatable
 	 * @param aName
 	 * @param aLocation
 	 */
-	public Stop (String aName, Location aLocation)
+	public Stop (String aName, Location aLocation, String aCompanyID)
 	{
-		this.name = aName ;
-		this.location = aLocation ;
-		this.routesList = new ArrayList <Route> () ;
+		this.name = aName;
+		this.location = aLocation;
+		this.routesList = new ArrayList <Route> ();
+		this.companyID = aCompanyID;
 	}
 
 	/**
@@ -34,7 +36,7 @@ public class Stop implements Locatable
 	 */
 	public void setName (String aName)
 	{
-		this.name = aName ;
+		this.name = aName;
 	}
 
 	/**
@@ -43,7 +45,7 @@ public class Stop implements Locatable
 	 */
 	public void setLocation (Location aLocation)
 	{
-		this.location = aLocation ;
+		this.location = aLocation;
 	}
 
 	/**
@@ -52,7 +54,7 @@ public class Stop implements Locatable
 	 */
 	public void addRoute (Route aRoute)
 	{
-		this.routesList.add (aRoute) ;
+		this.routesList.add (aRoute);
 	}
 
 	/**
@@ -61,7 +63,7 @@ public class Stop implements Locatable
 	 */
 	public void removeRoute (Route aRoute)
 	{
-		this.routesList.remove (aRoute) ;
+		this.routesList.remove (aRoute);
 	}
 
 	/**
@@ -70,7 +72,7 @@ public class Stop implements Locatable
 	 */
 	public String getName ()
 	{
-		return this.name ;
+		return this.name;
 	}
 
 	/**
@@ -79,20 +81,40 @@ public class Stop implements Locatable
 	 */
 	public Location getLocation()
 	{
-		return this.location ;
+		return this.location;
 	}
 
+	/**
+	 * Accessor method for routesList
+	 * @return ArrayList<Route> routesList
+	 */
 	public ArrayList <Route> getRouteList ()
 	{
-		return this.routesList ;
+		return this.routesList;
 	}
 
+	/**
+	 * Accessor method for companyID
+	 * @return String companyID
+	 */
+	public String getCompanyID(){return this.companyID;}
+
+	/**
+	 * Adds a route to the Routes list of the Stops that hold Routes this Stop exists in
+	 * @param aRoute
+	 */
 	public void addToRoutesList(Route aRoute){
 		this.routesList.add(aRoute);
 	}
+
+	/**
+	 * Removes a certain Route from the Routes list this Stop exists in
+	 * @param aRoute
+	 */
 	public void removeFromRoutesList(Route aRoute){
 		this.routesList.remove(aRoute);
 	}
+
 
 
 }
