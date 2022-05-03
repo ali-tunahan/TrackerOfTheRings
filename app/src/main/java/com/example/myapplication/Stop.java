@@ -1,3 +1,7 @@
+package com.example.myapplication;
+
+import android.location.Location;
+
 import java.util.ArrayList;
 
 public class Stop implements Locatable

@@ -1,3 +1,7 @@
+package com.example.myapplication;
+
+import android.location.Location;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
@@ -95,18 +99,18 @@ public class Vehicle extends Account implements Locatable
 	 * İnitializes the copy of the chosen route to currentRoute
 	 * @param aCurrentRoute
 	 */
-    public void setCurrentRoute(Route aCurrenRoute){
+    public void setCurrentRoute(Route aCurrentRoute){
         Route copy = new Route();
-        copy.setName(aCurrenRoute.getName());
+        copy.setName(aCurrentRoute.getName());
 
         ArrayList<Stop> copyStops = new ArrayList<Stop>();
 
-        for(int i = 0; i < aCurrenRoute.getStopsList().size();i++){
-            copyStops.add(aCurrenRoute.getStopsList().get(i));
+        for(int i = 0; i < aCurrentRoute.getStopsList().size();i++){
+            copyStops.add(aCurrentRoute.getStopsList().get(i));
         }
         this.currentRoute = copy;
-        if(!(aCurrenRoute.getActiveVehicles().contains(this))){ //if the routes current vehicle ArrayList does not include this vehicle
-            aCurrenRoute.addActiveVehicle(this);
+        if(!(aCurrentRoute.getActiveVehicles().contains(this))){ //if the routes current vehicle ArrayList does not include this vehicle
+            aCurrentRoute.addActiveVehicle(this);
         }
     }
 

@@ -218,7 +218,7 @@ public class DatabaseUtility {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    Company currentStop = data.getValue(Stop.class);
+                    Stop currentStop = data.getValue(Stop.class);
                     allStops.add(currentStop);
                 }
             }
