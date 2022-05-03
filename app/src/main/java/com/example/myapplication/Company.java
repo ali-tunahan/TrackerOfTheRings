@@ -19,7 +19,7 @@ public class Company extends Account
 	 * Constructor
 	 * @param aName
 	 * @param aPassword
-	 * @param anID
+	 * @param companyID
 	 */
 	public Company(String aName, String aPassword, String companyID ){
 		this.setCompanyID(companyID);
