@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Stop //implements Locatable
+public class Stop implements Locatable
 {
 	private String name ;
 	private Location location ;

@@ -1,9 +1,8 @@
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
 
-public class Vehicle extends Account //implements Locatable
+public class Vehicle extends Account implements Locatable
 {
     
     private HashMap<Stop, String> history;
@@ -106,7 +105,7 @@ public class Vehicle extends Account //implements Locatable
             copyStops.add(aCurrenRoute.getStopsList().get(i));
         }
         this.currentRoute = copy;
-        if(!(aCurrenRoute.getActiveVehicles().contains(aCurrenRoute))){ //if the routes current vehicle ArrayList does not include this vehicle
+        if(!(aCurrenRoute.getActiveVehicles().contains(this))){ //if the routes current vehicle ArrayList does not include this vehicle
             aCurrenRoute.addActiveVehicle(this);
         }
     }
