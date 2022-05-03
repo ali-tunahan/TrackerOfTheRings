@@ -1,8 +1,3 @@
-package com.example.myapplication;
-
-import android.location.Location;
-
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
@@ -84,11 +79,11 @@ public class Vehicle extends Account implements Locatable
             this.history.put(this.getNextStop(), instant.toString());
             
             Route newRoute = new Route();
-            newRoute.setName = currentRoute.getName;
+            newRoute.setName(currentRoute.getName());
             ArrayList<Stop> copyStops = new ArrayList<Stop>();
 
-            for(int i = 1; i < currenRoute.getStopsList.size();i++){ // i = 1 so that the current route does not involve passed stop
-                copyStops.add(currenRoute.getStopsList.get());
+            for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
+                copyStops.add(currentRoute.getStopsList().get(i));
             }
             this.setCurrentRoute(newRoute);
             
@@ -102,14 +97,17 @@ public class Vehicle extends Account implements Locatable
 	 */
     public void setCurrentRoute(Route aCurrenRoute){
         Route copy = new Route();
-        copy.setName = aCurrenRoute.getName;
+        copy.setName(aCurrenRoute.getName());
 
         ArrayList<Stop> copyStops = new ArrayList<Stop>();
 
-        for(int i = 0; i < aCurrenRoute.getStopsList.size();i++){
-            copyStops.add(aCurrenRoute.getStopsList.get(i));
+        for(int i = 0; i < aCurrenRoute.getStopsList().size();i++){
+            copyStops.add(aCurrenRoute.getStopsList().get(i));
         }
         this.currentRoute = copy;
+        if(!(aCurrenRoute.getActiveVehicles().contains(this))){ //if the routes current vehicle ArrayList does not include this vehicle
+            aCurrenRoute.addActiveVehicle(this);
+        }
     }
 
     /**
@@ -125,7 +123,7 @@ public class Vehicle extends Account implements Locatable
      * @return location
      */
     public Location getLocation() {
-        return this.location;
+        return location;
     }
 
     /**
@@ -140,7 +138,7 @@ public class Vehicle extends Account implements Locatable
      * @return nextStop
      */
     public Stop getNextStop(){
-       return this.currentRoute.getStopsList.get(0);
+       return this.currentRoute.getStopsList().get(0);
     }
 
     /**

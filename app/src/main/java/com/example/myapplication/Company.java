@@ -1,5 +1,3 @@
-package com.example.myapplication;
-
 import java.util.ArrayList;
 
 
@@ -94,6 +92,32 @@ public class Company extends Account
 	public void addVehicle(Vehicle newVehicle){
 		vehicles.add(newVehicle);
 	}
+
+		/**
+	 * Adds a route to company routes
+	 * @param newRoute
+	 */
+	public void removeRoute(Route newRoute){
+		routes.remove(newRoute);
+	}
+
+	/**
+	 * Adds a stop to company stops
+	 * @param newStop
+	 */
+	public void removeStop(Stop newStop){
+		stops.remove(newStop);
+	}
+
+	/**
+	 * Adds a vehicle to company vehicles
+	 * @param newVehicle
+	 */
+	public void removeVehicle(Vehicle newVehicle){
+		vehicles.remove(newVehicle);
+	}
+
+
 
 
 
