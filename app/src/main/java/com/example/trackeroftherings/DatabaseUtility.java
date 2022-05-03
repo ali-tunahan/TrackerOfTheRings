@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class DatabaseUtility {
 
     //References
-    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static DatabaseReference companiesReference = database.getReference("Companies");
-    private static DatabaseReference vehiclesReference = database.getReference("Vehicles");
-    private static DatabaseReference stopsReference = database.getReference("Stops");
-    private static DatabaseReference routesReference = database.getReference("Routes");
+    public static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public static DatabaseReference companiesReference = database.getReference("Companies");
+    public static DatabaseReference vehiclesReference = database.getReference("Vehicles");
+    public static DatabaseReference stopsReference = database.getReference("Stops");
+    public static DatabaseReference routesReference = database.getReference("Routes");
 
     /**
      * Add method for Companies
@@ -208,18 +208,21 @@ public class DatabaseUtility {
     }
 
     /**
-     * Returns all stops in the database
+     * Returns stops corresponding to the input companyID in the database
      * @return ArrayList<Stop>
      */
-    public static ArrayList<Stop> readStops(){
+    public static ArrayList<Stop> readStops(String companyID){
         DatabaseReference reference = stopsReference;
-        ArrayList<Stop> allStops = new ArrayList<Stop>();
+        ArrayList<Stop> matchingStops = new ArrayList<Stop>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
                     Stop currentStop = data.getValue(Stop.class);
-                    allStops.add(currentStop);
+                    if (currentStop.getCompanyID().equals(companyID)){
+                        matchingStops.add(currentStop);
+                    }
+                    matchingStops.add(currentStop);
                 }
             }
             @Override
@@ -227,7 +230,7 @@ public class DatabaseUtility {
 
             }
         });
-        return allStops;
+        return matchingStops;
     }
 
     /**
