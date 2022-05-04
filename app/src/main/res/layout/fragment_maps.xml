@@ -21,7 +21,7 @@ android:layout_height="match_parent">
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="300dp"
@@ -32,6 +32,19 @@ android:layout_height="match_parent">
         map:layout_constraintHorizontal_bias="1.0"
         map:layout_constraintStart_toStartOf="@+id/map"
         map:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/homepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="220dp"
+        android:clickable="true"
+        map:layout_constraintEnd_toStartOf="@+id/options"
+        map:layout_constraintHorizontal_bias="0.833"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:srcCompat="@android:drawable/ic_dialog_map" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
