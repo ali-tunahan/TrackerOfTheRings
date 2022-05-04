@@ -140,9 +140,9 @@ public class UserRoutesFragment extends Fragment {
 
         for(int i = 0; i < routesList.size(); i++){
             if(!isEntered) {
-                routesList.get(i).addStop(new Stop("stop " + i, new Location("provider")));
-                routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider")));
-                routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider")));
+                routesList.get(i).addStop(new Stop("stop " + i, new Location("provider"),"id1"));
+                routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider"),"id1"));
+                routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider"),"id1"));
             }
             Button b = new Button(this.getContext());
             b.setText(routesList.get(i).getName());
