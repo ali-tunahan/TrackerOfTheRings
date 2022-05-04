@@ -131,19 +131,19 @@ public class UserStopsFragment extends Fragment {
         linear1.addView(text);
         //change with actual stops and proper locations
         if(!isEntered){
-            stopsList.add(new Stop("Tunus", new Location("provider1")));
-            stopsList.add(new Stop("METU Subway", new Location("provider2")));
-            stopsList.add(new Stop("Bilkent Library", new Location("provider3")));
-            stopsList.add(new Stop("Bilkent Library1", new Location("provider4")));
-            stopsList.add(new Stop("Bilkent Library2", new Location("provider5")));
-            stopsList.add(new Stop("Bilkent Library3", new Location("provider6")));
-            stopsList.add(new Stop("Bilkent Library4", new Location("provider7")));
-            stopsList.add(new Stop("Bilkent Library5", new Location("provider8")));
-            stopsList.add(new Stop("Bilkent Library6", new Location("provider9")));
-            stopsList.add(new Stop("Bilkent Library7", new Location("provider10")));
-            stopsList.add(new Stop("Bilkent Library8", new Location("provider11")));
-            stopsList.add(new Stop("Bilkent Library9", new Location("provider12")));
-            stopsList.add(new Stop("Bilkent Library10", new Location("provider13")));
+            stopsList.add(new Stop("Tunus", new Location("provider1"),"id1"));
+            stopsList.add(new Stop("METU Subway", new Location("provider2"),"id1"));
+            stopsList.add(new Stop("Bilkent Library", new Location("provider3"),"id1"));
+            stopsList.add(new Stop("Bilkent Library1", new Location("provider4"),"id1"));
+            stopsList.add(new Stop("Bilkent Library2", new Location("provider5"),"id1"));
+            stopsList.add(new Stop("Bilkent Library3", new Location("provider6"),"id1"));
+            stopsList.add(new Stop("Bilkent Library4", new Location("provider7"),"id1"));
+            stopsList.add(new Stop("Bilkent Library5", new Location("provider8"),"id1"));
+            stopsList.add(new Stop("Bilkent Library6", new Location("provider9"),"id1"));
+            stopsList.add(new Stop("Bilkent Library7", new Location("provider10"),"id1"));
+            stopsList.add(new Stop("Bilkent Library8", new Location("provider11"),"id1"));
+            stopsList.add(new Stop("Bilkent Library9", new Location("provider12"),"id1"));
+            stopsList.add(new Stop("Bilkent Library10", new Location("provider13"),"id1"));
         }
         for(int i = 0; i < stopsList.size(); i++){
             if(!isEntered) {

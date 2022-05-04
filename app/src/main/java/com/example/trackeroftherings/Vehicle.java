@@ -61,12 +61,12 @@ public class Vehicle extends Account implements Locatable
 
 
     /**
-     * If the vehicle is near 20 meters of a stop method returns true using the haversine formula
+     * If the vehicle is near x meters of a stop method returns true using the haversine formula
      * @return boolean arrivedAtStop
      * https://www.movable-type.co.uk/scripts/latlong.html
      */
     public boolean arrivedAtStop(){
-
+        int targetDistanceInMeters = 20;//x
         double R = 6371000;
         double number1 = this.getLocation().getLatitude()*Math.PI/180;
         double number2 = this.getNextStop().getLocation().getLatitude()*Math.PI/180;
@@ -75,7 +75,7 @@ public class Vehicle extends Account implements Locatable
         double a= Math.sin(delta1/2)* Math.sin(delta1/2) + Math.cos(number1)*Math.cos(number2)*Math.sin(delta2/2)*Math.sin(delta2/2);
         double result = Math.atan2(Math.sqrt(a), Math.sqrt(1-a))*2*R;
 
-        if( result < 20){
+        if( result < targetDistanceInMeters){
             return true;
         }
         else{

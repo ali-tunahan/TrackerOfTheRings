@@ -17,7 +17,7 @@
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent"
-        tools:context=".UserStopsFragment"
+        tools:context=".UserRoutesFragment"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
