@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +30,30 @@ public class MapsFragment extends Fragment {
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public Location currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(Location location) {
+            MainActivity.locationHandler.updateGPS();
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
+
+
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -50,9 +69,15 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
+            googleMap.clear();
+            MainActivity.locationHandler.startLocationUpdates();
+            MainActivity.locationHandler.updateGPS();
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
+
         }
     };
 
@@ -69,6 +94,7 @@ public class MapsFragment extends Fragment {
                 showBottomSheetDialog();
             }
         });
+
 
 
 /*
@@ -102,6 +128,11 @@ public class MapsFragment extends Fragment {
 
         return binding.getRoot();
     }
+
+    public GoogleMap getmMap() {
+        return mMap;
+    }
+
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -111,6 +142,7 @@ public class MapsFragment extends Fragment {
             public void onMapClick(LatLng latLng) {
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
+
 
             }
         });

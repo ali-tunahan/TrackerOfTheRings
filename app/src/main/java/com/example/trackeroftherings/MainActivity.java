@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    public LocationHandler locationHandler;
+    public static LocationHandler locationHandler;
+    public OnLocationUpdateListener onLocationUpdateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +42,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
 
-
-        locationHandler = new LocationHandler(MainActivity.this);
+        onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
+        locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
 
     }
 
-
+    public MainActivity getMain() {
+        return  this;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

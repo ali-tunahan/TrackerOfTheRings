@@ -10,7 +10,7 @@ public class VehicleUpdater {
         this.vehicle = aVehicle;
         this.mainActivity = aMainActivity;
         this.databaseUtility = aDatabaseUtility;
-        this.locationHandler = new LocationHandler(mainActivity);
+        this.locationHandler = new LocationHandler(mainActivity, MapsFragment.onLocationUpdateListener);
     }
 
     public void updateVehicle() {

@@ -31,24 +31,26 @@ public class LocationHandler {
     private Location mLastKnownLocation;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
-    //private OnLocationUpdateListener onLocationUpdateListener;
+    public OnLocationUpdateListener onLocationUpdateListener;
     private boolean updateStartedInternally = false;
     public GoogleMap mMap;
     public Context context;
 
 
-    public LocationHandler(MainActivity activity) {
+
+
+    public LocationHandler(MainActivity activity , OnLocationUpdateListener onLocationUpdateListener) {
         this.context = activity.getApplicationContext();
         this.activity = activity;
-        //this.onLocationUpdateListener = onLocationUpdateListener;
+        this.onLocationUpdateListener = onLocationUpdateListener;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);
-        //mMap = activity.mMap;
+        //mMap = getmMap();
         createLocationRequest();
         getDeviceLocation();
 
         mLocationCallback = new LocationCallback() {
-            //@Override
-           /* public void onLocationResult(LocationResult locationResult) {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
                 List<Location> locationList = locationResult.getLocations();
                 if (locationList.size() > 0) {
                     //The last location in the list is the newest
@@ -61,7 +63,7 @@ public class LocationHandler {
                         }
                     }
                 }
-            }*/
+            }
         };
     }
 
@@ -114,15 +116,15 @@ public class LocationHandler {
 
     private void stopLocationUpdate() {
         mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-        //oingo boingo
+
     }
 
 
     //other new Methods but not using right now..
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(1000);//set the interval in which you want to get locations
-        mLocationRequest.setFastestInterval(500);//if a location is available sooner you can get it (i.e. another app is using the location services)
+        mLocationRequest.setInterval(5000);//set the interval in which you want to get locations
+        mLocationRequest.setFastestInterval(5000);//if a location is available sooner you can get it (i.e. another app is using the location services)
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -144,8 +146,8 @@ public class LocationHandler {
                     //mMap = activity.mMap;
                     mLastKnownLocation = location;
                     //loco.trye(MapsActivity.this);
-                    mMap.clear();
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())).title("Long: " + mLastKnownLocation.getLongitude() + ", Lat: " +mLastKnownLocation.getLatitude()));
+                    //mMap.clear();
+                    //mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())).title("Long: " + mLastKnownLocation.getLongitude() + ", Lat: " +mLastKnownLocation.getLatitude()));
                     //binding.textView.setText("Lat " +handler.getmLastKnownLocation().getLatitude() + " , Long " + handler.getmLastKnownLocation().getLongitude());
                 }
             });
