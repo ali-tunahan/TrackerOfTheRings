@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_mapsFragment_to_userStopsFragment"
             app:destination="@id/userStopsFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_userRoutesFragment"
+            app:destination="@id/userRoutesFragment" />
     </fragment>
     <fragment
         android:id="@+id/userStopsFragment"
@@ -48,10 +51,44 @@
         <action
             android:id="@+id/action_userStopsFragment_to_stopInfoFragment"
             app:destination="@id/stopInfoFragment" />
+        <action
+            android:id="@+id/action_userStopsFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/stopInfoFragment"
         android:name="com.example.trackeroftherings.StopInfoFragment"
         android:label="fragment_stop_info"
-        tools:layout="@layout/fragment_stop_info" />
+        tools:layout="@layout/fragment_stop_info" >
+        <action
+            android:id="@+id/action_stopInfoFragment_to_routeInfoFragment"
+            app:destination="@id/routeInfoFragment" />
+        <action
+            android:id="@+id/action_stopInfoFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRoutesFragment"
+        android:name="com.example.trackeroftherings.UserRoutesFragment"
+        android:label="fragment_user_routes"
+        tools:layout="@layout/fragment_user_routes" >
+        <action
+            android:id="@+id/action_userRoutesFragment_to_routeInfoFragment"
+            app:destination="@id/routeInfoFragment" />
+        <action
+            android:id="@+id/action_userRoutesFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/routeInfoFragment"
+        android:name="com.example.trackeroftherings.RouteInfoFragment"
+        android:label="fragment_route_info"
+        tools:layout="@layout/fragment_route_info" >
+        <action
+            android:id="@+id/action_routeInfoFragment_to_stopInfoFragment"
+            app:destination="@id/stopInfoFragment" />
+        <action
+            android:id="@+id/action_routeInfoFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 </navigation>

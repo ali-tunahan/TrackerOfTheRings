@@ -1,11 +1,18 @@
 package com.example.trackeroftherings;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,15 +27,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-public class MapsFragment extends Fragment {
+import java.util.ArrayList;
+
+public class UserRoutesFragment extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
+    private static boolean isEntered = false;
+    public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -51,7 +62,7 @@ public class MapsFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
 
@@ -66,6 +77,13 @@ public class MapsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showBottomSheetDialog();
+            }
+        });
+        binding.homepage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(UserRoutesFragment.this)
+                        .navigate(R.id.action_userRoutesFragment_to_mapsFragment);
             }
         });
 
@@ -98,58 +116,56 @@ public class MapsFragment extends Fragment {
             }
         };
  */
-
+        showBottomSheetDialog();
         return binding.getRoot();
     }
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
-            }
-        });
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                try {
-                    return true;
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-        });
-
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-    }
-
-
+    @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog);
-        bottomBar.findViewById(R.id.button_stops).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomBar.hide();
-                NavHostFragment.findNavController(MapsFragment.this)
-                        .navigate(R.id.action_mapsFragment_to_userStopsFragment);
+        bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
+        TextView text = new TextView(this.getContext());
+        text.append("ROUTES LIST");
+        LinearLayout linear1 = bottomBar.findViewById(R.id.list);
+        text.setGravity(Gravity.CENTER);
+        linear1.addView(text);
+        if(!isEntered){
+            routesList.add(new Route("route0"));
+            routesList.add(new Route("route1"));
+            routesList.add(new Route("route2"));
+            routesList.add(new Route("route3"));
+            routesList.add(new Route("route4"));
+            routesList.add(new Route("route5"));
+        }
+
+        for(int i = 0; i < routesList.size(); i++){
+            if(!isEntered) {
+                routesList.get(i).addStop(new Stop("stop " + i, new Location("provider")));
+                routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider")));
+                routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider")));
             }
-        });
-        bottomBar.findViewById(R.id.button_routes).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomBar.hide();
-                NavHostFragment.findNavController(MapsFragment.this)
-                        .navigate(R.id.action_mapsFragment_to_userRoutesFragment);
-            }
-        });
+            Button b = new Button(this.getContext());
+            b.setText(routesList.get(i).getName());
+            b.setId(i);
+            b.setTextSize(20);
+            b.setTextColor(Color.parseColor("#FFFFFFFF"));
+            b.setBackgroundColor(R.color.teal_200);
+            b.setGravity(Gravity.CENTER);
+            b.setPadding(15, 10, 15, 10);
+            b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+            linear1.addView(b);
+            int finalI = i;
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomBar.hide();
+                    RouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
+                    NavHostFragment.findNavController(UserRoutesFragment.this)
+                            .navigate(R.id.action_userRoutesFragment_to_routeInfoFragment);
+                }
+            });
+        }
+        isEntered = true;
         bottomBar.show();
     }
 

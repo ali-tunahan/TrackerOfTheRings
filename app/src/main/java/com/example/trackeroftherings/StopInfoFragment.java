@@ -1,17 +1,23 @@
 package com.example.trackeroftherings;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,7 +35,7 @@ public class StopInfoFragment extends Fragment {
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
-    private static int buttonId = 0;
+    private static Stop stopToDisplay = null;
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -56,6 +62,14 @@ public class StopInfoFragment extends Fragment {
         }
     };
 
+    public static Stop getStopToDisplay() {
+        return stopToDisplay;
+    }
+
+    public static void setStopToDisplay(Stop stopToDisplay) {
+        StopInfoFragment.stopToDisplay = stopToDisplay;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,13 +77,19 @@ public class StopInfoFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         binding = FragmentMapsBinding.inflate(inflater, container, false);
-        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        binding.options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showBottomSheetDialog();
             }
         });
-
+        binding.homepage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(StopInfoFragment.this)
+                        .navigate(R.id.action_stopInfoFragment_to_mapsFragment);
+            }
+        });
 
 /*
         setContentView(binding.getRoot());
@@ -99,21 +119,43 @@ public class StopInfoFragment extends Fragment {
             }
         };
  */
-
+        showBottomSheetDialog();
         return binding.getRoot();
     }
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
-        final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_stop_info);
-        TextView text = bottomBar.findViewById(R.id.stop_info);
-        String str = UserStopsFragment.stopsList.get(buttonId);
-        text.setText(str);
+        BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
+        bottomBar.setContentView(R.layout.bottom_dialog_stop_route_info);
+        TextView text = bottomBar.findViewById(R.id.info);
+        LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
+        text.setText(stopToDisplay.getName());
+        text.append("\n---ROUTES---\n" );
+        if(stopToDisplay.getRouteList() != null) {
+            for(int i = 0; i < stopToDisplay.getRouteList().size(); i++) {
+                Button b = new Button(this.getContext());
+                b.setText(stopToDisplay.getRouteList().get(i).getName());
+                b.setId(i);
+                b.setTextSize(20);
+                b.setTextColor(Color.parseColor("#FFFFFFFF"));
+                b.setBackgroundColor(R.color.teal_200);
+                b.setGravity(Gravity.CENTER);
+                b.setPadding(15, 10, 15, 10);
+                b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+                int finalI = i;
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomBar.hide();
+                        RouteInfoFragment.setRouteToDisplay(stopToDisplay.getRouteList().get(finalI));
+                        NavHostFragment.findNavController(StopInfoFragment.this)
+                                .navigate(R.id.action_stopInfoFragment_to_routeInfoFragment);
+                    }
+                });
+                linear1.addView(b);
+            }
+        }
         bottomBar.show();
-    }
-    public static void setButtonId(int id){
-        buttonId = id;
     }
 
     @Override

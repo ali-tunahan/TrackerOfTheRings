@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Route 
 {
     private String name;
-    private ArrayList<Stop> stopsList;
+    private ArrayList<Stop> stopsList = new ArrayList<Stop>();
     private ArrayList<Vehicle> activeVehicles;
 
     /**
