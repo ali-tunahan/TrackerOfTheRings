@@ -36,6 +36,7 @@ public class MapsFragment extends Fragment {
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**

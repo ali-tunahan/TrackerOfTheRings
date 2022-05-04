@@ -3,18 +3,18 @@ package com.example.trackeroftherings;
 public class VehicleUpdater {
     Vehicle vehicle;
     LocationHandler locationHandler;
-    MapsActivity mapsActivity;
+    MainActivity mainActivity;
     DatabaseUtility databaseUtility;
 
-    public VehicleUpdater(Vehicle aVehicle, MainActivity aMapsActivity, DatabaseUtility aDatabaseUtility) {
+    public VehicleUpdater(Vehicle aVehicle, MainActivity aMainActivity, DatabaseUtility aDatabaseUtility) {
         this.vehicle = aVehicle;
-        this.mapsActivity = aMapsActivity;
+        this.mainActivity = aMainActivity;
         this.databaseUtility = aDatabaseUtility;
-        this.locationHandler = new LocationHandler(mapsActivity);
+        this.locationHandler = new LocationHandler(mainActivity);
     }
 
     public void updateVehicle() {
-        Vehicle updatedVehicle = vehicle;
+        Vehicle updatedVehicle = new Vehicle(vehicle);
         locationHandler.updateGPS();
         updatedVehicle.setLocation(locationHandler.getmLastKnownLocation());
         databaseUtility.change(vehicle, updatedVehicle);
