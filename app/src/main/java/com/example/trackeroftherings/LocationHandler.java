@@ -26,7 +26,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.List;
 
 public class LocationHandler {
-    private MapsActivity activity;
+    private MainActivity activity;
     public FusedLocationProviderClient mFusedLocationProviderClient;
     private Location mLastKnownLocation;
     private LocationCallback mLocationCallback;
@@ -37,12 +37,12 @@ public class LocationHandler {
     public Context context;
 
 
-    public LocationHandler(MapsActivity activity) {
+    public LocationHandler(MainActivity activity) {
         this.context = activity.getApplicationContext();
         this.activity = activity;
         //this.onLocationUpdateListener = onLocationUpdateListener;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);
-        mMap = activity.mMap;
+        //mMap = activity.mMap;
         createLocationRequest();
         getDeviceLocation();
 
@@ -141,7 +141,7 @@ public class LocationHandler {
             mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(activity, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    mMap = activity.mMap;
+                    //mMap = activity.mMap;
                     mLastKnownLocation = location;
                     //loco.trye(MapsActivity.this);
                     mMap.clear();

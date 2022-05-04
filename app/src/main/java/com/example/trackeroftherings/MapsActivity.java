@@ -27,7 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.myapplication.databinding.ActivityMapsBinding;
+import com.example.trackeroftherings.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
