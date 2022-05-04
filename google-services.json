@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "993185872218",
-    "firebase_url": "https://fir-ab602-default-rtdb.firebaseio.com",
-    "project_id": "fir-ab602",
-    "storage_bucket": "fir-ab602.appspot.com"
+    "project_number": "1038075905584",
+    "project_id": "trackeroftherings-660b4",
+    "storage_bucket": "trackeroftherings-660b4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:993185872218:android:925ea412fa9016a3279b63",
+        "mobilesdk_app_id": "1:1038075905584:android:47d6eb39d6cbebce9b0ff5",
         "android_client_info": {
           "package_name": "com.example.trackeroftherings"
         }
       },
       "oauth_client": [
         {
-          "client_id": "993185872218-e8d612efertuebcid8dmpf4ojg863hlp.apps.googleusercontent.com",
+          "client_id": "1038075905584-e3b256gelbe29ll9svt1jsi384kl3k4s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLAcvx-ed1F-GnNnXCnU3m-5AK9P5MHSY"
+          "current_key": "AIzaSyD8GGgWjkHm3Uwt3-A4KmFHB6_GBG1QOUY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "993185872218-e8d612efertuebcid8dmpf4ojg863hlp.apps.googleusercontent.com",
+              "client_id": "1038075905584-e3b256gelbe29ll9svt1jsi384kl3k4s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
