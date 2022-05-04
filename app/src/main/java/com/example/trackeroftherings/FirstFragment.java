@@ -39,8 +39,18 @@ public class FirstFragment extends Fragment {
         binding.buttonDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DriverLoginFragment.setLoginState(DriverLoginFragment.DRIVER);
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_driverLoginFragment);
+            }
+        });
+        binding.buttonCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DriverLoginFragment.setLoginState(DriverLoginFragment.COMPANY);
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_driverLoginFragment);
+
             }
         });
     }

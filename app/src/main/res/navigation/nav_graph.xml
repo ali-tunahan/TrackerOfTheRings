@@ -104,5 +104,13 @@
         <action
             android:id="@+id/action_driverLoginFragment_to_driverMapsFragment"
             app:destination="@id/driverMapsFragment" />
+        <action
+            android:id="@+id/action_driverLoginFragment_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/companyMapsFragment"
+        android:name="com.example.trackeroftherings.CompanyMapsFragment"
+        android:label="fragment_company_maps"
+        tools:layout="@layout/fragment_company_maps" />
 </navigation>
