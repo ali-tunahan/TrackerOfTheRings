@@ -40,6 +40,16 @@ public class Vehicle extends Account implements Locatable
     public boolean isActive() {
         return isActive;
     }
+    /**
+     * Copy constructor
+     * @param aVehicle
+     */
+    public Vehicle(Vehicle aVehicle){
+        this.setUsername(aVehicle.getUsername());
+        this.setPassword(aVehicle.getPassword());
+        this.setCompanyID(aVehicle.getCompanyID());
+        this.setCompany(authenticateCompanyID(aVehicle.getCompanyID()));
+    }  
     
     /**
 	 * Mutator for boolean isActive
