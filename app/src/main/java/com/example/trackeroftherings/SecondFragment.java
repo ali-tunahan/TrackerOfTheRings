@@ -14,9 +14,9 @@ import com.example.trackeroftherings.databinding.FragmentSecondBinding;
 public class SecondFragment extends Fragment {
 
     private FragmentSecondBinding binding;
-    private static String usersCompanyID = ""; //get this in static context for later
+    private static String usersCompanyID = ""; //Should be accessed by other classes so it is public and static
 
-    public String getUsersCompanyID() {
+    public static String getUsersCompanyID() {
         return usersCompanyID;
     }
 
@@ -39,7 +39,10 @@ public class SecondFragment extends Fragment {
         binding.buttonMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usersCompanyID = binding.editTextCompanyID.getText().toString();//check validity??
+                String inputCompanyID = binding.editTextCompanyID.getText().toString();
+                if (!DatabaseUtility.readCompanies(inputCompanyID).isEmpty()) {//If there is a company corresponding to the companyID
+                    usersCompanyID = inputCompanyID;
+                }
                 NavHostFragment.findNavController(SecondFragment.this)
                         .navigate(R.id.action_SecondFragment_to_mapsFragment);
             }

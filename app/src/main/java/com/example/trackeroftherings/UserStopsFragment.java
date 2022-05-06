@@ -38,7 +38,7 @@ public class UserStopsFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static ArrayList<Stop> stopsList = new ArrayList<Stop>(); //later change with actual stops list stop array list
+    public static ArrayList<Stop> stopsList = new ArrayList<Stop>();
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -131,29 +131,7 @@ public class UserStopsFragment extends Fragment {
         linear1.addView(text);
         //change with actual stops and proper locations
         if(!isEntered){
-            stopsList.add(new Stop("Tunus", new Location("provider1"),"id1"));
-            stopsList.add(new Stop("METU Subway", new Location("provider2"),"id1"));
-            stopsList.add(new Stop("Bilkent Library", new Location("provider3"),"id1"));
-            stopsList.add(new Stop("Bilkent Library1", new Location("provider4"),"id1"));
-            stopsList.add(new Stop("Bilkent Library2", new Location("provider5"),"id1"));
-            stopsList.add(new Stop("Bilkent Library3", new Location("provider6"),"id1"));
-            stopsList.add(new Stop("Bilkent Library4", new Location("provider7"),"id1"));
-            stopsList.add(new Stop("Bilkent Library5", new Location("provider8"),"id1"));
-            stopsList.add(new Stop("Bilkent Library6", new Location("provider9"),"id1"));
-            stopsList.add(new Stop("Bilkent Library7", new Location("provider10"),"id1"));
-            stopsList.add(new Stop("Bilkent Library8", new Location("provider11"),"id1"));
-            stopsList.add(new Stop("Bilkent Library9", new Location("provider12"),"id1"));
-            stopsList.add(new Stop("Bilkent Library10", new Location("provider13"),"id1"));
-        }
-        for(int i = 0; i < stopsList.size(); i++){//delete after setting proper stops with actual route info
-            if(!isEntered) {
-                Route newRoute0 = new Route("Route" + i);
-                Route newRoute1 = new Route("Route" + 2 * i);
-                Route newRoute2 = new Route("Route" + 3 * i);
-                newRoute0.addStop(stopsList.get(i));
-                newRoute1.addStop(stopsList.get(i));
-                newRoute2.addStop(stopsList.get(i));
-            }
+            stopsList = DatabaseUtility.readStops(SecondFragment.getUsersCompanyID());
         }
 
         for(int i = 0; i < stopsList.size(); i++){
