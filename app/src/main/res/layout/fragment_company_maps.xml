@@ -17,33 +17,34 @@
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent"
-        tools:context=".DriverMapsFragment"
+        tools:context=".CompanyMapsFragment"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/start_location"
+        android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_mylocation"
-        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:src="@android:drawable/ic_dialog_dialer"
         map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintHorizontal_bias="0.183"
-        map:layout_constraintStart_toStartOf="parent" />
+        map:layout_constraintHorizontal_bias="1.0"
+        map:layout_constraintStart_toStartOf="@+id/map"
+        map:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cancel"
+        android:id="@+id/homepage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="220dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintHorizontal_bias="0.89"
+        map:layout_constraintEnd_toStartOf="@+id/options"
+        map:layout_constraintHorizontal_bias="0.833"
         map:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"/>
+        map:layout_constraintTop_toTopOf="parent"
+        map:srcCompat="@android:drawable/ic_dialog_map" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
