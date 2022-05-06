@@ -161,21 +161,11 @@ public class DriverMapsFragment extends Fragment {
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);
         if(!isEntered){
-            routesList.add(new Route("route0"));//change with actual routes list
-            routesList.add(new Route("route1"));
-            routesList.add(new Route("route2"));
-            routesList.add(new Route("route3"));
-            routesList.add(new Route("route4"));
-            routesList.add(new Route("route5"));
+            routesList = DatabaseUtility.readRoutes(SecondFragment.getUsersCompanyID());
         }
         for(int i = 0; i < routesList.size(); i++){
-            if(!isEntered) {//delete later
-                routesList.get(i).addStop(new Stop("stop " + i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider"),"id1"));
-            }
             Button b = new Button(this.getContext());
-            b.setText(routesList.get(i).getName());//change with actual routes list we will set later
+            b.setText(routesList.get(i).getName());
             b.setId(i);
             b.setTextSize(20);
             b.setTextColor(Color.parseColor("#FFFFFFFF"));
