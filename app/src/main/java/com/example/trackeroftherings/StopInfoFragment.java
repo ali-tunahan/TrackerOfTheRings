@@ -131,7 +131,7 @@ public class StopInfoFragment extends Fragment {
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
         text.setText(stopToDisplay.getName());
         text.append("\n---ROUTES---\n" );
-        if(stopToDisplay.getRouteList() != null) {
+        if(stopToDisplay.getRouteList() != null) {//nothing to change here, it seems
             for(int i = 0; i < stopToDisplay.getRouteList().size(); i++) {
                 Button b = new Button(this.getContext());
                 b.setText(stopToDisplay.getRouteList().get(i).getName());

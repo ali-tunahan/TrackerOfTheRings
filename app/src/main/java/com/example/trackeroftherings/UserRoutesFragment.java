@@ -128,7 +128,7 @@ public class UserRoutesFragment extends Fragment {
         text.append("ROUTES LIST");
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
-        linear1.addView(text);
+        linear1.addView(text);//change with actual routes list
         if(!isEntered){
             routesList.add(new Route("route0"));
             routesList.add(new Route("route1"));
@@ -139,7 +139,7 @@ public class UserRoutesFragment extends Fragment {
         }
 
         for(int i = 0; i < routesList.size(); i++){
-            if(!isEntered) {
+            if(!isEntered) {//delete later
                 routesList.get(i).addStop(new Stop("stop " + i, new Location("provider"),"id1"));
                 routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider"),"id1"));
                 routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider"),"id1"));

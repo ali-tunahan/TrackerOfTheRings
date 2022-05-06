@@ -14,6 +14,12 @@ import com.example.trackeroftherings.databinding.FragmentSecondBinding;
 public class SecondFragment extends Fragment {
 
     private FragmentSecondBinding binding;
+    private static String usersCompanyID = ""; //get this in static context for later
+
+    public String getUsersCompanyID() {
+        return usersCompanyID;
+    }
+
 
     @Override
     public View onCreateView(
@@ -33,6 +39,7 @@ public class SecondFragment extends Fragment {
         binding.buttonMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                usersCompanyID = binding.editTextCompanyID.getText().toString();//check validity??
                 NavHostFragment.findNavController(SecondFragment.this)
                         .navigate(R.id.action_SecondFragment_to_mapsFragment);
             }

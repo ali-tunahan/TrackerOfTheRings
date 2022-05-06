@@ -112,5 +112,40 @@
         android:id="@+id/companyMapsFragment"
         android:name="com.example.trackeroftherings.CompanyMapsFragment"
         android:label="fragment_company_maps"
-        tools:layout="@layout/fragment_company_maps" />
+        tools:layout="@layout/fragment_company_maps" >
+        <action
+            android:id="@+id/action_companyMapsFragment_to_companyStopsFragment"
+            app:destination="@id/companyStopsFragment" />
+        <action
+            android:id="@+id/action_companyMapsFragment_to_companyRoutesFragment"
+            app:destination="@id/companyRoutesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyStopsFragment"
+        android:name="com.example.trackeroftherings.companyStopsFragment"
+        android:label="fragment_company_stops"
+        tools:layout="@layout/fragment_company_stops" >
+        <action
+            android:id="@+id/action_companyStopsFragment_to_companyStopInfoFragment"
+            app:destination="@id/companyStopInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyStopInfoFragment"
+        android:name="com.example.trackeroftherings.CompanyStopInfo"
+        android:label="fragment_company_stop_info"
+        tools:layout="@layout/fragment_company_stop_info" />
+    <fragment
+        android:id="@+id/companyRoutesFragment"
+        android:name="com.example.trackeroftherings.companyRoutesFragment"
+        android:label="fragment_company_routes"
+        tools:layout="@layout/fragment_company_routes" >
+        <action
+            android:id="@+id/action_companyRoutesFragment_to_companyRouteInfoFragment"
+            app:destination="@id/companyRouteInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyRouteInfoFragment"
+        android:name="com.example.trackeroftherings.CompanyRouteInfoFragment"
+        android:label="fragment_company_route_info"
+        tools:layout="@layout/fragment_company_route_info" />
 </navigation>
