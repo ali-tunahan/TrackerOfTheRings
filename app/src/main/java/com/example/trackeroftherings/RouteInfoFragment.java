@@ -132,7 +132,7 @@ public class RouteInfoFragment extends Fragment {
         text.setText(routeToDisplay.getName());
         text.append("\n---STOPS---\n" );
         if(routeToDisplay.getStopsList() != null) {
-            for(int i = 0; i < routeToDisplay.getStopsList().size(); i++) {
+            for(int i = 0; i < routeToDisplay.getStopsList().size(); i++) {//nothing to change here, it seems
                 Button b = new Button(this.getContext());
                 b.setText(routeToDisplay.getStopsList().get(i).getName());
                 b.setId(i);

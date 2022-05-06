@@ -22,4 +22,5 @@
     <string name="driver">Driver</string>
     <string name="login">Login</string>
     <string name="company">Company</string>
+    <string name="vehicles">Vehicles</string>
 </resources>

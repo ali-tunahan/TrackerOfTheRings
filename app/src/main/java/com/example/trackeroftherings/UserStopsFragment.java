@@ -145,15 +145,13 @@ public class UserStopsFragment extends Fragment {
             stopsList.add(new Stop("Bilkent Library9", new Location("provider12"),"id1"));
             stopsList.add(new Stop("Bilkent Library10", new Location("provider13"),"id1"));
         }
-        for(int i = 0; i < stopsList.size(); i++){
+        for(int i = 0; i < stopsList.size(); i++){//delete after setting proper stops with actual route info
             if(!isEntered) {
                 Route newRoute0 = new Route("Route" + i);
                 Route newRoute1 = new Route("Route" + 2 * i);
                 Route newRoute2 = new Route("Route" + 3 * i);
                 newRoute0.addStop(stopsList.get(i));
-                ;
                 newRoute1.addStop(stopsList.get(i));
-                ;
                 newRoute2.addStop(stopsList.get(i));
             }
         }

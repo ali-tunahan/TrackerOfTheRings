@@ -11,12 +11,17 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trackeroftherings.databinding.FragmentDriverLoginBinding;
 
-public class DriverLoginFragment extends Fragment {
+public class DriverLoginFragment extends Fragment {//change the name later, this is both for companies and drivers
 
     private FragmentDriverLoginBinding binding;
     private static int loginState;
     public static final int COMPANY = 0;
     public static final int DRIVER = 1;
+    private static String driversCompanyID = ""; //get this in static context for later
+
+    public String getDriversCompanyID() {
+        return driversCompanyID;
+    }//maybe static??
 
     public static void setLoginState(int aLoginState) {
         loginState = aLoginState;
@@ -53,7 +58,7 @@ public class DriverLoginFragment extends Fragment {
                     if(LoginUtility.vehicleLogin(username, password, companyID) != null){
                         // navigate to driver front page
                     }
-                    NavHostFragment.findNavController(DriverLoginFragment.this)
+                    NavHostFragment.findNavController(DriverLoginFragment.this)//put this into the if statement later, this is here for testing
                             .navigate(R.id.action_driverLoginFragment_to_driverMapsFragment);
                 }
 
