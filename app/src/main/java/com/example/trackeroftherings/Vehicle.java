@@ -12,7 +12,7 @@ public class Vehicle extends Account implements Locatable
     private HashMap<Stop, String> history;
     private boolean isActive;
     private Route currentRoute;
-    private Location location;
+    private LocationPlus location;
 
  
     /**
@@ -145,7 +145,7 @@ public class Vehicle extends Account implements Locatable
      * @param aLocation
      */
     public void setLocation(Location aLocation) {
-        this.location = aLocation;
+        this.location = (LocationPlus) aLocation;
     }
     /**
      * Accessor for nextStop

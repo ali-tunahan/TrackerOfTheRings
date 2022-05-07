@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     public static LocationHandler locationHandler;
+    public static LocationHandler driverLocationHandler;
     public OnLocationUpdateListener onLocationUpdateListener;
+    public OnLocationUpdateListener driverOnLocationUpdateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
+        driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
+        driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
+
 
     }
 

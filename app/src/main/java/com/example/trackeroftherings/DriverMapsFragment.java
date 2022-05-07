@@ -44,13 +44,31 @@ public class DriverMapsFragment extends Fragment {
     private static boolean isEntered = false;
     private static boolean confirmed = false;
     private Button selectedButton = null;
-    private GoogleMap mMap;
+    private static GoogleMap drivermMap;
     private FragmentDriverMapsBinding binding;
     public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
     private FusedLocationProviderClient fusedLocationProviderClient;
     public Location currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(Location location) {
+            MainActivity.driverLocationHandler.updateGPS();
+            drivermMap.clear();
+            drivermMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
+
+
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -68,6 +86,14 @@ public class DriverMapsFragment extends Fragment {
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
+            drivermMap = googleMap;
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
+            googleMap.clear();
+            MainActivity.driverLocationHandler.startLocationUpdates();
+            MainActivity.driverLocationHandler.updateGPS();
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
 
         }
     };
@@ -119,17 +145,17 @@ public class DriverMapsFragment extends Fragment {
         return binding.getRoot();
     }
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        drivermMap = googleMap;
 
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        drivermMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
+                drivermMap.clear();
+                drivermMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
             }
         });
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        drivermMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 try {

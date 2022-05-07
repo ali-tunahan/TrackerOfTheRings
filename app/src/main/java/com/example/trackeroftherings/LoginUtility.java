@@ -3,7 +3,7 @@ package com.example.trackeroftherings;
 import java.util.ArrayList;
 
 /**
- * Class for login purposes vor Vehicles
+ * Class for login purposes for Vehicles
  */
 public class LoginUtility {
     /**
