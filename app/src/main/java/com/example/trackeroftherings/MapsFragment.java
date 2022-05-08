@@ -37,14 +37,14 @@ public class MapsFragment extends Fragment {
     private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
 
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
-        public void onLocationChange(Location location) {
+        public void onLocationChange(LocationPlus location) {
             MainActivity.locationHandler.updateGPS();
             mMap.clear();
             mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
@@ -126,7 +126,7 @@ public class MapsFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */

@@ -1,22 +1,61 @@
 package com.example.trackeroftherings;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationRequest;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.trackeroftherings.databinding.FragmentMapsBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class companyRoutesFragment extends Fragment {
+
+    private static final int PERMISSIONS_FINE_LOCATION = 99;
+    public static final int DEFAULT_UPDATE_INTERVAL = 5;
+    public static final int FASTEST_UPDATE_INTERVAL = 1;
+    private static boolean isEntered = false;
+    public static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+
+    private GoogleMap mMap;
+    private FragmentMapsBinding binding;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    public Location currentLocation;
+    LocationRequest locationRequest;
+    LocationCallback locationCallBack;
+
+
+    public static List<Route> getRoutesList() {
+        return routesList;
+    }
+
+    public static void setRoutesList(List<Route> routesList) {
+        companyRoutesFragment.routesList = routesList;
+    }
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -31,9 +70,9 @@ public class companyRoutesFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
 
@@ -42,7 +81,102 @@ public class companyRoutesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_company_routes, container, false);
+
+        binding = FragmentMapsBinding.inflate(inflater, container, false);
+        binding.options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBottomSheetDialog();
+            }
+        });
+        binding.homepage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(companyRoutesFragment.this)
+                        .navigate(R.id.action_companyRoutesFragment_to_companyMapsFragment);
+            }
+        });
+
+
+/*
+        setContentView(binding.getRoot());
+        Button button = (Button) binding.button2;
+        TextView text = (TextView) binding.textView;
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        locationRequest = com.google.android.gms.location.LocationRequest.create();
+
+        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
+
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
+
+        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
+
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                // save the location
+                Location location = locationResult.getLastLocation();
+            }
+        };
+ */
+        showBottomSheetDialog();
+        return binding.getRoot();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void showBottomSheetDialog(){
+        final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
+        bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
+        TextView text = new TextView(this.getContext());
+        text.append("ROUTES LIST");
+        LinearLayout linear1 = bottomBar.findViewById(R.id.list);
+        text.setGravity(Gravity.CENTER);
+        linear1.addView(text);//change with actual routes list
+        if(!isEntered){
+            routesList.add(new Route("route0","0"));
+            routesList.add(new Route("route1","1"));
+            routesList.add(new Route("route2","2"));
+            routesList.add(new Route("route3","3"));
+            routesList.add(new Route("route4","4"));
+            routesList.add(new Route("route5","5"));
+        }
+
+        for(int i = 0; i < routesList.size(); i++){
+            if(!isEntered) {//delete later
+                routesList.get(i).addStop(new Stop("stop " + i, new LocationPlus("provider"),"id1"));
+                routesList.get(i).addStop(new Stop("stop " + 2 * i, new LocationPlus("provider"),"id1"));
+                routesList.get(i).addStop(new Stop("stop " + 3 * i, new LocationPlus("provider"),"id1"));
+            }
+            Button b = new Button(this.getContext());
+            b.setText(routesList.get(i).getName());
+            b.setId(i);
+            b.setTextSize(20);
+            b.setTextColor(Color.parseColor("#FFFFFFFF"));
+            b.setBackgroundColor(R.color.teal_200);
+            b.setGravity(Gravity.CENTER);
+            b.setPadding(15, 10, 15, 10);
+            b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+            linear1.addView(b);
+            int finalI = i;
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomBar.hide();
+                    CompanyRouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
+                    NavHostFragment.findNavController(companyRoutesFragment.this)
+                            .navigate(R.id.action_companyRoutesFragment_to_companyRouteInfoFragment);
+                }
+            });
+        }
+        isEntered = true;
+        bottomBar.show();
     }
 
     @Override

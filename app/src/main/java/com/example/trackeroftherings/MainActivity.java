@@ -16,8 +16,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.trackeroftherings.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
     public static LocationHandler driverLocationHandler;
     public OnLocationUpdateListener onLocationUpdateListener;
     public OnLocationUpdateListener driverOnLocationUpdateListener;
+    public static Vehicle kendrick = new Vehicle("kendrick", "123456", "123");
+    public static VehicleUpdater vehicleUpdater;
+    public static LocationPlus dummyLoc = new LocationPlus();
+
+    public static Stop dummyStop = new Stop("name", dummyLoc, "123");
+    public static List<Stop> dummystops = new ArrayList<Stop>();
+    public static  Route dummyRoute = new Route("dummies", "123");
+    public static List<Vehicle> dummyvehiclelist = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +55,34 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
+        dummyvehiclelist.add(kendrick);
+        dummystops.add(dummyStop);
+        dummyRoute.addStop(dummyStop);
+        dummyRoute.addActiveVehicle(kendrick);
+        kendrick.setCurrentRoute(dummyRoute);
+        //DatabaseUtility.add(kendrick);
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
+
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
+        vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
+
+        //Demo
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("Routes");
+        /*ArrayList<Stop> stops = new ArrayList<>();
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        stops.add(new Stop("dormm", new LocationPlus(), "123"));
+
+        Route r = new Route("test",stops,vehicles,"123");*/
+
+        Route r = new Route("tester", "123");
+        r.addStop(new Stop("dorm", new LocationPlus(), "123"));
+
+        DatabaseUtility.add(new Stop("dorm", new LocationPlus(), "123"));
+
 
 
     }
@@ -80,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();

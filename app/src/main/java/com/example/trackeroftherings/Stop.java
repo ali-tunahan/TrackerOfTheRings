@@ -2,27 +2,44 @@ package com.example.trackeroftherings;
 
 import android.location.Location;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
 
-public class Stop implements Locatable
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Stop implements Locatable, Serializable
 {
 	private String name;
-	private Location location;
-	private ArrayList <Route> routesList;
+	private LocationPlus location;
+	private List<Route> routesList;
 	private String companyID;
 
+	/**
+	 * Copy constructor
+	 * @param name
+	 * @param location
+	 * @param routesList
+	 * @param companyID
+	 */
+	public Stop(String name, LocationPlus location, List<Route> routesList, String companyID) {
+		this.name = name;
+		this.location = location;
+		this.routesList = routesList;
+		this.companyID = companyID;
+	}
 	/**
 	 * Empty constructor
 	 */
 	public Stop(){}
 
 	/**
-	 * Consturctor
+	 * Constructor
 	 * No stop will be created with a route
 	 * @param aName
 	 * @param aLocation
 	 */
-	public Stop (String aName, Location aLocation, String aCompanyID)
+	public Stop (String aName, LocationPlus aLocation, String aCompanyID)
 	{
 		this.name = aName;
 		this.location = aLocation;
@@ -43,7 +60,7 @@ public class Stop implements Locatable
 	 * Mutator for location
 	 * @param aLocation
 	 */
-	public void setLocation (Location aLocation)
+	public void setLocation (LocationPlus aLocation)
 	{
 		this.location = aLocation;
 	}
@@ -54,7 +71,7 @@ public class Stop implements Locatable
 	 */
 	public void addRoute (Route aRoute)
 	{
-		this.routesList.add (aRoute);
+		this.routesList.add(aRoute);
 	}
 
 	/**
@@ -79,7 +96,7 @@ public class Stop implements Locatable
 	 * Accessor method for location
 	 * @return location
 	 */
-	public Location getLocation()
+	public LocationPlus getLocation()
 	{
 		return this.location;
 	}
@@ -88,7 +105,7 @@ public class Stop implements Locatable
 	 * Accessor method for routesList
 	 * @return ArrayList<Route> routesList
 	 */
-	public ArrayList <Route> getRouteList ()
+	public List <Route> getRouteList ()
 	{
 		return this.routesList;
 	}
@@ -115,6 +132,13 @@ public class Stop implements Locatable
 		this.routesList.remove(aRoute);
 	}
 
-
+	public boolean equals(@NonNull Stop aStop){
+		if(aStop.getCompanyID().equals(this.getCompanyID())&& aStop.getName().equals(this.getName())){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 
 }
