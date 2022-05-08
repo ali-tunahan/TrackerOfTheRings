@@ -2,6 +2,8 @@ package com.example.trackeroftherings;
 
 import android.view.animation.RotateAnimation;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +133,15 @@ public class Route implements Serializable
                 activeVehicles.remove(aVehicle);
             }
             
+        }
+    }
+
+    public boolean equals(@NonNull Route aRoute){
+        if(aRoute.getCompanyID().equals(this.getCompanyID())&& aRoute.getName().equals(this.getName())){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 

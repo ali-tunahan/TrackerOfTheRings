@@ -2,6 +2,8 @@ package com.example.trackeroftherings;
 
 import android.location.Location;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +132,13 @@ public class Stop implements Locatable, Serializable
 		this.routesList.remove(aRoute);
 	}
 
-
+	public boolean equals(@NonNull Stop aStop){
+		if(aStop.getCompanyID().equals(this.getCompanyID())&& aStop.getName().equals(this.getName())){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 
 }

@@ -2,6 +2,8 @@ package com.example.trackeroftherings;
 
 import android.location.Location;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -168,5 +170,15 @@ public class Vehicle extends Account implements Locatable, Serializable
 
     public void setHistory(HashMap<Stop, String> history) {
         this.history = history;
+    }
+
+    public boolean equals(@NonNull Vehicle aVehicle){
+        if(aVehicle.getCompanyID().equals(this.getCompanyID())&& aVehicle.getPassword().equals(this.getPassword()) && aVehicle.getUsername().equals(this.getUsername())){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 }

@@ -128,7 +128,14 @@ public class Company extends Account implements Serializable
 		vehicles.remove(newVehicle);
 	}
 
-
+	public boolean equals(Company aCompany){
+		if(aCompany.getCompanyID().equals(this.getCompanyID())&& aCompany.getUsername().equals(this.getUsername())){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 
 
 
