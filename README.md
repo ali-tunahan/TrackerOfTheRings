@@ -10,7 +10,6 @@ The main objective of the project is to help university student not miss their l
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
 * Minimum Android 8.0 (API level 26)
 * implementation platform('com.google.firebase:firebase-bom:29.3.1')
 * implementation 'com.google.firebase:firebase-database'
