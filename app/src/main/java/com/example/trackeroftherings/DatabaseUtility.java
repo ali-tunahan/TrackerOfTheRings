@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseUtility {
 
@@ -160,9 +161,9 @@ public class DatabaseUtility {
      * @param companyID the ID to search for
      * @return ArrayList<Company>
      */
-    public static ArrayList<Company> readCompanies(String companyID){
+    public static List<Company> readCompanies(String companyID){
         DatabaseReference reference = routesReference;
-        ArrayList<Company> matchingCompanies = new ArrayList<Company>();
+        List<Company> matchingCompanies = new ArrayList<Company>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

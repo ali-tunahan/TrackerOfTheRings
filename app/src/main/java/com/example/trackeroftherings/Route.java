@@ -2,12 +2,13 @@ package com.example.trackeroftherings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Route implements Serializable
 {
     private String name;
-    private ArrayList<Stop> stopsList;
-    private ArrayList<Vehicle> activeVehicles;
+    private List<Stop> stopsList;
+    private List<Vehicle> activeVehicles;
     private String companyID;
 
     public void setCompanyID(String companyID) {
@@ -30,7 +31,7 @@ public class Route implements Serializable
     }
 
 
-    public ArrayList<Vehicle> getActiveVehicles() {
+    public List<Vehicle> getActiveVehicles() {
         return activeVehicles;
     }
 
@@ -42,15 +43,15 @@ public class Route implements Serializable
         this.name = name;
     }
 
-    public ArrayList<Stop> getStopsList() {
+    public List<Stop> getStopsList() {
         return stopsList;
     }
 
-    public void setStopsList(ArrayList<Stop> stopsList) {
+    public void setStopsList(List<Stop> stopsList) {
         this.stopsList = stopsList;
     }
 
-    public void setActiveVehicles(ArrayList<Vehicle> activeVehicles) {
+    public void setActiveVehicles(List<Vehicle> activeVehicles) {
         this.activeVehicles = activeVehicles;
     }
 

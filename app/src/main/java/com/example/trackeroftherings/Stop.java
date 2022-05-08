@@ -4,12 +4,13 @@ import android.location.Location;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Stop implements Locatable, Serializable
 {
 	private String name;
 	private LocationPlus location;
-	private ArrayList <Route> routesList;
+	private List<Route> routesList;
 	private String companyID;
 
 	/**
@@ -89,7 +90,7 @@ public class Stop implements Locatable, Serializable
 	 * Accessor method for routesList
 	 * @return ArrayList<Route> routesList
 	 */
-	public ArrayList <Route> getRouteList ()
+	public List <Route> getRouteList ()
 	{
 		return this.routesList;
 	}

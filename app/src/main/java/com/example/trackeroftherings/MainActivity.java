@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         //Demo
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("demo");
-        ArrayList<String> l1 = new ArrayList<String>();
+        List<String> l1 = new ArrayList<String>();
         l1.add("a");
         l1.add("b");
-        ArrayList<LocationPlus> l2 = new ArrayList<LocationPlus>();
+        List<LocationPlus> l2 = new ArrayList<LocationPlus>();
         l2.add(new LocationPlus());
         Demo d = new Demo(l1,l2);
         ref.setValue(d).addOnSuccessListener(new OnSuccessListener<Void>() {

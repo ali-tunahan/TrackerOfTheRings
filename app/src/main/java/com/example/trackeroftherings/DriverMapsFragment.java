@@ -35,6 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DriverMapsFragment extends Fragment {
 
@@ -46,7 +47,7 @@ public class DriverMapsFragment extends Fragment {
     private Button selectedButton = null;
     private GoogleMap mMap;
     private FragmentDriverMapsBinding binding;
-    public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+    public static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
     LocationRequest locationRequest;

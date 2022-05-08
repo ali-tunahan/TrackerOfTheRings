@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
+import java.util.List;
 
 public class Vehicle extends Account implements Locatable, Serializable
 {
@@ -95,7 +96,7 @@ public class Vehicle extends Account implements Locatable, Serializable
             
             Route newRoute = new Route();
             newRoute.setName(currentRoute.getName());
-            ArrayList<Stop> copyStops = new ArrayList<Stop>();
+            List<Stop> copyStops = new ArrayList<Stop>();
 
             for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
                 copyStops.add(currentRoute.getStopsList().get(i));
@@ -114,7 +115,7 @@ public class Vehicle extends Account implements Locatable, Serializable
         Route copy = new Route();
         copy.setName(aCurrentRoute.getName());
 
-        ArrayList<Stop> copyStops = new ArrayList<Stop>();
+        List<Stop> copyStops = new ArrayList<Stop>();
 
         for(int i = 0; i < aCurrentRoute.getStopsList().size();i++){
             copyStops.add(aCurrentRoute.getStopsList().get(i));
