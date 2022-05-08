@@ -38,7 +38,7 @@ public class UserRoutesFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+    public static ArrayList<Route> routesList = new ArrayList<Route>();
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -130,20 +130,10 @@ public class UserRoutesFragment extends Fragment {
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);//change with actual routes list
         if(!isEntered){
-            routesList.add(new Route("route0"));
-            routesList.add(new Route("route1"));
-            routesList.add(new Route("route2"));
-            routesList.add(new Route("route3"));
-            routesList.add(new Route("route4"));
-            routesList.add(new Route("route5"));
+            routesList = DatabaseUtility.readRoutes(SecondFragment.getUsersCompanyID());
         }
 
         for(int i = 0; i < routesList.size(); i++){
-            if(!isEntered) {//delete later
-                routesList.get(i).addStop(new Stop("stop " + i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider"),"id1"));
-            }
             Button b = new Button(this.getContext());
             b.setText(routesList.get(i).getName());
             b.setId(i);

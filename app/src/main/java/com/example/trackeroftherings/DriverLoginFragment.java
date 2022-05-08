@@ -17,9 +17,9 @@ public class DriverLoginFragment extends Fragment {//change the name later, this
     private static int loginState;
     public static final int COMPANY = 0;
     public static final int DRIVER = 1;
-    private static String driversCompanyID = ""; //get this in static context for later
+    private static String driversCompanyID = ""; //public since it should be used outside of this class
 
-    public String getDriversCompanyID() {
+    public static String getDriversCompanyID() {
         return driversCompanyID;
     }//maybe static??
 

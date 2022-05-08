@@ -222,7 +222,6 @@ public class DatabaseUtility {
                     if (currentStop.getCompanyID().equals(companyID)){
                         matchingStops.add(currentStop);
                     }
-                    matchingStops.add(currentStop);
                 }
             }
             @Override
@@ -234,18 +233,20 @@ public class DatabaseUtility {
     }
 
     /**
-     * Returns all routes in the database
+     * Returns routes with matching companyID from database
      * @return ArrayList<Route>
      */
-    public static ArrayList<Route> readRoutes(){
+    public static ArrayList<Route> readRoutes(String companyID){
         DatabaseReference reference = routesReference;
-        ArrayList<Route> allRoutes = new ArrayList<Route>();
+        ArrayList<Route> matchingRoutes = new ArrayList<Route>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
                     Route currentRoute = data.getValue(Route.class);
-                    allRoutes.add(currentRoute);
+                    if (currentRoute.getCompanyID().equals(companyID)){
+                        matchingRoutes.add(currentRoute);
+                    }
                 }
             }
             @Override
@@ -253,7 +254,7 @@ public class DatabaseUtility {
 
             }
         });
-        return allRoutes;
+        return matchingRoutes;
     }
 
 }

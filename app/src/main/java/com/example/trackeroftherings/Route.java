@@ -5,36 +5,52 @@ import java.util.ArrayList;
 public class Route 
 {
     private String name;
-    private ArrayList<Stop> stopsList = new ArrayList<Stop>();
-    private ArrayList<Vehicle> activeVehicles = new ArrayList<Vehicle>();
+    private ArrayList<Stop> stopsList;
+    private ArrayList<Vehicle> activeVehicles;
+
 
     /**
      * Empty constructor
      */
-    public Route(){}
+    public Route(){
+      this.stopsList = newArrayList<Stop>();
+      this.activeVehicles = new ArrayList<Vehicle>();
+    }
 
-    public Route(String name){
+    public Route(String name, String companyID){
         this.name = name;
+        this.stopsList = new ArrayList<Stop>();
+        this.activeVehicles = new ArrayList<Vehicle>();
+        this.companyID = companyID;
     }
 
 
     public ArrayList<Vehicle> getActiveVehicles() {
         return activeVehicles;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public ArrayList<Stop> getStopsList() {
         return stopsList;
     }
+
     public void setStopsList(ArrayList<Stop> stopsList) {
         this.stopsList = stopsList;
     }
+
     public void setActiveVehicles(ArrayList<Vehicle> activeVehicles) {
         this.activeVehicles = activeVehicles;
+    }
+
+    public String getCompanyID(){
+        return this.companyID;
     }
 
 
