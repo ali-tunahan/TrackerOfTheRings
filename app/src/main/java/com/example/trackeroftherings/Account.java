@@ -1,10 +1,14 @@
 package com.example.trackeroftherings;
 
-public abstract class Account {
+import java.io.Serializable;
+
+public abstract class Account implements Serializable {
     private String username;
     private String password;
     private String companyID;
     private Company company;
+    //empty constructor for database
+    public Account(){}
 
     //getters and setters
     public String getUsername() {

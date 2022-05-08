@@ -48,7 +48,7 @@ public class DriverMapsFragment extends Fragment {
     private FragmentDriverMapsBinding binding;
     public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
@@ -111,7 +111,7 @@ public class DriverMapsFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */

@@ -28,7 +28,7 @@ import java.util.List;
 public class LocationHandler {
     private MainActivity activity;
     public FusedLocationProviderClient mFusedLocationProviderClient;
-    private Location mLastKnownLocation;
+    private LocationPlus mLastKnownLocation;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     public OnLocationUpdateListener onLocationUpdateListener;
@@ -54,8 +54,8 @@ public class LocationHandler {
                 List<Location> locationList = locationResult.getLocations();
                 if (locationList.size() > 0) {
                     //The last location in the list is the newest
-                    Location location = locationList.get(locationList.size() - 1);
-                    mLastKnownLocation = location;
+                    LocationPlus location =(LocationPlus) locationList.get(locationList.size() - 1);
+                    mLastKnownLocation = (LocationPlus)location;
                     if (onLocationUpdateListener != null) {
                         onLocationUpdateListener.onLocationChange(location);
                         if (updateStartedInternally) {
@@ -77,7 +77,7 @@ public class LocationHandler {
             locationResult.addOnCompleteListener(activity, task -> {
                 if (task.isSuccessful()) {
                     // Set the map's camera position to the current location of the device.
-                    mLastKnownLocation = (Location) task.getResult();
+                    mLastKnownLocation = (LocationPlus) task.getResult();
                     if (mLastKnownLocation == null) {
                         updateStartedInternally = true;
                         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
@@ -128,7 +128,7 @@ public class LocationHandler {
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    public Location getmLastKnownLocation() {
+    public LocationPlus getmLastKnownLocation() {
         return mLastKnownLocation;
     }
 
@@ -144,7 +144,7 @@ public class LocationHandler {
                 @Override
                 public void onSuccess(Location location) {
                     //mMap = activity.mMap;
-                    mLastKnownLocation = location;
+                    mLastKnownLocation = (LocationPlus)location;
                     //loco.trye(MapsActivity.this);
                     //mMap.clear();
                     //mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())).title("Long: " + mLastKnownLocation.getLongitude() + ", Lat: " +mLastKnownLocation.getLatitude()));

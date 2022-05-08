@@ -1,19 +1,24 @@
 package com.example.trackeroftherings;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Route 
+public class Route implements Serializable
 {
     private String name;
     private ArrayList<Stop> stopsList;
     private ArrayList<Vehicle> activeVehicles;
+    private String companyID;
 
+    public void setCompanyID(String companyID) {
+        this.companyID = companyID;
+    }
 
     /**
      * Empty constructor
      */
     public Route(){
-      this.stopsList = newArrayList<Stop>();
+      this.stopsList = new ArrayList<Stop>();
       this.activeVehicles = new ArrayList<Vehicle>();
     }
 
