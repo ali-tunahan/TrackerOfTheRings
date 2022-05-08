@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseUtility {
 
@@ -67,7 +68,7 @@ public class DatabaseUtility {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    if (data.getValue(Vehicle.class).equals(oldCompany)){
+                    if (data.getValue(Company.class).equals(oldCompany)){
                         String key = data.getKey();
                         reference.child(key).setValue(newCompany);
                     }
@@ -116,7 +117,8 @@ public class DatabaseUtility {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    if (data.getValue(Account.class).equals(oldStop)){
+                    Stop currentStop = data.getValue(Stop.class);
+                    if (currentStop.equals(oldStop)){
                         String key = data.getKey();
                         reference.child(key).setValue(newStop);
                     }
@@ -141,7 +143,7 @@ public class DatabaseUtility {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    if (data.getValue(Account.class).equals(oldRoute)){
+                    if (data.getValue(Route.class).equals(oldRoute)){
                         String key = data.getKey();
                         reference.child(key).setValue(newRoute);
                     }
@@ -160,9 +162,9 @@ public class DatabaseUtility {
      * @param companyID the ID to search for
      * @return ArrayList<Company>
      */
-    public static ArrayList<Company> readCompanies(String companyID){
+    public static List<Company> readCompanies(String companyID){
         DatabaseReference reference = routesReference;
-        ArrayList<Company> matchingCompanies = new ArrayList<Company>();
+        List<Company> matchingCompanies = new ArrayList<Company>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
+import com.example.trackeroftherings.databinding.FragmentCompanyStopInfoBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,25 +31,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class UserStopsFragment extends Fragment {
+public class CompanyVehicleInfo extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
-    private static boolean isEntered = false;
-    public static List<Stop> stopsList = new ArrayList<Stop>();
-
+    private static Vehicle vehicleToDisplay = null;
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
-
-    public Company company;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -63,14 +57,19 @@ public class UserStopsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-            for(Stop stop : company.getStops()) {
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude())).title(stop.getName()));
-            }
+            LatLng sydney = new LatLng(-34, 151);
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
+
+    public static Vehicle getvehicleToDisplay() {
+        return vehicleToDisplay;
+    }
+
+    public static void setvehicleToDisplay(Vehicle vehicleToDisplay) {
+        CompanyVehicleInfo.vehicleToDisplay = vehicleToDisplay;
+    }
 
     @Nullable
     @Override
@@ -88,11 +87,10 @@ public class UserStopsFragment extends Fragment {
         binding.homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(UserStopsFragment.this)
-                        .navigate(R.id.action_userStopsFragment_to_mapsFragment);
+                NavHostFragment.findNavController(CompanyVehicleInfo.this)
+                        .navigate(R.id.action_companyVehicleInfo_to_companyMapsFragment);
             }
         });
-
 
 /*
         setContentView(binding.getRoot());
@@ -126,43 +124,38 @@ public class UserStopsFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor"})
     public void showBottomSheetDialog(){
-        final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
-        TextView text = new TextView(this.getContext());
-        text.append("STOPS LIST");
-        LinearLayout linear1 = bottomBar.findViewById(R.id.list);
-        text.setGravity(Gravity.CENTER);
-        linear1.addView(text);
-        //change with actual stops and proper locations
-        if(!isEntered){
-            stopsList = DatabaseUtility.readStops(SecondFragment.getUsersCompanyID());
+        BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
+        bottomBar.setContentView(R.layout.bottom_dialog_stop_route_vehicle_edit_info);
+        TextView text = bottomBar.findViewById(R.id.info);
+        LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
+        text.setText("\n---VEHICLE NAME---\n" + vehicleToDisplay.getUsername());
+        try {
+            text.append("\n---ACTIVE ON ROUTE---\n" + vehicleToDisplay.getCurrentRoute().getName() + "\n");
+        }catch
+        (NullPointerException e){
+            text.append("\n---ACTIVE ON ROUTE---\n" + "NONE");
         }
-
-        for(int i = 0; i < stopsList.size(); i++){
-            Button b = new Button(this.getContext());
-            b.setText(stopsList.get(i).getName());
-            b.setId(i);
-            b.setTextSize(20);
-            b.setTextColor(Color.parseColor("#FFFFFFFF"));
-            b.setBackgroundColor(R.color.teal_200);
-            b.setGravity(Gravity.CENTER);
-            b.setPadding(15, 10, 15, 10);
-            b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-            linear1.addView(b);
-            int finalI = i;
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bottomBar.hide();
-                    StopInfoFragment.setStopToDisplay(stopsList.get(finalI));
-                    NavHostFragment.findNavController(UserStopsFragment.this)
-                            .navigate(R.id.action_userStopsFragment_to_stopInfoFragment);
-                }
-            });
-        }
-        isEntered = true;
+        Button historyButton = new Button(this.getContext());
+        historyButton.setText("HISTORY");
+        historyButton.setId(0);
+        historyButton.setTextSize(20);
+        historyButton.setTextColor(Color.parseColor("#FFFFFFFF"));
+        historyButton.setBackgroundColor(R.color.teal_200);
+        historyButton.setGravity(Gravity.CENTER);
+        historyButton.setPadding(15, 10, 15, 10);
+        historyButton.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+        bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomBar.hide();
+                CompanyEditVehicle.setStatus(CompanyEditStop.EDIT);
+                NavHostFragment.findNavController(CompanyVehicleInfo.this)
+                        .navigate(R.id.action_companyVehicleInfo_to_companyEditVehicle);
+            }
+        });
+        linear1.addView(historyButton);
         bottomBar.show();
     }
 

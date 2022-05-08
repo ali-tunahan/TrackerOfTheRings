@@ -1,19 +1,25 @@
 package com.example.trackeroftherings;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class Company extends Account
+public class Company extends Account implements Serializable
 {
    
-    private ArrayList<Route> routes;
-	private ArrayList<Stop> stops;
-	private ArrayList<Vehicle> vehicles;
+    private List<Route> routes;
+	private List<Stop> stops;
+	private List<Vehicle> vehicles;
 
 	/**
-	 * Empty constructor
+	 * Default constructor for database
 	 */
-	public Company(){}
+	public Company(){
+		routes = new ArrayList<Route>();
+		stops = new ArrayList<Stop>();
+		vehicles = new ArrayList<Vehicle>();
+	}
 
 		/**
 	 * Constructor
@@ -26,48 +32,51 @@ public class Company extends Account
 		this.setUsername(aName);
 		this.setPassword(aPassword);
 		this.setCompany(this);
+		routes = new ArrayList<Route>();
+		stops = new ArrayList<Stop>();
+		vehicles = new ArrayList<Vehicle>();
 	}
 
 	/**
 	 * Accessor for vehicles
 	 * @return vehicles
 	 */
-	public ArrayList<Vehicle> getVehicles() {
+	public List<Vehicle> getVehicles() {
 		return vehicles;
 	}
 	/**
 	 * Mutator for vehicles
 	 * @param vehicles
 	 */
-	public void setVehicles(ArrayList<Vehicle> vehicles) {
+	public void setVehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 	}
 	/**
 	 * Accessor for stops
 	 * @return stops
 	 */
-	public ArrayList<Stop> getStops() {
+	public List<Stop> getStops() {
 		return stops;
 	}
 	/**
 	 * Mutator for stops
 	 * @param stops
 	 */
-	public void setStops(ArrayList<Stop> stops) {
+	public void setStops(List<Stop> stops) {
 		this.stops = stops;
 	}
 	/**
 	 * Accessor for routes
 	 * @return
 	 */
-	public ArrayList<Route> getRoutes() {
+	public List<Route> getRoutes() {
 		return routes;
 	}
 	/**
 	 * Mutator for routes
 	 * @param routes
 	 */
-	public void setRoutes(ArrayList<Route> routes) {
+	public void setRoutes(List<Route> routes) {
 		this.routes = routes;
 	}
 

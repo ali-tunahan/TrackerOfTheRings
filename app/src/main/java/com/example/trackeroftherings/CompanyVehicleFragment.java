@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.trackeroftherings.databinding.FragmentCompanyStopsBinding;
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -33,13 +34,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserStopsFragment extends Fragment {
+public class CompanyVehicleFragment extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static List<Stop> stopsList = new ArrayList<Stop>();
+    public static List<Vehicle> vehiclesList = new ArrayList<Vehicle>(); //later change with actual stops list stop array list
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -47,8 +48,6 @@ public class UserStopsFragment extends Fragment {
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
-
-    public Company company;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -66,9 +65,6 @@ public class UserStopsFragment extends Fragment {
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-            for(Stop stop : company.getStops()) {
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude())).title(stop.getName()));
-            }
         }
     };
 
@@ -88,8 +84,8 @@ public class UserStopsFragment extends Fragment {
         binding.homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(UserStopsFragment.this)
-                        .navigate(R.id.action_userStopsFragment_to_mapsFragment);
+                NavHostFragment.findNavController(CompanyVehicleFragment.this)
+                        .navigate(R.id.action_companyVehicleFragment_to_companyMapsFragment);
             }
         });
 
@@ -129,20 +125,26 @@ public class UserStopsFragment extends Fragment {
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
+        bottomBar.setContentView(R.layout.bottom_dialog_company_stops_routes_vehicles);
         TextView text = new TextView(this.getContext());
-        text.append("STOPS LIST");
+        text.append("VEHICLES LIST");
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);
         //change with actual stops and proper locations
         if(!isEntered){
-            stopsList = DatabaseUtility.readStops(SecondFragment.getUsersCompanyID());
+            vehiclesList.add(new Vehicle("vehicle0","pw0","companyID"));
+            vehiclesList.add(new Vehicle("vehicle1","pw1","companyID"));
+            vehiclesList.add(new Vehicle("vehicle2","pw2","companyID"));
+            vehiclesList.add(new Vehicle("vehicle3","pw3","companyID"));
+        }
+        for(int i = 0; i < vehiclesList.size(); i++){
+            vehiclesList.get(i).setCurrentRoute(new Route("vehicleRoute" + i,"companyID"));
         }
 
-        for(int i = 0; i < stopsList.size(); i++){
+        for(int i = 0; i < vehiclesList.size(); i++){
             Button b = new Button(this.getContext());
-            b.setText(stopsList.get(i).getName());
+            b.setText(vehiclesList.get(i).getUsername());
             b.setId(i);
             b.setTextSize(20);
             b.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -156,12 +158,21 @@ public class UserStopsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     bottomBar.hide();
-                    StopInfoFragment.setStopToDisplay(stopsList.get(finalI));
-                    NavHostFragment.findNavController(UserStopsFragment.this)
-                            .navigate(R.id.action_userStopsFragment_to_stopInfoFragment);
+                    CompanyVehicleInfo.setvehicleToDisplay(vehiclesList.get(finalI));
+                    NavHostFragment.findNavController(CompanyVehicleFragment.this)
+                            .navigate(R.id.action_companyVehicleFragment_to_companyVehicleInfo);
                 }
             });
         }
+        bottomBar.findViewById(R.id.floatingActionButton2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomBar.hide();
+                CompanyEditVehicle.setStatus(CompanyEditStop.NEW);
+                NavHostFragment.findNavController(CompanyVehicleFragment.this)
+                        .navigate(R.id.action_companyVehicleFragment_to_companyEditVehicle);
+            }
+        });
         isEntered = true;
         bottomBar.show();
     }

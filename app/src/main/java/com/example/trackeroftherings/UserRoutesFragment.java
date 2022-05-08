@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserRoutesFragment extends Fragment {
 
@@ -38,12 +39,12 @@ public class UserRoutesFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static ArrayList<Route> routesList = new ArrayList<Route>();
+    public static List<Route> routesList = new ArrayList<Route>();
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
@@ -112,7 +113,7 @@ public class UserRoutesFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */

@@ -32,7 +32,7 @@ public class CompanyMapsFragment extends Fragment {
     private GoogleMap mMap;
     private FragmentCompanyMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
@@ -94,7 +94,7 @@ public class CompanyMapsFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */
@@ -134,13 +134,13 @@ public class CompanyMapsFragment extends Fragment {
 
     public void showBottomSheetDialog(){
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog);
+        bottomBar.setContentView(R.layout.bottom_dialog_company);
         bottomBar.findViewById(R.id.button_stops).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomBar.hide();
                 NavHostFragment.findNavController(CompanyMapsFragment.this)
-                        .navigate(R.id.action_mapsFragment_to_userStopsFragment);
+                        .navigate(R.id.action_companyMapsFragment_to_companyStopsFragment);
             }
         });
         bottomBar.findViewById(R.id.button_routes).setOnClickListener(new View.OnClickListener() {
@@ -148,7 +148,15 @@ public class CompanyMapsFragment extends Fragment {
             public void onClick(View v) {
                 bottomBar.hide();
                 NavHostFragment.findNavController(CompanyMapsFragment.this)
-                        .navigate(R.id.action_mapsFragment_to_userRoutesFragment);
+                        .navigate(R.id.action_companyMapsFragment_to_companyRoutesFragment);
+            }
+        });
+        bottomBar.findViewById(R.id.button_vehicles).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomBar.hide();
+                NavHostFragment.findNavController(CompanyMapsFragment.this)
+                        .navigate(R.id.action_companyMapsFragment_to_companyVehicleFragment);
             }
         });
         bottomBar.show();

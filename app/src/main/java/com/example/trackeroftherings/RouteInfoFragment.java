@@ -39,7 +39,7 @@ public class RouteInfoFragment extends Fragment {
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
@@ -115,7 +115,7 @@ public class RouteInfoFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */

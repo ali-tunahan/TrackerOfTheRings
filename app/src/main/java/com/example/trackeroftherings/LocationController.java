@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stores the Vehicles and Stops the user should see
@@ -16,8 +17,8 @@ import java.util.ArrayList;
  */
 public class LocationController {
 
-    private ArrayList<Vehicle> vehicles;
-    private ArrayList<Stop> stops;
+    private List<Vehicle> vehicles;
+    private List<Stop> stops;
     private String companyID;
 
     /**

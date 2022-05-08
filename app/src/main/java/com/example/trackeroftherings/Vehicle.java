@@ -2,11 +2,13 @@ package com.example.trackeroftherings;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
+import java.util.List;
 
-public class Vehicle extends Account implements Locatable
+public class Vehicle extends Account implements Locatable, Serializable
 {
     
     private HashMap<Stop, String> history;
@@ -94,7 +96,7 @@ public class Vehicle extends Account implements Locatable
             
             Route newRoute = new Route();
             newRoute.setName(currentRoute.getName());
-            ArrayList<Stop> copyStops = new ArrayList<Stop>();
+            List<Stop> copyStops = new ArrayList<Stop>();
 
             for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
                 copyStops.add(currentRoute.getStopsList().get(i));
@@ -113,7 +115,7 @@ public class Vehicle extends Account implements Locatable
         Route copy = new Route();
         copy.setName(aCurrentRoute.getName());
 
-        ArrayList<Stop> copyStops = new ArrayList<Stop>();
+        List<Stop> copyStops = new ArrayList<Stop>();
 
         for(int i = 0; i < aCurrentRoute.getStopsList().size();i++){
             copyStops.add(aCurrentRoute.getStopsList().get(i));
@@ -136,7 +138,7 @@ public class Vehicle extends Account implements Locatable
      * Accessor method for location
      * @return location
      */
-    public Location getLocation() {
+    public LocationPlus getLocation() {
         return location;
     }
 
@@ -144,8 +146,8 @@ public class Vehicle extends Account implements Locatable
      * Mutator for location
      * @param aLocation
      */
-    public void setLocation(Location aLocation) {
-        this.location = (LocationPlus) aLocation;
+    public void setLocation(LocationPlus aLocation) {
+        this.location = aLocation;
     }
     /**
      * Accessor for nextStop
@@ -164,5 +166,7 @@ public class Vehicle extends Account implements Locatable
     }
 
 
-
+    public void setHistory(HashMap<Stop, String> history) {
+        this.history = history;
+    }
 }

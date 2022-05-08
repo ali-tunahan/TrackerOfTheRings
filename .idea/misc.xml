@@ -10,20 +10,29 @@
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog.xml" value="0.2595108695652174" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_company.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_company_stops_routes.xml" value="0.171875" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_edit_stop.xml" value="0.35643115942028986" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_edit_vehicle.xml" value="0.25" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_routes_info.xml" value="0.23233695652173914" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_routes_infp.xml" value="0.24003623188405798" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_stop_info.xml" value="0.2595108695652174" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_stop_route_edit_info.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_stop_route_info.xml" value="0.24003623188405798" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_stop_route_vehicle_edit_info.xml" value="0.171875" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_stops_info.xml" value="0.23233695652173914" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_stops_routes_info.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/bottom_dialog_user_stops.xml" value="0.2595108695652174" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/content_main.xml" value="0.2595108695652174" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/driver_route_selection.xml" value="0.25" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_edit_stop.xml" value="0.35643115942028986" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_edit_vehicle.xml" value="0.171875" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_maps.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_route_info.xml" value="0.3645833333333333" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_routes.xml" value="0.3645833333333333" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_stop_info.xml" value="0.3645833333333333" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_stops.xml" value="0.3645833333333333" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_vehicle.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_company_vehicle_info.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_driver_login.xml" value="0.22554347826086957" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_driver_maps.xml" value="0.25" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_first.xml" value="0.2595108695652174" />

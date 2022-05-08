@@ -53,7 +53,8 @@ public class DriverLoginFragment extends Fragment {//change the name later, this
                         //navigate to company front page
 
                     }
-
+                    NavHostFragment.findNavController(DriverLoginFragment.this)//put this into the if statement later, this is here for testing
+                            .navigate(R.id.action_driverLoginFragment_to_companyMapsFragment);
                 }else if(loginState == DRIVER ){
                     if(LoginUtility.vehicleLogin(username, password, companyID) != null){
                         // navigate to driver front page
