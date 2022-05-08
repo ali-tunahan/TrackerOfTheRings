@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     public static LocationHandler locationHandler;
+    public static LocationHandler driverLocationHandler;
     public OnLocationUpdateListener onLocationUpdateListener;
+    public OnLocationUpdateListener driverOnLocationUpdateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
+        driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
+        location-addition
+        driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         //Demo
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Routes");
@@ -61,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         r.addStop(new Stop("dorm", new LocationPlus(), "123"));
 
         DatabaseUtility.add(new Stop("dorm", new LocationPlus(), "123"));
-
 
 
 

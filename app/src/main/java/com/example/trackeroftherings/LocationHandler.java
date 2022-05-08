@@ -1,6 +1,7 @@
 package com.example.trackeroftherings;
 
 //TAKEN FROM https://stackoverflow.com/questions/36436686/how-to-get-current-location-using-seperate-class-in-android
+//SOME TAKEN FROM https://www.youtube.com/watch?v=_xUcYfbtfsI&t=2184s&ab_channel=freeCodeCamp.org
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;

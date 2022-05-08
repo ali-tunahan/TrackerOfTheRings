@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for login purposes vor Vehicles
+ * Class for login purposes for Vehicles
  */
 public class LoginUtility {
     /**
