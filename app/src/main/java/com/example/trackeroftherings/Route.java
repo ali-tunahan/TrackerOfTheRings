@@ -1,5 +1,7 @@
 package com.example.trackeroftherings;
 
+import android.view.animation.RotateAnimation;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +18,30 @@ public class Route implements Serializable
     }
 
     /**
+     * Copy constructor
+     * @param name
+     * @param stopsList
+     * @param activeVehicles
+     * @param companyID
+     */
+    public Route(String name, List<Stop> stopsList, List<Vehicle> activeVehicles, String companyID) {
+        this.name = name;
+        this.stopsList = stopsList;
+        this.activeVehicles = activeVehicles;
+        this.companyID = companyID;
+    }
+
+    /**
      * Empty constructor
      */
     public Route(){
-      this.stopsList = new ArrayList<Stop>();
-      this.activeVehicles = new ArrayList<Vehicle>();
     }
 
+    /**
+     * Standard constructor
+     * @param name
+     * @param companyID
+     */
     public Route(String name, String companyID){
         this.name = name;
         this.stopsList = new ArrayList<Stop>();
@@ -62,12 +81,22 @@ public class Route implements Serializable
 
 
     public void addStop(int i, Stop aStop){
+        //Adding the new route to the stop reference in the database
+        Stop oldStop = aStop;
+        List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRouteList());
+        newRoutesList.add(this);
+        Stop newStop = new Stop(aStop.getName(), aStop.getLocation(), newRoutesList,aStop.getCompanyID());
+        DatabaseUtility.change(oldStop,newStop);
         stopsList.add(i, aStop);
-        aStop.addRoute(this);
     }
     public void addStop(Stop aStop){ //adds the route to stops route list
+        //Adding the new route to the stop reference in the database
+        Stop oldStop = aStop;
+        List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRouteList());
+        newRoutesList.add(this);
+        Stop newStop = new Stop(aStop.getName(), aStop.getLocation(), newRoutesList,aStop.getCompanyID());
+        DatabaseUtility.change(oldStop,newStop);
         stopsList.add(aStop);
-        aStop.addRoute(this);
     }
 
     public Stop popStop(){

@@ -50,19 +50,18 @@ public class MainActivity extends AppCompatActivity {
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
         //Demo
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("demo");
-        List<String> l1 = new ArrayList<String>();
-        l1.add("a");
-        l1.add("b");
-        List<LocationPlus> l2 = new ArrayList<LocationPlus>();
-        l2.add(new LocationPlus());
-        Demo d = new Demo(l1,l2);
-        ref.setValue(d).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(MainActivity.this, "Data is Added", Toast.LENGTH_LONG).show();
-            }
-        });
+        DatabaseReference ref = database.getReference("Routes");
+        /*ArrayList<Stop> stops = new ArrayList<>();
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        stops.add(new Stop("dormm", new LocationPlus(), "123"));
+
+        Route r = new Route("test",stops,vehicles,"123");*/
+
+        Route r = new Route("tester", "123");
+        r.addStop(new Stop("dorm", new LocationPlus(), "123"));
+
+        DatabaseUtility.add(new Stop("dorm", new LocationPlus(), "123"));
+
 
 
 

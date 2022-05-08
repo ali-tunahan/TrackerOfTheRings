@@ -68,7 +68,7 @@ public class DatabaseUtility {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    if (data.getValue(Vehicle.class).equals(oldCompany)){
+                    if (data.getValue(Company.class).equals(oldCompany)){
                         String key = data.getKey();
                         reference.child(key).setValue(newCompany);
                     }
@@ -117,7 +117,8 @@ public class DatabaseUtility {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    if (data.getValue(Account.class).equals(oldStop)){
+                    Stop currentStop = data.getValue(Stop.class);
+                    if (currentStop.equals(oldStop)){
                         String key = data.getKey();
                         reference.child(key).setValue(newStop);
                     }
@@ -142,7 +143,7 @@ public class DatabaseUtility {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    if (data.getValue(Account.class).equals(oldRoute)){
+                    if (data.getValue(Route.class).equals(oldRoute)){
                         String key = data.getKey();
                         reference.child(key).setValue(newRoute);
                     }
