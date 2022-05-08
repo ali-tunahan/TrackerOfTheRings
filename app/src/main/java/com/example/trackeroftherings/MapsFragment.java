@@ -1,5 +1,7 @@
 package com.example.trackeroftherings;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -76,6 +80,7 @@ public class MapsFragment extends Fragment {
             googleMap.clear();
             MainActivity.locationHandler.startLocationUpdates();
             MainActivity.locationHandler.updateGPS();
+            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
             googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
 
         }
