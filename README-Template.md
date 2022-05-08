@@ -34,7 +34,7 @@ The main objective of the project is to help university student not miss their l
 ## Authors
 
 Contributors names and contact info
-*Ali Tunahan Işık @ali-tunahan
-*Umut Bora Çakmak @UBoraCakmak
-*Perit Dinçer @perit-dincer
-*Enis Kerem Çakmak @Pesichra
+* Ali Tunahan Işık @ali-tunahan
+* Umut Bora Çakmak @UBoraCakmak
+* Perit Dinçer @perit-dincer
+* Enis Kerem Çakmak @Pesichra
