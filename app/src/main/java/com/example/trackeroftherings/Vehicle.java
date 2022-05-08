@@ -156,7 +156,8 @@ public class Vehicle extends Account implements Locatable, Serializable
      * @return nextStop
      */
     public Stop getNextStop(){
-       return this.currentRoute.getStopsList().get(0);
+       //return this.currentRoute.getStopsList().get(0);
+        return MainActivity.dummyStop;
     }
 
     /**

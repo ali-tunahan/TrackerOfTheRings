@@ -56,7 +56,7 @@ public class DriverMapsFragment extends Fragment {
 
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
-        public void onLocationChange(Location location) {
+        public void onLocationChange(LocationPlus location) {
             MainActivity.driverLocationHandler.updateGPS();
             drivermMap.clear();
             drivermMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));

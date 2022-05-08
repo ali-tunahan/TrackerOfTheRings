@@ -152,6 +152,8 @@ public class LocationHandler {
                 public void onSuccess(Location location) {
                     //mMap = activity.mMap;
                     mLastKnownLocation = new LocationPlus(location);
+                    //MainActivity.vehicleUpdater.updateVehicle();
+
                     //loco.trye(MapsActivity.this);
                     //mMap.clear();
                     //mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())).title("Long: " + mLastKnownLocation.getLongitude() + ", Lat: " +mLastKnownLocation.getLatitude()));
