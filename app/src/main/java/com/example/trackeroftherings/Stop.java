@@ -2,12 +2,13 @@ package com.example.trackeroftherings;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Stop implements Locatable
+public class Stop implements Locatable, Serializable
 {
 	private String name;
-	private Location location;
+	private LocationPlus location;
 	private ArrayList <Route> routesList;
 	private String companyID;
 
@@ -22,7 +23,7 @@ public class Stop implements Locatable
 	 * @param aName
 	 * @param aLocation
 	 */
-	public Stop (String aName, Location aLocation, String aCompanyID)
+	public Stop (String aName, LocationPlus aLocation, String aCompanyID)
 	{
 		this.name = aName;
 		this.location = aLocation;
@@ -43,7 +44,7 @@ public class Stop implements Locatable
 	 * Mutator for location
 	 * @param aLocation
 	 */
-	public void setLocation (Location aLocation)
+	public void setLocation (LocationPlus aLocation)
 	{
 		this.location = aLocation;
 	}
@@ -79,7 +80,7 @@ public class Stop implements Locatable
 	 * Accessor method for location
 	 * @return location
 	 */
-	public Location getLocation()
+	public LocationPlus getLocation()
 	{
 		return this.location;
 	}

@@ -2,17 +2,18 @@ package com.example.trackeroftherings;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
 
-public class Vehicle extends Account implements Locatable
+public class Vehicle extends Account implements Locatable, Serializable
 {
     
     private HashMap<Stop, String> history;
     private boolean isActive;
     private Route currentRoute;
-    private Location location;
+    private LocationPlus location;
 
  
     /**
@@ -136,7 +137,7 @@ public class Vehicle extends Account implements Locatable
      * Accessor method for location
      * @return location
      */
-    public Location getLocation() {
+    public LocationPlus getLocation() {
         return location;
     }
 
@@ -144,7 +145,7 @@ public class Vehicle extends Account implements Locatable
      * Mutator for location
      * @param aLocation
      */
-    public void setLocation(Location aLocation) {
+    public void setLocation(LocationPlus aLocation) {
         this.location = aLocation;
     }
     /**
@@ -164,5 +165,7 @@ public class Vehicle extends Account implements Locatable
     }
 
 
-
+    public void setHistory(HashMap<Stop, String> history) {
+        this.history = history;
+    }
 }

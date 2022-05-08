@@ -32,7 +32,7 @@ public class CompanyMapsFragment extends Fragment {
     private GoogleMap mMap;
     private FragmentCompanyMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
@@ -94,7 +94,7 @@ public class CompanyMapsFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */

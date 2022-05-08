@@ -115,7 +115,8 @@ public class CompanyRouteInfoFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus
+                 location = locationResult.getLastLocation();
             }
         };
  */

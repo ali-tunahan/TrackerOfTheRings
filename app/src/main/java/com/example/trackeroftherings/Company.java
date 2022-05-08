@@ -1,9 +1,10 @@
 package com.example.trackeroftherings;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Company extends Account
+public class Company extends Account implements Serializable
 {
    
     private ArrayList<Route> routes;

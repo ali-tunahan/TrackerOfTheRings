@@ -44,7 +44,7 @@ public class CompanyEditStop extends Fragment {
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
@@ -116,7 +116,7 @@ public class CompanyEditStop extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */
@@ -146,7 +146,7 @@ public class CompanyEditStop extends Fragment {
                             .navigate(R.id.action_companyEditStop_to_companyStopInfoFragment);
                 }else if(status == NEW) {
                     //set the new location of the stop here
-                    companyStopsFragment.stopsList.add(new Stop(stopName.getText().toString(), new Location("provider1"), "id1"));
+                    companyStopsFragment.stopsList.add(new Stop(stopName.getText().toString(), new LocationPlus("provider1"), "id1"));
                     NavHostFragment.findNavController(CompanyEditStop.this)
                             .navigate(R.id.action_companyEditStop_to_companyStopsFragment);
                 }

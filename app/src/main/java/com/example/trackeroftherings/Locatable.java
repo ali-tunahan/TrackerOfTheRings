@@ -4,8 +4,8 @@ import android.location.Location;
 
 public interface Locatable {
 
-    public Location getLocation();
+    public LocationPlus getLocation();
 
-    public void setLocation(Location aLocation);
+    public void setLocation(LocationPlus aLocation);
     
 }

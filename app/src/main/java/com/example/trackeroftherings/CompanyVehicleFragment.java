@@ -44,7 +44,7 @@ public class CompanyVehicleFragment extends Fragment {
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
@@ -113,7 +113,7 @@ public class CompanyVehicleFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */
@@ -138,7 +138,7 @@ public class CompanyVehicleFragment extends Fragment {
             vehiclesList.add(new Vehicle("vehicle3","pw3","companyID"));
         }
         for(int i = 0; i < vehiclesList.size(); i++){
-            vehiclesList.get(i).setCurrentRoute(new Route("vehicleRoute" + i));
+            vehiclesList.get(i).setCurrentRoute(new Route("vehicleRoute" + i,"companyID"));
         }
 
         for(int i = 0; i < vehiclesList.size(); i++){
