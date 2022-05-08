@@ -16,8 +16,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.trackeroftherings.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +48,21 @@ public class MainActivity extends AppCompatActivity {
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
+        //Demo
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("demo");
+        ArrayList<String> l1 = new ArrayList<String>();
+        l1.add("a");
+        l1.add("b");
+        ArrayList<LocationPlus> l2 = new ArrayList<LocationPlus>();
+        l2.add(new LocationPlus());
+        Demo d = new Demo(l1,l2);
+        ref.setValue(d).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(MainActivity.this, "Data is Added", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
