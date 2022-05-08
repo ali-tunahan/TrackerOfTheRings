@@ -5,12 +5,12 @@ import java.util.List;
 public class Demo {
 
     private List<String> list;
-    private List<LocationPlus> locationList;
+    private List<Stop> locationList;
 
     public Demo() {
     }
 
-    public Demo(List<String> list, List<LocationPlus> locationList) {
+    public Demo(List<String> list, List<Stop> locationList) {
         this.list = list;
         this.locationList = locationList;
     }
@@ -23,11 +23,11 @@ public class Demo {
         this.list = list;
     }
 
-    public List<LocationPlus> getLocationList() {
+    public List<Stop> getLocationList() {
         return locationList;
     }
 
-    public void setLocationList(List<LocationPlus> locationList) {
+    public void setLocationList(List<Stop> locationList) {
         this.locationList = locationList;
     }
 }

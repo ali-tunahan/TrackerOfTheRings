@@ -1,6 +1,7 @@
 package com.example.trackeroftherings;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for login purposes vor Vehicles
@@ -15,7 +16,7 @@ public class LoginUtility {
      * @return Vehicle object that credentials are correct for
      */
     public static Vehicle vehicleLogin(String username, String password, String companyID){
-        ArrayList<Vehicle> vehicles = DatabaseUtility.readVehicles(companyID);
+        List<Vehicle> vehicles = DatabaseUtility.readVehicles(companyID);
         Vehicle result = null;
         for(Vehicle v : vehicles){
             if (v.getPassword().equals(password) && v.getUsername().equals(username)){
@@ -34,7 +35,7 @@ public class LoginUtility {
      * @return Company object that credentials are correct for
      */
     public static Company companyLogin(String username, String password, String companyID){
-        ArrayList<Company> companies = DatabaseUtility.readCompanies(companyID);//Ideally will return a single Company
+        List<Company> companies = DatabaseUtility.readCompanies(companyID);//Ideally will return a single Company
         Company result = null;
         for(Company c :companies){
             if (c.getPassword().equals(password) && c.getUsername().equals(username)){

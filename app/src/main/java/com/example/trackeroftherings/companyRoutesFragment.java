@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class companyRoutesFragment extends Fragment {
 
@@ -38,7 +39,7 @@ public class companyRoutesFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+    public static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -46,6 +47,15 @@ public class companyRoutesFragment extends Fragment {
     public Location currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+
+    public static List<Route> getRoutesList() {
+        return routesList;
+    }
+
+    public static void setRoutesList(List<Route> routesList) {
+        companyRoutesFragment.routesList = routesList;
+    }
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 

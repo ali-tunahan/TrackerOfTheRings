@@ -4,21 +4,35 @@ import android.location.Location;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Stop implements Locatable, Serializable
 {
 	private String name;
 	private LocationPlus location;
-	private ArrayList <Route> routesList;
+	private List<Route> routesList;
 	private String companyID;
 
+	/**
+	 * Copy constructor
+	 * @param name
+	 * @param location
+	 * @param routesList
+	 * @param companyID
+	 */
+	public Stop(String name, LocationPlus location, List<Route> routesList, String companyID) {
+		this.name = name;
+		this.location = location;
+		this.routesList = routesList;
+		this.companyID = companyID;
+	}
 	/**
 	 * Empty constructor
 	 */
 	public Stop(){}
 
 	/**
-	 * Consturctor
+	 * Constructor
 	 * No stop will be created with a route
 	 * @param aName
 	 * @param aLocation
@@ -55,7 +69,7 @@ public class Stop implements Locatable, Serializable
 	 */
 	public void addRoute (Route aRoute)
 	{
-		this.routesList.add (aRoute);
+		this.routesList.add(aRoute);
 	}
 
 	/**
@@ -89,7 +103,7 @@ public class Stop implements Locatable, Serializable
 	 * Accessor method for routesList
 	 * @return ArrayList<Route> routesList
 	 */
-	public ArrayList <Route> getRouteList ()
+	public List <Route> getRouteList ()
 	{
 		return this.routesList;
 	}

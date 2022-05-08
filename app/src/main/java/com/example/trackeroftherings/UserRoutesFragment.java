@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserRoutesFragment extends Fragment {
 
@@ -38,7 +39,7 @@ public class UserRoutesFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static ArrayList<Route> routesList = new ArrayList<Route>();
+    public static List<Route> routesList = new ArrayList<Route>();
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
