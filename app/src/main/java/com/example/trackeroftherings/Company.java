@@ -31,7 +31,6 @@ public class Company extends Account implements Serializable
 		this.setCompanyID(companyID);
 		this.setUsername(aName);
 		this.setPassword(aPassword);
-		this.setCompany(this);
 		routes = new ArrayList<Route>();
 		stops = new ArrayList<Stop>();
 		vehicles = new ArrayList<Vehicle>();
@@ -104,7 +103,7 @@ public class Company extends Account implements Serializable
 		vehicles.add(newVehicle);
 	}
 
-		/**
+	/**
 	 * Adds a route to company routes
 	 * @param newRoute
 	 */

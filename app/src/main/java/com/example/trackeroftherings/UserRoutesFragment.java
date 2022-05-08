@@ -131,7 +131,7 @@ public class UserRoutesFragment extends Fragment {
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);//change with actual routes list
         if(!isEntered){
-            routesList = DatabaseUtility.readRoutes(SecondFragment.getUsersCompanyID());
+            routesList = LocationController.getRoutes();
         }
 
         for(int i = 0; i < routesList.size(); i++){

@@ -1,5 +1,7 @@
 package com.example.trackeroftherings;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -10,6 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class DatabaseUtility {
 
@@ -155,108 +158,4 @@ public class DatabaseUtility {
             }
         });
     }
-
-    /**
-     * Returns an ArrayList of Company objects matching with the input companyID
-     * Ideally only a single Company should match
-     * @param companyID the ID to search for
-     * @return ArrayList<Company>
-     */
-    public static List<Company> readCompanies(String companyID){
-        DatabaseReference reference = routesReference;
-        List<Company> matchingCompanies = new ArrayList<Company>();
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()){
-                    Company currentCompany = data.getValue(Company.class);
-                    if (currentCompany.getCompanyID().equals(companyID)){
-                        matchingCompanies.add(currentCompany);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return matchingCompanies;
-    }
-
-    /**
-     * Returns Vehicles that belong to the input companyID
-     * @param companyID the ID of company that owns the vehicles
-     * @return ArrayList<Vehicle>
-     */
-    public static ArrayList<Vehicle> readVehicles(String companyID){
-        DatabaseReference reference = vehiclesReference;
-        ArrayList<Vehicle> matchingVehicles = new ArrayList<Vehicle>();
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()){
-                    Vehicle currentVehicle = data.getValue(Vehicle.class);
-                    if (currentVehicle.getCompanyID().equals(companyID)){
-                        matchingVehicles.add(currentVehicle);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return matchingVehicles;
-    }
-
-    /**
-     * Returns stops corresponding to the input companyID in the database
-     * @return ArrayList<Stop>
-     */
-    public static ArrayList<Stop> readStops(String companyID){
-        DatabaseReference reference = stopsReference;
-        ArrayList<Stop> matchingStops = new ArrayList<Stop>();
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()){
-                    Stop currentStop = data.getValue(Stop.class);
-                    if (currentStop.getCompanyID().equals(companyID)){
-                        matchingStops.add(currentStop);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return matchingStops;
-    }
-
-    /**
-     * Returns routes with matching companyID from database
-     * @return ArrayList<Route>
-     */
-    public static ArrayList<Route> readRoutes(String companyID){
-        DatabaseReference reference = routesReference;
-        ArrayList<Route> matchingRoutes = new ArrayList<Route>();
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()){
-                    Route currentRoute = data.getValue(Route.class);
-                    if (currentRoute.getCompanyID().equals(companyID)){
-                        matchingRoutes.add(currentRoute);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return matchingRoutes;
-    }
-
 }

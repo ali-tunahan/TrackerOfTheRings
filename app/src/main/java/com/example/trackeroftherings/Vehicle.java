@@ -17,6 +17,7 @@ public class Vehicle extends Account implements Locatable, Serializable
     private boolean isActive;
     private Route currentRoute;
     private LocationPlus location;
+    private Company company;
 
  
     /**
@@ -110,7 +111,7 @@ public class Vehicle extends Account implements Locatable, Serializable
     }
 
     /**
-	 * İnitializes the copy of the chosen route to currentRoute
+	 * Initializes the copy of the chosen route to currentRoute
 	 * @param aCurrentRoute
 	 */
     public void setCurrentRoute(Route aCurrentRoute){
@@ -156,6 +157,16 @@ public class Vehicle extends Account implements Locatable, Serializable
      * @return nextStop
      */
     public Stop getNextStop(){
+        if (this.currentRoute == null){
+            return null;
+        }
+        List<Stop> stops = this.currentRoute.getStopsList();
+        if (stops == null){
+            return null;
+        }
+        if (stops.size() == 0){
+            return null;
+        }
        return this.currentRoute.getStopsList().get(0);
     }
 
@@ -167,6 +178,12 @@ public class Vehicle extends Account implements Locatable, Serializable
         return history;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
     public void setHistory(HashMap<Stop, String> history) {
         this.history = history;

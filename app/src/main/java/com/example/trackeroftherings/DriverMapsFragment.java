@@ -56,7 +56,7 @@ public class DriverMapsFragment extends Fragment {
 
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
-        public void onLocationChange(Location location) {
+        public void onLocationChange(LocationPlus location) {
             MainActivity.driverLocationHandler.updateGPS();
             drivermMap.clear();
             drivermMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
@@ -188,7 +188,7 @@ public class DriverMapsFragment extends Fragment {
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);
         if(!isEntered){
-            routesList = DatabaseUtility.readRoutes(SecondFragment.getUsersCompanyID());
+            routesList = LocationController.getRoutes();
         }
         for(int i = 0; i < routesList.size(); i++){
             Button b = new Button(this.getContext());

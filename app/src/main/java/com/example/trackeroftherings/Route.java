@@ -37,6 +37,8 @@ public class Route implements Serializable
      * Empty constructor
      */
     public Route(){
+        stopsList = new ArrayList<>();
+        activeVehicles = new ArrayList<>();
     }
 
     /**

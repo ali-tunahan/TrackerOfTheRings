@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
-        location-addition
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         //Demo
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -61,13 +60,16 @@ public class MainActivity extends AppCompatActivity {
         stops.add(new Stop("dormm", new LocationPlus(), "123"));
 
         Route r = new Route("test",stops,vehicles,"123");*/
-
-        Route r = new Route("tester", "123");
+        Vehicle v = new Vehicle("ati","111","123");
+        Route r = new Route("aRoute", "123");
         r.addStop(new Stop("dorm", new LocationPlus(), "123"));
+        v.setCurrentRoute(r);
+        v.setLocation(new LocationPlus());
 
-        DatabaseUtility.add(new Stop("dorm", new LocationPlus(), "123"));
+        Vehicle v2 = new Vehicle(v);
+        v2.setUsername("new name");
 
-
+        DatabaseUtility.change(v,v2);
 
     }
 
