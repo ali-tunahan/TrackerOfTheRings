@@ -6,7 +6,7 @@ public class Route
 {
     private String name;
     private ArrayList<Stop> stopsList = new ArrayList<Stop>();
-    private ArrayList<Vehicle> activeVehicles;
+    private ArrayList<Vehicle> activeVehicles = new ArrayList<Vehicle>();
 
     /**
      * Empty constructor

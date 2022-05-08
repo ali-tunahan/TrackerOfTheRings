@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
+import com.example.trackeroftherings.databinding.FragmentCompanyStopInfoBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,22 +32,25 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.ArrayList;
-
-public class companyRoutesFragment extends Fragment {
+public class CompanyEditStop extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
-    private static boolean isEntered = false;
-    public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
-
+    public static final int EMPTY = 0;
+    public static final int EDIT = 1;
+    public static final int NEW = 2;
+    private static int status = EMPTY;
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public Location currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+    public static void setStatus(int status) {
+        CompanyEditStop.status = status;
+    }
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -60,9 +65,9 @@ public class companyRoutesFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            LatLng sydney = new LatLng(-34, 151);
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
 
@@ -82,11 +87,10 @@ public class companyRoutesFragment extends Fragment {
         binding.homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(companyRoutesFragment.this)
-                        .navigate(R.id.action_companyRoutesFragment_to_companyMapsFragment);
+                NavHostFragment.findNavController(CompanyEditStop.this)
+                        .navigate(R.id.action_companyEditStop_to_companyMapsFragment);
             }
         });
-
 
 /*
         setContentView(binding.getRoot());
@@ -122,50 +126,33 @@ public class companyRoutesFragment extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
-        final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
-        TextView text = new TextView(this.getContext());
-        text.append("ROUTES LIST");
-        LinearLayout linear1 = bottomBar.findViewById(R.id.list);
-        text.setGravity(Gravity.CENTER);
-        linear1.addView(text);//change with actual routes list
-        if(!isEntered){
-            routesList.add(new Route("route0"));
-            routesList.add(new Route("route1"));
-            routesList.add(new Route("route2"));
-            routesList.add(new Route("route3"));
-            routesList.add(new Route("route4"));
-            routesList.add(new Route("route5"));
+        BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
+        bottomBar.setContentView(R.layout.bottom_dialog_edit_stop);
+        EditText stopName = bottomBar.findViewById(R.id.editTextStopName);
+        if(status == EDIT) {
+            stopName.setText(CompanyStopInfo.getStopToDisplay().getName());
         }
+        LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
+        //add putting markers on map click
+        bottomBar.findViewById(R.id.floatingActionButtonEditConfirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomBar.hide();
 
-        for(int i = 0; i < routesList.size(); i++){
-            if(!isEntered) {//delete later
-                routesList.get(i).addStop(new Stop("stop " + i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider"),"id1"));
-            }
-            Button b = new Button(this.getContext());
-            b.setText(routesList.get(i).getName());
-            b.setId(i);
-            b.setTextSize(20);
-            b.setTextColor(Color.parseColor("#FFFFFFFF"));
-            b.setBackgroundColor(R.color.teal_200);
-            b.setGravity(Gravity.CENTER);
-            b.setPadding(15, 10, 15, 10);
-            b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-            linear1.addView(b);
-            int finalI = i;
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bottomBar.hide();
-                    CompanyRouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
-                    NavHostFragment.findNavController(companyRoutesFragment.this)
-                            .navigate(R.id.action_companyRoutesFragment_to_companyRouteInfoFragment);
+                if(status == EDIT) {
+                    //set the new location of the stop here
+                    CompanyStopInfo.getStopToDisplay().setName(stopName.getText().toString());
+                    NavHostFragment.findNavController(CompanyEditStop.this)
+                            .navigate(R.id.action_companyEditStop_to_companyStopInfoFragment);
+                }else if(status == NEW) {
+                    //set the new location of the stop here
+                    companyStopsFragment.stopsList.add(new Stop(stopName.getText().toString(), new Location("provider1"), "id1"));
+                    NavHostFragment.findNavController(CompanyEditStop.this)
+                            .navigate(R.id.action_companyEditStop_to_companyStopsFragment);
                 }
-            });
-        }
-        isEntered = true;
+            }
+        });
+
         bottomBar.show();
     }
 
