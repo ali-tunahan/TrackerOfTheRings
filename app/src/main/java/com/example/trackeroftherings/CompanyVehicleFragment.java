@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.trackeroftherings.databinding.FragmentCompanyStopsBinding;
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -32,13 +33,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
-public class companyRoutesFragment extends Fragment {
+public class CompanyVehicleFragment extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static ArrayList<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+    public static ArrayList<Vehicle> vehiclesList = new ArrayList<Vehicle>(); //later change with actual stops list stop array list
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -82,8 +83,8 @@ public class companyRoutesFragment extends Fragment {
         binding.homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(companyRoutesFragment.this)
-                        .navigate(R.id.action_companyRoutesFragment_to_companyMapsFragment);
+                NavHostFragment.findNavController(CompanyVehicleFragment.this)
+                        .navigate(R.id.action_companyVehicleFragment_to_companyMapsFragment);
             }
         });
 
@@ -123,29 +124,26 @@ public class companyRoutesFragment extends Fragment {
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
+        bottomBar.setContentView(R.layout.bottom_dialog_company_stops_routes_vehicles);
         TextView text = new TextView(this.getContext());
-        text.append("ROUTES LIST");
+        text.append("VEHICLES LIST");
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
-        linear1.addView(text);//change with actual routes list
+        linear1.addView(text);
+        //change with actual stops and proper locations
         if(!isEntered){
-            routesList.add(new Route("route0"));
-            routesList.add(new Route("route1"));
-            routesList.add(new Route("route2"));
-            routesList.add(new Route("route3"));
-            routesList.add(new Route("route4"));
-            routesList.add(new Route("route5"));
+            vehiclesList.add(new Vehicle("vehicle0","pw0","companyID"));
+            vehiclesList.add(new Vehicle("vehicle1","pw1","companyID"));
+            vehiclesList.add(new Vehicle("vehicle2","pw2","companyID"));
+            vehiclesList.add(new Vehicle("vehicle3","pw3","companyID"));
+        }
+        for(int i = 0; i < vehiclesList.size(); i++){
+            vehiclesList.get(i).setCurrentRoute(new Route("vehicleRoute" + i));
         }
 
-        for(int i = 0; i < routesList.size(); i++){
-            if(!isEntered) {//delete later
-                routesList.get(i).addStop(new Stop("stop " + i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 2 * i, new Location("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 3 * i, new Location("provider"),"id1"));
-            }
+        for(int i = 0; i < vehiclesList.size(); i++){
             Button b = new Button(this.getContext());
-            b.setText(routesList.get(i).getName());
+            b.setText(vehiclesList.get(i).getUsername());
             b.setId(i);
             b.setTextSize(20);
             b.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -159,12 +157,21 @@ public class companyRoutesFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     bottomBar.hide();
-                    CompanyRouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
-                    NavHostFragment.findNavController(companyRoutesFragment.this)
-                            .navigate(R.id.action_companyRoutesFragment_to_companyRouteInfoFragment);
+                    CompanyVehicleInfo.setvehicleToDisplay(vehiclesList.get(finalI));
+                    NavHostFragment.findNavController(CompanyVehicleFragment.this)
+                            .navigate(R.id.action_companyVehicleFragment_to_companyVehicleInfo);
                 }
             });
         }
+        bottomBar.findViewById(R.id.floatingActionButton2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomBar.hide();
+                CompanyEditVehicle.setStatus(CompanyEditStop.NEW);
+                NavHostFragment.findNavController(CompanyVehicleFragment.this)
+                        .navigate(R.id.action_companyVehicleFragment_to_companyEditVehicle);
+            }
+        });
         isEntered = true;
         bottomBar.show();
     }

@@ -119,6 +119,9 @@
         <action
             android:id="@+id/action_companyMapsFragment_to_companyRoutesFragment"
             app:destination="@id/companyRoutesFragment" />
+        <action
+            android:id="@+id/action_companyMapsFragment_to_companyVehicleFragment"
+            app:destination="@id/companyVehicleFragment" />
     </fragment>
     <fragment
         android:id="@+id/companyStopsFragment"
@@ -128,12 +131,31 @@
         <action
             android:id="@+id/action_companyStopsFragment_to_companyStopInfoFragment"
             app:destination="@id/companyStopInfoFragment" />
+        <action
+            android:id="@+id/action_companyStopsFragment_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyStopsFragment_to_companyEditStop"
+            app:destination="@id/companyEditStop" />
+        <action
+            android:id="@+id/action_companyStopsFragment_to_companyEditStop2"
+            app:destination="@id/companyEditStop" />
     </fragment>
     <fragment
         android:id="@+id/companyStopInfoFragment"
         android:name="com.example.trackeroftherings.CompanyStopInfo"
         android:label="fragment_company_stop_info"
-        tools:layout="@layout/fragment_company_stop_info" />
+        tools:layout="@layout/fragment_company_stop_info" >
+        <action
+            android:id="@+id/action_companyStopInfoFragment_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyStopInfoFragment_to_companyRouteInfoFragment"
+            app:destination="@id/companyRouteInfoFragment" />
+        <action
+            android:id="@+id/action_companyStopInfoFragment_to_companyEditStop"
+            app:destination="@id/companyEditStop" />
+    </fragment>
     <fragment
         android:id="@+id/companyRoutesFragment"
         android:name="com.example.trackeroftherings.companyRoutesFragment"
@@ -142,10 +164,77 @@
         <action
             android:id="@+id/action_companyRoutesFragment_to_companyRouteInfoFragment"
             app:destination="@id/companyRouteInfoFragment" />
+        <action
+            android:id="@+id/action_companyRoutesFragment_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/companyRouteInfoFragment"
         android:name="com.example.trackeroftherings.CompanyRouteInfoFragment"
         android:label="fragment_company_route_info"
-        tools:layout="@layout/fragment_company_route_info" />
+        tools:layout="@layout/fragment_company_route_info" >
+        <action
+            android:id="@+id/action_companyRouteInfoFragment_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyRouteInfoFragment_to_companyStopInfoFragment"
+            app:destination="@id/companyStopInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyVehicleFragment"
+        android:name="com.example.trackeroftherings.CompanyVehicleFragment"
+        android:label="fragment_company_vehicle"
+        tools:layout="@layout/fragment_company_vehicle" >
+        <action
+            android:id="@+id/action_companyVehicleFragment_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyVehicleFragment_to_companyVehicleInfo"
+            app:destination="@id/companyVehicleInfo" />
+        <action
+            android:id="@+id/action_companyVehicleFragment_to_companyEditVehicle"
+            app:destination="@id/companyEditVehicle" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyVehicleInfo"
+        android:name="com.example.trackeroftherings.CompanyVehicleInfo"
+        android:label="fragment_company_vehicle_info"
+        tools:layout="@layout/fragment_company_vehicle_info" >
+        <action
+            android:id="@+id/action_companyVehicleInfo_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyVehicleInfo_to_companyEditVehicle"
+            app:destination="@id/companyEditVehicle" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyEditStop"
+        android:name="com.example.trackeroftherings.CompanyEditStop"
+        android:label="fragment_company_edit_stop"
+        tools:layout="@layout/fragment_company_edit_stop" >
+        <action
+            android:id="@+id/action_companyEditStop_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyEditStop_to_companyStopInfoFragment"
+            app:destination="@id/companyStopInfoFragment" />
+        <action
+            android:id="@+id/action_companyEditStop_to_companyStopsFragment"
+            app:destination="@id/companyStopsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyEditVehicle"
+        android:name="com.example.trackeroftherings.CompanyEditVehicle"
+        android:label="fragment_company_edit_vehicle"
+        tools:layout="@layout/fragment_company_edit_vehicle" >
+        <action
+            android:id="@+id/action_companyEditVehicle_to_companyVehicleInfo"
+            app:destination="@id/companyVehicleInfo" />
+        <action
+            android:id="@+id/action_companyEditVehicle_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyEditVehicle_to_companyVehicleFragment"
+            app:destination="@id/companyVehicleFragment" />
+    </fragment>
 </navigation>

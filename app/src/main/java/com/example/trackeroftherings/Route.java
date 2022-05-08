@@ -7,16 +7,20 @@ public class Route
     private String name;
     private ArrayList<Stop> stopsList;
     private ArrayList<Vehicle> activeVehicles;
-    private String companyID;
+
 
     /**
      * Empty constructor
      */
-    public Route(){}
+    public Route(){
+      this.stopsList = newArrayList<Stop>();
+      this.activeVehicles = new ArrayList<Vehicle>();
+    }
 
     public Route(String name, String companyID){
         this.name = name;
         this.stopsList = new ArrayList<Stop>();
+        this.activeVehicles = new ArrayList<Vehicle>();
         this.companyID = companyID;
     }
 
