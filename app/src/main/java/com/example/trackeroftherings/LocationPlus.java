@@ -14,4 +14,5 @@ public class LocationPlus extends Location {
     public LocationPlus(Location l) {
         super(l);
     }
+
 }

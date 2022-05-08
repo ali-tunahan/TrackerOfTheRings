@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationHandler {
@@ -52,10 +53,15 @@ public class LocationHandler {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 List<Location> locationList = locationResult.getLocations();
-                if (locationList.size() > 0) {
+                List<LocationPlus> locationPlusList = new ArrayList<LocationPlus>();
+                //Create a LocationPlus ArrayList from Location ArrayList
+                for (Location l : locationList){
+                    locationPlusList.add(new LocationPlus(l));
+                }
+                if (locationPlusList.size() > 0) {
                     //The last location in the list is the newest
-                    LocationPlus location =(LocationPlus) locationList.get(locationList.size() - 1);
-                    mLastKnownLocation = (LocationPlus)location;
+                    LocationPlus location = locationPlusList.get(locationPlusList.size() - 1);
+                    mLastKnownLocation = location;
                     if (onLocationUpdateListener != null) {
                         onLocationUpdateListener.onLocationChange(location);
                         if (updateStartedInternally) {
@@ -77,7 +83,7 @@ public class LocationHandler {
             locationResult.addOnCompleteListener(activity, task -> {
                 if (task.isSuccessful()) {
                     // Set the map's camera position to the current location of the device.
-                    mLastKnownLocation = (LocationPlus) task.getResult();
+                    mLastKnownLocation = new LocationPlus((Location)(task.getResult()));
                     if (mLastKnownLocation == null) {
                         updateStartedInternally = true;
                         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
@@ -144,7 +150,7 @@ public class LocationHandler {
                 @Override
                 public void onSuccess(Location location) {
                     //mMap = activity.mMap;
-                    mLastKnownLocation = (LocationPlus)location;
+                    mLastKnownLocation = new LocationPlus(location);
                     //loco.trye(MapsActivity.this);
                     //mMap.clear();
                     //mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())).title("Long: " + mLastKnownLocation.getLongitude() + ", Lat: " +mLastKnownLocation.getLatitude()));
