@@ -1,3 +1,4 @@
 
 rootProject.name = "TrackerOfTheRings"
 include ':app'
+include ':mylibrary'
