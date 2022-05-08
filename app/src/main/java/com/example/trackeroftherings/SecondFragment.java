@@ -40,9 +40,11 @@ public class SecondFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String inputCompanyID = binding.editTextCompanyID.getText().toString();
-                if (!DatabaseUtility.readCompanies(inputCompanyID).isEmpty()) {//If there is a company corresponding to the companyID
+                //if (!DatabaseUtility.readCompanies(inputCompanyID).isEmpty()) {//If there is a company corresponding to the companyID
                     usersCompanyID = inputCompanyID;
-                }
+                //}
+                LocationController controller = new LocationController(usersCompanyID);
+
                 NavHostFragment.findNavController(SecondFragment.this)
                         .navigate(R.id.action_SecondFragment_to_mapsFragment);
             }

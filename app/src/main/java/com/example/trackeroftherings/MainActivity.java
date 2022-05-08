@@ -65,26 +65,9 @@ public class MainActivity extends AppCompatActivity {
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
-
+      
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
-
-        //Demo
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("Routes");
-        /*ArrayList<Stop> stops = new ArrayList<>();
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
-        stops.add(new Stop("dormm", new LocationPlus(), "123"));
-
-        Route r = new Route("test",stops,vehicles,"123");*/
-
-        Route r = new Route("tester", "123");
-        r.addStop(new Stop("dorm", new LocationPlus(), "123"));
-
-        DatabaseUtility.add(new Stop("dorm", new LocationPlus(), "123"));
-
-
-
     }
 
     public MainActivity getMain() {

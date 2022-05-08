@@ -6,19 +6,12 @@ public abstract class Account implements Serializable {
     private String username;
     private String password;
     private String companyID;
-    private Company company;
     //empty constructor for database
     public Account(){}
 
     //getters and setters
     public String getUsername() {
         return username;
-    }
-    public Company getCompany() {
-        return company;
-    }
-    public void setCompany(Company company) {
-        this.company = company;
     }
     public String getCompanyID() {
         return companyID;

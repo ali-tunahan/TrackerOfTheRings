@@ -16,7 +16,7 @@ public class LoginUtility {
      * @return Vehicle object that credentials are correct for
      */
     public static Vehicle vehicleLogin(String username, String password, String companyID){
-        List<Vehicle> vehicles = DatabaseUtility.readVehicles(companyID);
+        List<Vehicle> vehicles = LocationController.getVehicles();
         Vehicle result = null;
         for(Vehicle v : vehicles){
             if (v.getPassword().equals(password) && v.getUsername().equals(username)){
@@ -35,13 +35,10 @@ public class LoginUtility {
      * @return Company object that credentials are correct for
      */
     public static Company companyLogin(String username, String password, String companyID){
-        List<Company> companies = DatabaseUtility.readCompanies(companyID);//Ideally will return a single Company
-        Company result = null;
-        for(Company c :companies){
-            if (c.getPassword().equals(password) && c.getUsername().equals(username)){
-                result = c;
+        Company result = LocationController.getCompany();//Ideally will return a single Company
+            if (result.getPassword().equals(password) && result.getUsername().equals(username)){
+                return result;
             }
-        }
-        return result;
+        return null;
     }
 }

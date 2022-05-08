@@ -31,7 +31,9 @@ public class Stop implements Locatable, Serializable
 	/**
 	 * Empty constructor
 	 */
-	public Stop(){}
+	public Stop(){
+		routesList = new ArrayList<>();
+	}
 
 	/**
 	 * Constructor

@@ -188,7 +188,7 @@ public class DriverMapsFragment extends Fragment {
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);
         if(!isEntered){
-            routesList = DatabaseUtility.readRoutes(SecondFragment.getUsersCompanyID());
+            routesList = LocationController.getRoutes();
         }
         for(int i = 0; i < routesList.size(); i++){
             Button b = new Button(this.getContext());

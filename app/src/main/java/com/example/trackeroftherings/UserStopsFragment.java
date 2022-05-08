@@ -66,7 +66,7 @@ public class UserStopsFragment extends Fragment {
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-            for(Stop stop : company.getStops()) {
+            for(Stop stop : LocationController.getStops()) {
                 googleMap.addMarker(new MarkerOptions().position(new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude())).title(stop.getName()));
             }
         }
@@ -137,7 +137,7 @@ public class UserStopsFragment extends Fragment {
         linear1.addView(text);
         //change with actual stops and proper locations
         if(!isEntered){
-            stopsList = DatabaseUtility.readStops(SecondFragment.getUsersCompanyID());
+            stopsList = LocationController.getStops();
         }
 
         for(int i = 0; i < stopsList.size(); i++){
