@@ -1,62 +1,40 @@
-# Project Title
+# Tracker of the Rings
 
-Simple overview of use/purpose.
+Tracker of the Rings is an app to track buses and show bus stops to users. 
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+The main objective of the project is to help university student not miss their lectures by showing them where the Rings (the name of the buses in Bilkent University) and Ring stops are at.
 
 ## Getting Started
 
 ### Dependencies
 
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* Minimum Android 8.0 (API level 26)
+* implementation platform('com.google.firebase:firebase-bom:29.3.1')
+* implementation 'com.google.firebase:firebase-database'
+* implementation 'androidx.appcompat:appcompat:1.4.1'
+* implementation 'com.google.android.material:material:1.5.0'
+* implementation 'com.google.android.gms:play-services-maps:18.0.2'
+* implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+* implementation 'com.google.android.gms:play-services-location:19.0.1'
+* implementation 'com.google.firebase:firebase-database:20.0.4'
+* implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+* testImplementation 'junit:junit:4.+'
+* androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+* androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+* implementation 'androidx.navigation:navigation-fragment:2.4.2'
+* implementation 'androidx.navigation:navigation-ui:2.4.2'
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
-
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+* Build APK from AndroidStudio
 
 ## Authors
 
 Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
-
-## Version History
-
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+*Ali Tunahan Işık @ali-tunahan
+*Umut Bora Çakmak @UBoraCakmak
+*Perit Dinçer @perit-dincer
+*Enis Kerem Çakmak @Pesichra
