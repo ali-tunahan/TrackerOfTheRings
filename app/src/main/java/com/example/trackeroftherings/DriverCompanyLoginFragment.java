@@ -20,6 +20,7 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
     public static final int DRIVER = 1;
     private static Vehicle selfVehicle = null;
     private static String companyID = ""; //public since it should be used outside of this class
+    public static VehicleUpdater vehicleUpdater;
     LocationController controller;
     public static String getCompanyID() {
         return companyID;
@@ -72,6 +73,7 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
                         //set proper vehicle object according to credentials
                         //login does not work because getVehicles returns null (fix)
                         selfVehicle = LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID);
+                        vehicleUpdater = new VehicleUpdater(DriverCompanyLoginFragment.getSelfVehicle(), (MainActivity) getActivity());
                         companyID = aCompanyID;
                         controller = new LocationController(companyID);
                         NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
