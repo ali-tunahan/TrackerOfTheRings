@@ -139,21 +139,10 @@ public class companyRoutesFragment extends Fragment {
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);//change with actual routes list
-        if(!isEntered){
-            routesList.add(new Route("route0","0"));
-            routesList.add(new Route("route1","1"));
-            routesList.add(new Route("route2","2"));
-            routesList.add(new Route("route3","3"));
-            routesList.add(new Route("route4","4"));
-            routesList.add(new Route("route5","5"));
-        }
+        routesList = LocationController.getRoutes();
 
         for(int i = 0; i < routesList.size(); i++){
-            if(!isEntered) {//delete later
-                routesList.get(i).addStop(new Stop("stop " + i, new LocationPlus("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 2 * i, new LocationPlus("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 3 * i, new LocationPlus("provider"),"id1"));
-            }
+
             Button b = new Button(this.getContext());
             b.setText(routesList.get(i).getName());
             b.setId(i);
