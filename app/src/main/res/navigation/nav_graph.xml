@@ -98,7 +98,7 @@
         tools:layout="@layout/fragment_driver_maps" />
     <fragment
         android:id="@+id/driverLoginFragment"
-        android:name="com.example.trackeroftherings.DriverLoginFragment"
+        android:name="com.example.trackeroftherings.DriverCompanyLoginFragment"
         android:label="fragment_driver_login"
         tools:layout="@layout/fragment_driver_login" >
         <action
@@ -167,6 +167,9 @@
         <action
             android:id="@+id/action_companyRoutesFragment_to_companyMapsFragment"
             app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyRoutesFragment_to_companyEditRoute"
+            app:destination="@id/companyEditRoute" />
     </fragment>
     <fragment
         android:id="@+id/companyRouteInfoFragment"
@@ -179,6 +182,9 @@
         <action
             android:id="@+id/action_companyRouteInfoFragment_to_companyStopInfoFragment"
             app:destination="@id/companyStopInfoFragment" />
+        <action
+            android:id="@+id/action_companyRouteInfoFragment_to_companyEditRoute"
+            app:destination="@id/companyEditRoute" />
     </fragment>
     <fragment
         android:id="@+id/companyVehicleFragment"
@@ -236,5 +242,35 @@
         <action
             android:id="@+id/action_companyEditVehicle_to_companyVehicleFragment"
             app:destination="@id/companyVehicleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyEditRoute"
+        android:name="com.example.trackeroftherings.CompanyEditRoute"
+        android:label="fragment_company_edit_route"
+        tools:layout="@layout/fragment_company_edit_route" >
+        <action
+            android:id="@+id/action_companyEditRoute_to_companyRouteInfoFragment"
+            app:destination="@id/companyRouteInfoFragment" />
+        <action
+            android:id="@+id/action_companyEditRoute_to_companyRoutesFragment"
+            app:destination="@id/companyRoutesFragment" />
+        <action
+            android:id="@+id/action_companyEditRoute_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyEditRoute_to_companyAddStopToRoute2"
+            app:destination="@id/companyAddStopToRoute2" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyAddStopToRoute2"
+        android:name="com.example.trackeroftherings.CompanyAddStopToRoute"
+        android:label="fragment_company_add_stop_to_route"
+        tools:layout="@layout/fragment_company_add_stop_to_route" >
+        <action
+            android:id="@+id/action_companyAddStopToRoute2_to_companyEditRoute"
+            app:destination="@id/companyEditRoute" />
+        <action
+            android:id="@+id/action_companyAddStopToRoute2_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
     </fragment>
 </navigation>

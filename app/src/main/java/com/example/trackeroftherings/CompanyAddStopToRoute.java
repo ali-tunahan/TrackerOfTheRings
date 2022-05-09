@@ -22,41 +22,39 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class companyRoutesFragment extends Fragment {
+public class CompanyAddStopToRoute extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    private static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+
+    private static List<Stop> stopsListToAdd = new ArrayList<Stop>(); //later change with actual stops list stop array list
+    public static List<Stop> stopsList = new ArrayList<Stop>(); //later change with actual stops list stop array list
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public Location currentLocation;
+    public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
 
-    public static List<Route> getRoutesList() {
-        return routesList;
+    public static List<Stop> getStopsListToAdd() {
+        return stopsListToAdd;
     }
 
-    public static void setRoutesList(List<Route> routesList) {
-        companyRoutesFragment.routesList = routesList;
+    public static void addStopsListToAdd(Stop s) {
+        CompanyAddStopToRoute.stopsListToAdd.add(s);
     }
-
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -92,8 +90,8 @@ public class companyRoutesFragment extends Fragment {
         binding.homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(companyRoutesFragment.this)
-                        .navigate(R.id.action_companyRoutesFragment_to_companyMapsFragment);
+                NavHostFragment.findNavController(CompanyAddStopToRoute.this)
+                        .navigate(R.id.action_companyAddStopToRoute2_to_companyMapsFragment);
             }
         });
 
@@ -122,7 +120,7 @@ public class companyRoutesFragment extends Fragment {
                 super.onLocationResult(locationResult);
 
                 // save the location
-                Location location = locationResult.getLastLocation();
+                LocationPlus location = locationResult.getLastLocation();
             }
         };
  */
@@ -132,34 +130,52 @@ public class companyRoutesFragment extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
+        stopsListToAdd.clear();
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_company_stops_routes_vehicles);
+        bottomBar.setContentView(R.layout.bottom_dialog_company_addstop_toroute);
         TextView text = new TextView(this.getContext());
-        text.append("ROUTES LIST");
+        text.append("STOPS LIST");
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
-        linear1.addView(text);//change with actual routes list
+        linear1.addView(text);
+        //change with actual stops and proper locations
         if(!isEntered){
-            routesList.add(new Route("route0","0"));
-            routesList.add(new Route("route1","1"));
-            routesList.add(new Route("route2","2"));
-            routesList.add(new Route("route3","3"));
-            routesList.add(new Route("route4","4"));
-            routesList.add(new Route("route5","5"));
+            stopsList.add(new Stop("Tunus", new LocationPlus("provider1"),"id1"));
+            stopsList.add(new Stop("METU Subway", new LocationPlus("provider2"),"id1"));
+            stopsList.add(new Stop("Bilkent Library", new LocationPlus("provider3"),"id1"));
+            stopsList.add(new Stop("Bilkent Library1", new LocationPlus("provider4"),"id1"));
+            stopsList.add(new Stop("Bilkent Library2", new LocationPlus("provider5"),"id1"));
+            stopsList.add(new Stop("Bilkent Library3", new LocationPlus("provider6"),"id1"));
+            stopsList.add(new Stop("Bilkent Library4", new LocationPlus("provider7"),"id1"));
+            stopsList.add(new Stop("Bilkent Library5", new LocationPlus("provider8"),"id1"));
+            stopsList.add(new Stop("Bilkent Library6", new LocationPlus("provider9"),"id1"));
+            stopsList.add(new Stop("Bilkent Library7", new LocationPlus("provider10"),"id1"));
+            stopsList.add(new Stop("Bilkent Library8", new LocationPlus("provider11"),"id1"));
+            stopsList.add(new Stop("Bilkent Library9", new LocationPlus("provider12"),"id1"));
+            stopsList.add(new Stop("Bilkent Library10", new LocationPlus("provider13"),"id1"));
+        }
+        for(int i = 0; i < stopsList.size(); i++){//delete after setting proper stops with actual route info
+            if(!isEntered) {
+                Route newRoute0 = new Route("Route" + i,"companyID");
+                Route newRoute1 = new Route("Route" + 2 * i,"companyID");
+                Route newRoute2 = new Route("Route" + 3 * i,"companyID");
+                newRoute0.addStop(stopsList.get(i));
+                newRoute1.addStop(stopsList.get(i));
+                newRoute2.addStop(stopsList.get(i));
+            }
         }
 
-        for(int i = 0; i < routesList.size(); i++){
-            if(!isEntered) {//delete later
-                routesList.get(i).addStop(new Stop("stop " + i, new LocationPlus("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 2 * i, new LocationPlus("provider"),"id1"));
-                routesList.get(i).addStop(new Stop("stop " + 3 * i, new LocationPlus("provider"),"id1"));
-            }
-            Button b = new Button(this.getContext());
-            b.setText(routesList.get(i).getName());
+        for(int i = 0; i < stopsList.size(); i++){
+            TextView b = new TextView(this.getContext());
+            b.setText(stopsList.get(i).getName());
             b.setId(i);
             b.setTextSize(20);
             b.setTextColor(Color.parseColor("#FFFFFFFF"));
             b.setBackgroundColor(R.color.teal_200);
+            if(CompanyEditRoute.getTempRoute().getStopsList().contains(stopsList.get(i))) {
+                stopsListToAdd.add(stopsList.get(i));
+                b.setBackgroundColor(Color.parseColor("#DC952D"));
+            }
             b.setGravity(Gravity.CENTER);
             b.setPadding(15, 10, 15, 10);
             b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
@@ -168,20 +184,29 @@ public class companyRoutesFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    bottomBar.hide();
-                    CompanyRouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
-                    NavHostFragment.findNavController(companyRoutesFragment.this)
-                            .navigate(R.id.action_companyRoutesFragment_to_companyRouteInfoFragment);
+                    if(!stopsListToAdd.contains(stopsList.get(finalI))) {
+                        b.setBackgroundColor(Color.parseColor("#DC952D"));
+                        stopsListToAdd.add(stopsList.get(finalI));
+                    }else{
+                        b.setBackgroundColor(R.color.teal_200);
+                        stopsListToAdd.remove(stopsList.get(finalI));
+                    }
                 }
             });
         }
-        bottomBar.findViewById(R.id.floatingActionButton2).setOnClickListener(new View.OnClickListener() {
+        bottomBar.findViewById(R.id.floatingActionButtonAddStopToRouteConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CompanyEditRoute.getTempRoute().setStopsList(new ArrayList<Stop>());
+                for (Stop s : stopsListToAdd) {
+
+                    CompanyEditRoute.getTempRoute().addStop(s);
+                }
+
+                stopsListToAdd.clear();
                 bottomBar.hide();
-                CompanyEditRoute.setStatus(CompanyEditRoute.NEW);
-                NavHostFragment.findNavController(companyRoutesFragment.this)
-                        .navigate(R.id.action_companyRoutesFragment_to_companyEditRoute);
+                NavHostFragment.findNavController(CompanyAddStopToRoute.this)
+                        .navigate(R.id.action_companyAddStopToRoute2_to_companyEditRoute);
             }
         });
         isEntered = true;
