@@ -32,11 +32,16 @@ public class MainActivity extends AppCompatActivity {
     public static LocationHandler locationHandler;
     public static LocationHandler driverLocationHandler;
     public static LocationHandler userRoutesLocationHandler;
+    public static LocationHandler routeInfoLocationHandler;
+    public static LocationHandler userStopInfoLocationHandler;
     public static  LocationHandler userStopsLocationHandler;
     public OnLocationUpdateListener onLocationUpdateListener;
     public OnLocationUpdateListener driverOnLocationUpdateListener;
+    public OnLocationUpdateListener routeInfoOnLocationUpdateListener;
     public OnLocationUpdateListener userRoutesOnLocationUpdateListener;
     public OnLocationUpdateListener userStopsOnLocationUpdateListener;
+    public OnLocationUpdateListener userStopInfoOnLocationUpdateListener;
+    public static LocationController controller;
     public MainActivity mainActivity = this;
 
     //public static VehicleUpdater vehicleUpdater;
@@ -58,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         //setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);//https://stackoverflow.com/questions/40058799/remove-toolbar-title
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         //dummyvehiclelist.add(kendrick);
@@ -71,12 +77,16 @@ public class MainActivity extends AppCompatActivity {
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
         userRoutesOnLocationUpdateListener = UserRoutesFragment.onLocationUpdateListener;
+        routeInfoOnLocationUpdateListener = RouteInfoFragment.onLocationUpdateListener;
+        userStopInfoOnLocationUpdateListener = StopInfoFragment.onLocationUpdateListener;
         userStopsOnLocationUpdateListener = UserStopsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         userRoutesLocationHandler = new LocationHandler(MainActivity.this, userRoutesOnLocationUpdateListener);
+        routeInfoLocationHandler = new LocationHandler(MainActivity.this, routeInfoOnLocationUpdateListener);
         userStopsLocationHandler = new LocationHandler(MainActivity.this, userStopsOnLocationUpdateListener);
-        Vehicle vroom = new Vehicle("vroom", "123", "123");
+        userStopInfoLocationHandler = new LocationHandler(MainActivity.this, userStopInfoOnLocationUpdateListener);
+        /*Vehicle vroom = new Vehicle("vroom", "123", "123");
         Location vroomLocation = new Location("");
         vroomLocation.setLatitude(41.003234);
         vroomLocation.setLongitude(29.071808);
@@ -91,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
         LocationPlus greerLocationPlus = new LocationPlus(greerLocation);
         greer.setLocation(greerLocationPlus);
         DatabaseUtility.add(greer);
+
+        Stop test = new Stop("test", new LocationPlus(), "123");
+        Location testLocation = new Location("");
+        testLocation.setLatitude(39.703234);
+        testLocation.setLongitude(32.771808);
+        LocationPlus testLocationPlus = new LocationPlus(testLocation);
+        test.setLocation(testLocationPlus);
+        DatabaseUtility.add(test);*/
 
 
         LoginUtility utilityObject = new LoginUtility();

@@ -51,12 +51,17 @@ public class MapsFragment extends Fragment {
             mMap.clear();
             for(int i = 0; i < LocationController.getVehicles().size(); i++) {
                 Vehicle currentVehicle = LocationController.getVehicles().get(i);
-                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
-                    System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
                     mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
                 }
             }
-            mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
+            for(int i = 0; i < LocationController.getStops().size(); i++){
+                if(LocationController.getStops().get(i).getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
+                    LatLng stopLatLong = new LatLng(LocationController.getStops().get(i).getLocation().getLatitude(), LocationController.getStops().get(i).getLocation().getLongitude());
+                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                }
+            }
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
 
         }
 
@@ -84,12 +89,20 @@ public class MapsFragment extends Fragment {
             mMap = googleMap;
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
             googleMap.clear();
             MainActivity.locationHandler.startLocationUpdates();
             MainActivity.locationHandler.updateGPS();
             //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
+            LatLng currentLatLong = new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
+            for(int i = 0; i < LocationController.getStops().size(); i++){
+                if(LocationController.getStops().get(i).getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
+                    LatLng stopLatLong = new LatLng(LocationController.getStops().get(i).getLocation().getLatitude(), LocationController.getStops().get(i).getLocation().getLongitude());
+                    googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                }
+            }
+
 
         }
     };
