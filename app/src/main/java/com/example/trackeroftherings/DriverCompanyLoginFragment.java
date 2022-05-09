@@ -18,7 +18,7 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
     public static final int COMPANY = 0;
     public static final int DRIVER = 1;
     private static String companyID = ""; //public since it should be used outside of this class
-
+    LocationController controller;
     public static String getCompanyID() {
         return companyID;
     }//maybe static??
@@ -45,21 +45,23 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//check credentials
-                String aUsername = binding.editTextDriverUsername.toString();
-                String aPassword = binding.editTextPassword.toString();
-                String aCompanyID = binding.editTextCompanyID.toString();
+                String aUsername = binding.editTextDriverUsername.getText().toString();
+                String aPassword = binding.editTextPassword.getText().toString();
+                String aCompanyID = binding.editTextCompanyID.getText().toString();
                 if(loginState == COMPANY ){
-                    if(LoginUtility.companyLogin(aUsername, aPassword, aCompanyID) != null){
+                    //if(LoginUtility.companyLogin(aUsername, aPassword, aCompanyID) != null){
                         //navigate to company front page
                         companyID = aCompanyID;
-                    }
+                        controller = new LocationController(companyID);
+                    //}
                     NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
                             .navigate(R.id.action_driverLoginFragment_to_companyMapsFragment);
                 }else if(loginState == DRIVER ){
-                    if(LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID) != null){
+                    //if(LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID) != null){
                         // navigate to driver front page
                         companyID = aCompanyID;
-                    }
+                        controller = new LocationController(companyID);
+                    //}
                     NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
                             .navigate(R.id.action_driverLoginFragment_to_driverMapsFragment);
                 }

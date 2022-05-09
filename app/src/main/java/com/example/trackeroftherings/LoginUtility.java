@@ -36,9 +36,9 @@ public class LoginUtility {
      */
     public static Company companyLogin(String username, String password, String companyID){
         Company result = LocationController.getCompany();//Ideally will return a single Company
-            if (result.getPassword().equals(password) && result.getUsername().equals(username)){
+            //if (result.getPassword().equals(password) && result.getUsername().equals(username)){
                 return result;
-            }
-        return null;
+            //}
+        //return null;
     }
 }
