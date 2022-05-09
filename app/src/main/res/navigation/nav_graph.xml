@@ -257,5 +257,17 @@
         <action
             android:id="@+id/action_companyEditRoute_to_companyMapsFragment"
             app:destination="@id/companyMapsFragment" />
+        <action
+            android:id="@+id/action_companyEditRoute_to_companyAddStopToRoute2"
+            app:destination="@id/companyAddStopToRoute2" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyAddStopToRoute2"
+        android:name="com.example.trackeroftherings.CompanyAddStopToRoute"
+        android:label="fragment_company_add_stop_to_route"
+        tools:layout="@layout/fragment_company_add_stop_to_route" >
+        <action
+            android:id="@+id/action_companyAddStopToRoute2_to_companyEditRoute"
+            app:destination="@id/companyEditRoute" />
     </fragment>
 </navigation>

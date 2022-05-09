@@ -2,13 +2,14 @@ package com.example.trackeroftherings;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,25 +22,23 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-public class CompanyEditRoute extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CompanyAddStopToRoute extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
-    public static final int EMPTY = 0;
-    public static final int EDIT = 1;
-    public static final int NEW = 2;
-    private static int status = EMPTY;
-    private TextView selectedStopText = null;
-    private int selectedStopIndex = 0;
+    private static boolean isEntered = false;
+    private static List<Stop> stopsListToAdd = new ArrayList<Stop>(); //later change with actual stops list stop array list
+    public static List<Stop> stopsList = new ArrayList<Stop>(); //later change with actual stops list stop array list
+
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -47,10 +46,9 @@ public class CompanyEditRoute extends Fragment {
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
-    public static void setStatus(int status) {
-        CompanyEditRoute.status = status;
+    public static void addStopsListToAdd(Stop s) {
+        CompanyAddStopToRoute.stopsListToAdd.add(s);
     }
-
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -64,9 +62,9 @@ public class CompanyEditRoute extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
 
@@ -86,10 +84,11 @@ public class CompanyEditRoute extends Fragment {
         binding.homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(CompanyEditRoute.this)
-                        .navigate(R.id.action_companyEditStop_to_companyMapsFragment);
+                NavHostFragment.findNavController(CompanyAddStopToRoute.this)
+                        .navigate(R.id.action_companyStopsFragment_to_companyMapsFragment);
             }
         });
+
 
 /*
         setContentView(binding.getRoot());
@@ -125,83 +124,83 @@ public class CompanyEditRoute extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
-        BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_edit_route);
-        Route editRoute = CompanyRouteInfoFragment.getRouteToDisplay();
-        EditText routeName = bottomBar.findViewById(R.id.editTextRouteName);
-        if(status == EDIT) {
-            routeName.setText(CompanyRouteInfoFragment.getRouteToDisplay().getName());
+        final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
+        bottomBar.setContentView(R.layout.bottom_dialog_company_addstop_toroute);
+        TextView text = new TextView(this.getContext());
+        text.append("STOPS LIST");
+        LinearLayout linear1 = bottomBar.findViewById(R.id.list);
+        text.setGravity(Gravity.CENTER);
+        linear1.addView(text);
+        //change with actual stops and proper locations
+        if(!isEntered){
+            stopsList.add(new Stop("Tunus", new LocationPlus("provider1"),"id1"));
+            stopsList.add(new Stop("METU Subway", new LocationPlus("provider2"),"id1"));
+            stopsList.add(new Stop("Bilkent Library", new LocationPlus("provider3"),"id1"));
+            stopsList.add(new Stop("Bilkent Library1", new LocationPlus("provider4"),"id1"));
+            stopsList.add(new Stop("Bilkent Library2", new LocationPlus("provider5"),"id1"));
+            stopsList.add(new Stop("Bilkent Library3", new LocationPlus("provider6"),"id1"));
+            stopsList.add(new Stop("Bilkent Library4", new LocationPlus("provider7"),"id1"));
+            stopsList.add(new Stop("Bilkent Library5", new LocationPlus("provider8"),"id1"));
+            stopsList.add(new Stop("Bilkent Library6", new LocationPlus("provider9"),"id1"));
+            stopsList.add(new Stop("Bilkent Library7", new LocationPlus("provider10"),"id1"));
+            stopsList.add(new Stop("Bilkent Library8", new LocationPlus("provider11"),"id1"));
+            stopsList.add(new Stop("Bilkent Library9", new LocationPlus("provider12"),"id1"));
+            stopsList.add(new Stop("Bilkent Library10", new LocationPlus("provider13"),"id1"));
         }
-        LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
+        for(int i = 0; i < stopsList.size(); i++){//delete after setting proper stops with actual route info
+            if(!isEntered) {
+                Route newRoute0 = new Route("Route" + i,"companyID");
+                Route newRoute1 = new Route("Route" + 2 * i,"companyID");
+                Route newRoute2 = new Route("Route" + 3 * i,"companyID");
+                newRoute0.addStop(stopsList.get(i));
+                newRoute1.addStop(stopsList.get(i));
+                newRoute2.addStop(stopsList.get(i));
+            }
+        }
 
-        for(int i = 0; i < editRoute.getStopsList().size(); i++){
-            TextView stopText = new TextView(this.getContext());
-            stopText.setText(editRoute.getStopsList().get(i).getName());
-            stopText.setId(i);
-            stopText.setTextSize(20);
-            stopText.setTextColor(Color.parseColor("#FFFFFFFF"));
-            stopText.setBackgroundColor(R.color.teal_200);
-            stopText.setGravity(Gravity.CENTER);
-            stopText.setPadding(15, 10, 15, 10);
-            stopText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-            int finalI = stopText.getId();
-            stopText.setOnClickListener(new View.OnClickListener() {
+        for(int i = 0; i < stopsList.size(); i++){
+            TextView b = new TextView(this.getContext());
+            b.setText(stopsList.get(i).getName());
+            b.setId(i);
+            b.setTextSize(20);
+            b.setTextColor(Color.parseColor("#FFFFFFFF"));
+            b.setBackgroundColor(R.color.teal_200);
+            if(stopsListToAdd.contains(stopsList.get(i))) {
+                b.setBackgroundColor(Color.parseColor("#DC952D"));
+            }
+            b.setGravity(Gravity.CENTER);
+            b.setPadding(15, 10, 15, 10);
+            b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+            linear1.addView(b);
+            int finalI = i;
+            b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(selectedStopText == null){
-                        stopText.setBackgroundColor(Color.parseColor("#DC952D"));
-                        selectedStopText = stopText;
-                        selectedStopIndex = stopText.getId();
-                    }
-                    else{
-                        int biggerIndex = Math.max(selectedStopIndex, stopText.getId());
-                        int smallerIndex = Math.min(selectedStopIndex, stopText.getId());
-                        float tempY = stopText.getY();
-                        stopText.setY(selectedStopText.getY());
-                        selectedStopText.setY(tempY);
-                        selectedStopText.setBackgroundColor(R.color.teal_200);
-                        Stop tempStop = editRoute.getStopsList().get(smallerIndex);
-                        editRoute.getStopsList().remove(smallerIndex);
-                        editRoute.getStopsList().add(smallerIndex, editRoute.getStopsList().get(biggerIndex - 1));
-                        editRoute.getStopsList().remove(biggerIndex);
-                        editRoute.getStopsList().add(biggerIndex,tempStop);
-                        int tempTextIndex = stopText.getId();
-                        stopText.setId(selectedStopText.getId());
-                        selectedStopText.setId(tempTextIndex);
-                        selectedStopText = null;
-                        selectedStopIndex = 0;
-
+                    if(!stopsListToAdd.contains(stopsList.get(finalI))) {
+                        b.setBackgroundColor(Color.parseColor("#DC952D"));
+                        stopsListToAdd.add(stopsList.get(finalI));
+                    }else{
+                        b.setBackgroundColor(R.color.teal_200);
+                        stopsListToAdd.remove(stopsList.get(finalI));
                     }
                 }
             });
-            linear1.addView(stopText);
         }
-        bottomBar.findViewById(R.id.floatingActionButtonEditConfirm).setOnClickListener(new View.OnClickListener() {
+        bottomBar.findViewById(R.id.floatingActionButtonAddStopToRouteConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomBar.hide();
 
-                if(status == EDIT) {
-                    //set the new location of the stop here
-                    editRoute.setName(routeName.getText().toString());
-                    NavHostFragment.findNavController(CompanyEditRoute.this)
-                            .navigate(R.id.action_companyEditRoute_to_companyRouteInfoFragment);
-                }else if(status == NEW) {
-                    //set the new location of the stop here
-                    NavHostFragment.findNavController(CompanyEditRoute.this)
-                            .navigate(R.id.action_companyEditRoute_to_companyRoutesFragment);
+                CompanyRouteInfoFragment.getRouteToDisplay().setStopsList(new ArrayList<Stop>());
+                for(Stop s: stopsListToAdd){
+
+                    CompanyRouteInfoFragment.getRouteToDisplay().addStop(s);
                 }
-            }
-        });
-        bottomBar.findViewById(R.id.floatingActionButtonAddStopToRoute).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 bottomBar.hide();
-                NavHostFragment.findNavController(CompanyEditRoute.this)
-                        .navigate(R.id.action_companyEditRoute_to_companyAddStopToRoute2);
+                NavHostFragment.findNavController(CompanyAddStopToRoute.this)
+                        .navigate(R.id.action_companyAddStopToRoute2_to_companyEditRoute);
             }
         });
-
+        isEntered = true;
         bottomBar.show();
     }
 
