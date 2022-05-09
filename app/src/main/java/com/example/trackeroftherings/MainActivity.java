@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         dummyRoute.addStop(dummyStop);
         dummyRoute.addActiveVehicle(kendrick);
         kendrick.setCurrentRoute(dummyRoute);
-        //DatabaseUtility.add(kendrick);
+        DatabaseUtility.add(kendrick);
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
       
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
+
+
+
+
     }
 
     public MainActivity getMain() {
