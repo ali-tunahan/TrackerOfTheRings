@@ -143,14 +143,20 @@ public class CompanyEditVehicle extends Fragment {
 
                 if(status == EDIT) {
                     //set the new location of the stop here
-                    CompanyVehicleInfo.getvehicleToDisplay().setUsername(userName.getText().toString());
-                    CompanyVehicleInfo.getvehicleToDisplay().setPassword(password.getText().toString());
+                    Vehicle selectedVehicle = null;
+                    for(int i = 0; i < LocationController.getVehicles().size(); i++){
+                        if(CompanyVehicleInfo.getvehicleToDisplay().equals(LocationController.getVehicles().get(i))){
+                            selectedVehicle = LocationController.getVehicles().get(i);
+                        }
+                    }
+                    selectedVehicle.setUsername(userName.getText().toString());
+                    selectedVehicle.setPassword(password.getText().toString());
                     NavHostFragment.findNavController(CompanyEditVehicle.this)
                             .navigate(R.id.action_companyEditVehicle_to_companyVehicleInfo);
                 }else if(status == NEW) {
                     //set the new location of the stop here
                     //companyID??
-                    CompanyVehicleFragment.vehiclesList.add(new Vehicle(userName.getText().toString(),password.getText().toString(),"companyID"));
+                    CompanyVehicleFragment.vehiclesList.add(new Vehicle(userName.getText().toString(),password.getText().toString(),DriverCompanyLoginFragment.getCompanyID()));
                     NavHostFragment.findNavController(CompanyEditVehicle.this)
                             .navigate(R.id.action_companyEditVehicle_to_companyVehicleFragment);
                 }

@@ -60,7 +60,7 @@ public class DriverMapsFragment extends Fragment {
         public void onLocationChange(LocationPlus location) {
 
             MainActivity.driverLocationHandler.updateGPS();
-            //MainActivity.vehicleUpdater.updateVehicle();
+            DriverCompanyLoginFragment.vehicleUpdater.updateVehicle();
             drivermMap.clear();
             drivermMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
 
@@ -226,6 +226,14 @@ public class DriverMapsFragment extends Fragment {
             public void onClick(View v) {
                 if(selectedButton != null){
                     confirmed = true;//check confirmed later to see if the driver has hit the button
+                    Route selectedRoute = null;
+                    for(int i = 0; i < LocationController.getRoutes().size(); i++){
+                        if(routesList.get(selectedButton.getId()).equals(LocationController.getRoutes().get(i))){
+                            selectedRoute = LocationController.getRoutes().get(i);
+                        }
+                    }
+                    if(DriverCompanyLoginFragment.getSelfVehicle() != null)
+                        selectedRoute.addActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle());
                     binding.cancel.setVisibility(View.VISIBLE);
                     binding.cancel.setOnClickListener(new View.OnClickListener() {
                         @Override

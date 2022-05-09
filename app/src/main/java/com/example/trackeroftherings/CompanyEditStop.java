@@ -141,12 +141,18 @@ public class CompanyEditStop extends Fragment {
 
                 if(status == EDIT) {
                     //set the new location of the stop here
-                    CompanyStopInfo.getStopToDisplay().setName(stopName.getText().toString());
+                    Stop selectedStop = null;
+                    for(int i = 0; i < LocationController.getStops().size(); i++){
+                        if(CompanyStopInfo.getStopToDisplay().equals(LocationController.getStops().get(i))){
+                            selectedStop = LocationController.getStops().get(i);
+                        }
+                    }
+                    selectedStop.setName(stopName.getText().toString());
                     NavHostFragment.findNavController(CompanyEditStop.this)
                             .navigate(R.id.action_companyEditStop_to_companyStopInfoFragment);
                 }else if(status == NEW) {
                     //set the new location of the stop here
-                    companyStopsFragment.stopsList.add(new Stop(stopName.getText().toString(), new LocationPlus("provider1"), "id1"));
+                    companyStopsFragment.stopsList.add(new Stop(stopName.getText().toString(), new LocationPlus("provider1"), DriverCompanyLoginFragment.getCompanyID()));
                     NavHostFragment.findNavController(CompanyEditStop.this)
                             .navigate(R.id.action_companyEditStop_to_companyStopsFragment);
                 }

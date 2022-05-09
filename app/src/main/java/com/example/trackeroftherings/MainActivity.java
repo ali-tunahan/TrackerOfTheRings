@@ -37,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
     public OnLocationUpdateListener driverOnLocationUpdateListener;
     public OnLocationUpdateListener userRoutesOnLocationUpdateListener;
     public OnLocationUpdateListener userStopsOnLocationUpdateListener;
-    //public static Vehicle kendrick = new Vehicle("kendrick", "123456", "123");
-    public static VehicleUpdater vehicleUpdater;
+    public MainActivity mainActivity = this;
+
+    //public static VehicleUpdater vehicleUpdater;
     public static LocationPlus dummyLoc = new LocationPlus();
 
     public static Stop dummyStop = new Stop("name", dummyLoc, "123");
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         LocationPlus greerLocationPlus = new LocationPlus(greerLocation);
         greer.setLocation(greerLocationPlus);
         DatabaseUtility.add(greer);
-        //vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
+
 
         LoginUtility utilityObject = new LoginUtility();
 
@@ -176,4 +177,7 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+
 }

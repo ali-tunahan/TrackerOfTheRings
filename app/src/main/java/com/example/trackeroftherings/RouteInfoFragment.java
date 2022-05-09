@@ -147,7 +147,11 @@ public class RouteInfoFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         bottomBar.hide();
-                        StopInfoFragment.setStopToDisplay(routeToDisplay.getStopsList().get(finalI));
+                        for(int i = 0; i < LocationController.getStops().size(); i++){
+                            if(LocationController.getStops().get(i).equals(routeToDisplay.getStopsList().get(finalI))){
+                                StopInfoFragment.setStopToDisplay(LocationController.getStops().get(i));
+                            }
+                        }
                         NavHostFragment.findNavController(RouteInfoFragment.this)
                                 .navigate(R.id.action_routeInfoFragment_to_stopInfoFragment);
                     }
