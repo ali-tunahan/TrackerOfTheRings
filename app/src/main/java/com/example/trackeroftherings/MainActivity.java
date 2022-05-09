@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         Vehicle v1 = new Vehicle("tunus driver","123456" ,"123");
         Vehicle v2 = new Vehicle("nizamiye driver","123456","123");
 
+
         r1.addStop(s1);
         r1.addStop(s2);
         r1.addStop(s3);
@@ -139,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
         DatabaseUtility.add(r1);
         DatabaseUtility.add(r2);
         DatabaseUtility.add(v1);
-        DatabaseUtility.add(v2);
-        */
+        DatabaseUtility.add(v2);*/
+
     }
 
     public MainActivity getMain() {

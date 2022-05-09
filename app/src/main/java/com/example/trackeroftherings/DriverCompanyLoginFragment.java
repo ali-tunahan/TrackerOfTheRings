@@ -49,21 +49,23 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
                 String aPassword = binding.editTextPassword.getText().toString();
                 String aCompanyID = binding.editTextCompanyID.getText().toString();
                 if(loginState == COMPANY ){
-                    //if(LoginUtility.companyLogin(aUsername, aPassword, aCompanyID) != null){
+                    if(LoginUtility.companyLogin(aUsername, aPassword, aCompanyID) != null){
                         //navigate to company front page
                         companyID = aCompanyID;
                         controller = new LocationController(companyID);
-                    //}
-                    NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
-                            .navigate(R.id.action_driverLoginFragment_to_companyMapsFragment);
+                        NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
+                                .navigate(R.id.action_driverLoginFragment_to_companyMapsFragment);
+                    }
+
                 }else if(loginState == DRIVER ){
-                    //if(LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID) != null){
+                    if(LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID) != null){
                         // navigate to driver front page
                         companyID = aCompanyID;
                         controller = new LocationController(companyID);
-                    //}
-                    NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
-                            .navigate(R.id.action_driverLoginFragment_to_driverMapsFragment);
+                        NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
+                                .navigate(R.id.action_driverLoginFragment_to_driverMapsFragment);
+                    }
+
                 }
 
             }

@@ -49,17 +49,20 @@ public class LoginUtility {
         if (vehicles.size() == 0){
             return null;
         }
-        Vehicle v = null;
+        ArrayList<Vehicle> v = new ArrayList<Vehicle>();
         for (int i = 0; i < vehicles.size(); i++) {
             if (vehicles.get(i).getCompanyID().equals(companyID)){
-                v = vehicles.get(i);
+                v.add(vehicles.get(i));
             }
         }
-        if (v == null){
+        if (v.size() == 0){
             return null;
         }
-        if (v.getPassword().equals(password) && v.getUsername().equals(username)){
-            return v;
+        for (int i = 0; i < v.size(); i++) {
+            Vehicle currentVehicle = v.get(i);
+            if (currentVehicle.getPassword().equals(password) && currentVehicle.getUsername().equals(username)){
+                return currentVehicle;
+            }
         }
         return null;
     }
