@@ -66,7 +66,7 @@ public class LocationController {
     }
 
     //problem with multiple vehicles with same company id
-    private void updateVehicleLocations(){
+    public void updateVehicleLocations(){
         DatabaseReference reference = DatabaseUtility.vehiclesReference;
         reference.addValueEventListener(new ValueEventListener() {
             @Override

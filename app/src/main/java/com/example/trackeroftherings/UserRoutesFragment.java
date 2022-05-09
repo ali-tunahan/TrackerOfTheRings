@@ -41,12 +41,38 @@ public class UserRoutesFragment extends Fragment {
     private static boolean isEntered = false;
     public static List<Route> routesList = new ArrayList<Route>();
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            MainActivity.userRoutesLocationHandler.updateGPS();
+            SecondFragment.getController().updateVehicleLocations();
+
+            mMap.clear();
+            for(int i = 0; i < LocationController.getVehicles().size(); i++) {
+                Vehicle currentVehicle = LocationController.getVehicles().get(i);
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                    System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                }
+            }
+            mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -64,6 +90,16 @@ public class UserRoutesFragment extends Fragment {
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
+            googleMap.clear();
+            MainActivity.userRoutesLocationHandler.startLocationUpdates();
+            MainActivity.userRoutesLocationHandler.updateGPS();
+            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+
         }
     };
 

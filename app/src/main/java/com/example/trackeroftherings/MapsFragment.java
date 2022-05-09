@@ -46,9 +46,17 @@ public class MapsFragment extends Fragment {
         @Override
         public void onLocationChange(LocationPlus location) {
             MainActivity.locationHandler.updateGPS();
-            mMap.clear();
-            mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
+            SecondFragment.getController().updateVehicleLocations();
 
+            mMap.clear();
+            for(int i = 0; i < LocationController.getVehicles().size(); i++) {
+                Vehicle currentVehicle = LocationController.getVehicles().get(i);
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                    System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                }
+            }
+            mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.locationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.locationHandler.getmLastKnownLocation().getLongitude()));
 
         }
 
