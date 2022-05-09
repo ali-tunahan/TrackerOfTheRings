@@ -28,6 +28,17 @@ public class Stop implements Locatable, Serializable
 		this.routesList = routesList;
 		this.companyID = companyID;
 	}
+
+	/**
+	 * Copy constructor
+	 */
+	public Stop(Stop s) {
+		this.name = s.getName();
+		this.location = s.getLocation();
+		this.routesList = s.getRoutesList();
+		this.companyID = s.getCompanyID();
+	}
+
 	/**
 	 * Empty constructor
 	 */

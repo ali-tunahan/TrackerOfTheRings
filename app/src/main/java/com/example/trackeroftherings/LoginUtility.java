@@ -1,5 +1,14 @@
 package com.example.trackeroftherings;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +16,27 @@ import java.util.List;
  * Class for login purposes for Vehicles
  */
 public class LoginUtility {
+    private static List<Company> company;
+    private static List<Vehicle> vehicles;
+    
+    public LoginUtility(){
+        vehicles = new ArrayList<Vehicle>();
+        readVehicles(new FirebaseCallbackVehicles() {
+            @Override
+            public void onCallback(List<Vehicle> list) {
+                vehicles = list;
+            }
+        });
+
+        company = new ArrayList<Company>();
+        readCompany(new FirebaseCallbackCompany() {
+            @Override
+            public void onCallback(List<Company> companies) {
+                company = companies;
+            }
+        });
+    }
+    
     /**
      * Finds the correct Vehicle object for the input credentials and returns it
      * If no such object exists returns null
@@ -16,14 +46,22 @@ public class LoginUtility {
      * @return Vehicle object that credentials are correct for
      */
     public static Vehicle vehicleLogin(String username, String password, String companyID){
-        List<Vehicle> vehicles = LocationController.getVehicles();
-        Vehicle result = null;
-        for(Vehicle v : vehicles){
-            if (v.getPassword().equals(password) && v.getUsername().equals(username)){
-                result = v;
+        if (vehicles.size() == 0){
+            return null;
+        }
+        Vehicle v = null;
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getCompanyID().equals(companyID)){
+                v = vehicles.get(i);
             }
         }
-        return result;
+        if (v == null){
+            return null;
+        }
+        if (v.getPassword().equals(password) && v.getUsername().equals(username)){
+            return v;
+        }
+        return null;
     }
 
     /**
@@ -33,12 +71,73 @@ public class LoginUtility {
      * @param password
      * @param companyID
      * @return Company object that credentials are correct for
+     * if it does not exist returns null
      */
     public static Company companyLogin(String username, String password, String companyID){
-        Company result = LocationController.getCompany();//Ideally will return a single Company
-            //if (result.getPassword().equals(password) && result.getUsername().equals(username)){
-                return result;
-            //}
-        //return null;
+        if (company.size() == 0){
+            return null;
+        }
+        Company c = null;
+        for (int i = 0; i < company.size(); i++) {
+            if (company.get(i).getCompanyID().equals(companyID)){
+                c = company.get(i);
+            }
+        }
+        if (c == null){
+            return null;
+        }
+        if (c.getPassword().equals(password) && c.getUsername().equals(username)){
+                return c;
+        }
+        return null;
+    }
+    
+    //read methods
+    private void readVehicles(FirebaseCallbackVehicles firebaseCallback){
+        DatabaseReference reference = DatabaseUtility.vehiclesReference;
+        ArrayList<Vehicle> matchingVehicles = new ArrayList<Vehicle>();
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()){
+                    Vehicle currentVehicle = data.getValue(Vehicle.class);
+                    matchingVehicles.add(currentVehicle);
+                }
+
+                firebaseCallback.onCallback(matchingVehicles);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void readCompany(FirebaseCallbackCompany firebaseCallback){
+        DatabaseReference reference = DatabaseUtility.companiesReference;
+        ArrayList<Company> matchingCompany = new ArrayList<Company>();
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()){
+                    Company currentCompany = data.getValue(Company.class);
+                        matchingCompany.add(currentCompany);
+                }
+                firebaseCallback.onCallback(matchingCompany);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    
+    //callback interfaces
+    private interface FirebaseCallbackVehicles{
+        void onCallback(List<Vehicle> list);
+    }
+    
+    private interface FirebaseCallbackCompany{
+        void onCallback(List<Company> companies);
     }
 }
