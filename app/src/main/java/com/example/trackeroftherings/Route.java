@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 public class Route implements Serializable
 {
@@ -31,6 +32,16 @@ public class Route implements Serializable
         this.stopsList = stopsList;
         this.activeVehicles = activeVehicles;
         this.companyID = companyID;
+    }
+
+    /**
+     * Copy constructor
+     */
+    public Route(Route route) {
+        this.name = route.getName();
+        this.stopsList = route.getStopsList();
+        this.activeVehicles = route.getActiveVehicles();
+        this.companyID = route.getCompanyID();
     }
 
     /**
@@ -62,16 +73,22 @@ public class Route implements Serializable
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name, boolean writeToDatabase) {
         this.name = name;
+        if (writeToDatabase){
+            DatabaseUtility.changeRouteName(this, name);
+        }
     }
 
     public List<Stop> getStopsList() {
         return stopsList;
     }
 
-    public void setStopsList(List<Stop> stopsList) {
+    public void setStopsList(List<Stop> stopsList, boolean writeToDatabase) {
         this.stopsList = stopsList;
+        if (writeToDatabase){
+            DatabaseUtility.changeStopsList(this,stopsList);
+        }
     }
 
     public void setActiveVehicles(List<Vehicle> activeVehicles) {
@@ -81,8 +98,6 @@ public class Route implements Serializable
     public String getCompanyID(){
         return this.companyID;
     }
-
-
 
     public void addStop(int i, Stop aStop){
         //Adding the new route to the stop reference in the database
@@ -131,8 +146,12 @@ public class Route implements Serializable
        
     }
 
-    public void addActiveVehicle(Vehicle aVehicle){
+    public void addActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
         this.activeVehicles.add(aVehicle);
+        if (writeToDatabase){
+            DatabaseUtility.changeActiveVehicles(this,aVehicle);
+        }
+
     }
 
     public void controlVehiclesActivity(){
@@ -140,7 +159,6 @@ public class Route implements Serializable
             if(!(aVehicle.isActive())){
                 activeVehicles.remove(aVehicle);
             }
-            
         }
     }
 

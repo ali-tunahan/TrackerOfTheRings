@@ -196,6 +196,7 @@ public class CompanyEditRoute extends Fragment {
 
                 if(status == EDIT) {
                     //set the new location of the stop here
+                    tempRoute.setName(routeName.getText().toString(),true);
                     Route selectedRoute = null;
                     for(int i = 0; i < LocationController.getRoutes().size(); i++){
                         if(tempRoute.equals(LocationController.getRoutes().get(i))){
@@ -209,6 +210,8 @@ public class CompanyEditRoute extends Fragment {
                             .navigate(R.id.action_companyEditRoute_to_companyRouteInfoFragment);
                 }else if(status == NEW) {
                     //set the new location of the stop here
+                    tempRoute.setName(routeName.getText().toString(),true);
+                    companyRoutesFragment.getRoutesList().add(tempRoute);
                     Route selectedRoute = null;
                     for(int i = 0; i < LocationController.getRoutes().size(); i++){
                         if(tempRoute.equals(LocationController.getRoutes().get(i))){

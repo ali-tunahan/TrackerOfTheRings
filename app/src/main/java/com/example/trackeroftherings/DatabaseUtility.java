@@ -187,4 +187,53 @@ public class DatabaseUtility {
         });
     }
 
+    /**
+     * Change the name of a Stop in the Database
+     * @param oldStop
+     * @param newName
+     */
+    public static void changeStopName(Stop oldStop, String newName){
+        Stop newStop = new Stop(oldStop);
+        newStop.setName(newName);
+        change(oldStop,newStop);
+    }
+
+    /**
+     * Change the name of a Route in the Database
+     * @param oldRoute
+     * @param newName
+     */
+    public static void changeRouteName(Route oldRoute, String newName){
+        Route newRoute = new Route(oldRoute);
+        newRoute.setName(newName,false);
+        change(oldRoute,newRoute);
+    }
+
+    /**
+     * Change the stops list of Route in database
+     * @param oldRoute
+     * @param stops
+     */
+    public static void changeStopsList(Route oldRoute, List<Stop> stops){
+        Route newRoute = new Route(oldRoute);
+        newRoute.setStopsList(stops,false);
+        change(oldRoute,newRoute);
+    }
+
+    public static void changeStopsLocation(Stop oldStop, LocationPlus locationPlus){
+        Stop newStop = new Stop(oldStop);
+        newStop.setLocationLocally(locationPlus);
+        change(oldStop,newStop);
+    }
+
+    public static void changeActiveVehicles(Route oldRoute, Vehicle vehicle){
+        Route newRoute = new Route(oldRoute);
+        newRoute.addActiveVehicle(vehicle,false);
+        change(oldRoute,newRoute);
+    }
+
+
+
+
+
 }
