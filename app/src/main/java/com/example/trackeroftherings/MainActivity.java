@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
 
+        LoginUtility utilityObject = new LoginUtility();
+
         //used for uploading some objects to database do not delete
         /*
         Company c1 = new Company("Fellowship of the Ring ltd.şti","123456","123" );
