@@ -15,6 +15,7 @@ public class SecondFragment extends Fragment {
 
     private FragmentSecondBinding binding;
     private static String usersCompanyID = ""; //Should be accessed by other classes so it is public and static
+    private static LocationController controller;
 
     public static String getUsersCompanyID() {
         return usersCompanyID;
@@ -43,12 +44,20 @@ public class SecondFragment extends Fragment {
                 //if (!DatabaseUtility.readCompanies(inputCompanyID).isEmpty()) {//If there is a company corresponding to the companyID
                     usersCompanyID = inputCompanyID;
                 //}
-                LocationController controller = new LocationController(usersCompanyID);
+                controller = new LocationController(usersCompanyID);
 
                 NavHostFragment.findNavController(SecondFragment.this)
                         .navigate(R.id.action_SecondFragment_to_mapsFragment);
             }
         });
+    }
+
+    public static LocationController getController() {
+        return controller;
+    }
+
+    public static void setController(LocationController controller) {
+        SecondFragment.controller = controller;
     }
 
     @Override
