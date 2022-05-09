@@ -69,9 +69,53 @@ public class MainActivity extends AppCompatActivity {
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
 
+        //used for uploading some objects to database do not delete
+        /*
+        Company c1 = new Company("Fellowship of the Ring ltd.şti","123456","123" );
 
+        Stop s1 = new Stop("bilkent", new LocationPlus(), "123");
+        Stop s2 = new Stop("dorm", new LocationPlus(), "123");
+        Stop s3 = new Stop("tunus", new LocationPlus(), "123");
 
+        DatabaseUtility.add(s1);
+        DatabaseUtility.add(s2);
+        DatabaseUtility.add(s3);
 
+        Route r1 = new Route("Tunus Route" , "123");
+        Route r2 = new Route("Nizamiye Route", "123");
+
+        Vehicle v1 = new Vehicle("tunus driver","123456" ,"123");
+        Vehicle v2 = new Vehicle("nizamiye driver","123456","123");
+
+        r1.addStop(s1);
+        r1.addStop(s2);
+        r1.addStop(s3);
+
+        r2.addStop(s1);
+        r2.addStop(s2);
+
+        c1.addStop(s1);
+        c1.addStop(s2);
+        c1.addStop(s3);
+
+        c1.addRoute(r1);
+        c1.addRoute(r2);
+
+        v1.setCurrentRoute(r1);
+        v2.setCurrentRoute(r2);
+
+        v1.setActive(true);
+        v2.setActive(true);
+
+        c1.addVehicle(v1);
+        c1.addVehicle(v2);
+
+        DatabaseUtility.add(c1);
+        DatabaseUtility.add(r1);
+        DatabaseUtility.add(r2);
+        DatabaseUtility.add(v1);
+        DatabaseUtility.add(v2);
+        */
     }
 
     public MainActivity getMain() {

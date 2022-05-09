@@ -131,10 +131,10 @@ public class CompanyStopInfo extends Fragment {
         TextView text = bottomBar.findViewById(R.id.info);
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
         text.setText(stopToDisplay.getName());
-        if(stopToDisplay.getRouteList() != null) {//nothing to change here, it seems
-            for(int i = 0; i < stopToDisplay.getRouteList().size(); i++) {
+        if(stopToDisplay.getRoutesList() != null) {//nothing to change here, it seems
+            for(int i = 0; i < stopToDisplay.getRoutesList().size(); i++) {
                 Button b = new Button(this.getContext());
-                b.setText(stopToDisplay.getRouteList().get(i).getName());
+                b.setText(stopToDisplay.getRoutesList().get(i).getName());
                 b.setId(i);
                 b.setTextSize(20);
                 b.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -147,7 +147,7 @@ public class CompanyStopInfo extends Fragment {
                     @Override
                     public void onClick(View v) {
                         bottomBar.hide();
-                        CompanyRouteInfoFragment.setRouteToDisplay(stopToDisplay.getRouteList().get(finalI));
+                        CompanyRouteInfoFragment.setRouteToDisplay(stopToDisplay.getRoutesList().get(finalI));
                         NavHostFragment.findNavController(CompanyStopInfo.this)
                                 .navigate(R.id.action_companyStopInfoFragment_to_companyRouteInfoFragment);
                     }
