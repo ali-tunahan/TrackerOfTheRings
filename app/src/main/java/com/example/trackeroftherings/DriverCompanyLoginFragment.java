@@ -11,16 +11,16 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trackeroftherings.databinding.FragmentDriverLoginBinding;
 
-public class DriverLoginFragment extends Fragment {//change the name later, this is both for companies and drivers
+public class DriverCompanyLoginFragment extends Fragment {//change the name later, this is both for companies and drivers
 
     private FragmentDriverLoginBinding binding;
     private static int loginState;
     public static final int COMPANY = 0;
     public static final int DRIVER = 1;
-    private static String driversCompanyID = ""; //public since it should be used outside of this class
+    private static String companyID = ""; //public since it should be used outside of this class
 
-    public static String getDriversCompanyID() {
-        return driversCompanyID;
+    public static String getCompanyID() {
+        return companyID;
     }//maybe static??
 
     public static void setLoginState(int aLoginState) {
@@ -45,21 +45,22 @@ public class DriverLoginFragment extends Fragment {//change the name later, this
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//check credentials
-                String username = binding.editTextDriverUsername.toString();
-                String password = binding.editTextPassword.toString();
-                String companyID = binding.editTextCompanyID.toString();
+                String aUsername = binding.editTextDriverUsername.toString();
+                String aPassword = binding.editTextPassword.toString();
+                String aCompanyID = binding.editTextCompanyID.toString();
                 if(loginState == COMPANY ){
-                    if(LoginUtility.companyLogin(username, password, companyID) != null){
+                    if(LoginUtility.companyLogin(aUsername, aPassword, aCompanyID) != null){
                         //navigate to company front page
-
+                        companyID = aCompanyID;
                     }
-                    NavHostFragment.findNavController(DriverLoginFragment.this)//put this into the if statement later, this is here for testing
+                    NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
                             .navigate(R.id.action_driverLoginFragment_to_companyMapsFragment);
                 }else if(loginState == DRIVER ){
-                    if(LoginUtility.vehicleLogin(username, password, companyID) != null){
+                    if(LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID) != null){
                         // navigate to driver front page
+                        companyID = aCompanyID;
                     }
-                    NavHostFragment.findNavController(DriverLoginFragment.this)//put this into the if statement later, this is here for testing
+                    NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
                             .navigate(R.id.action_driverLoginFragment_to_driverMapsFragment);
                 }
 
