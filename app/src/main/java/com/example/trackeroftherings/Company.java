@@ -137,6 +137,21 @@ public class Company extends Account implements Serializable
 	}
 
 
+	public void checkIfCompanyHaveTheStops(Route aRoute){
+		for(int i = 0; i < aRoute.getStopsList().size();i++){
+			boolean contain = false;
+			for(int j = 0; j < this.getStops().size();j++){
+				if(aRoute.getStopsList().get(i).equals(this.getStops().get(j))){
+					contain = true;
+				}
+			}
+			if(!(contain)){
+				this.addStop(aRoute.getStopsList().get(i));
+			}
+		}
+	}
+
+
 
 
 }
