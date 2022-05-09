@@ -98,7 +98,7 @@ public class Vehicle extends Account implements Locatable, Serializable
             this.history.put(this.getNextStop(), instant.toString());
             
             Route newRoute = new Route();
-            newRoute.setName(currentRoute.getName());
+            newRoute.setName(currentRoute.getName(),false);
             List<Stop> copyStops = new ArrayList<Stop>();
 
             for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
@@ -116,7 +116,7 @@ public class Vehicle extends Account implements Locatable, Serializable
 	 */
     public void setCurrentRoute(Route aCurrentRoute){
         Route copy = new Route();
-        copy.setName(aCurrentRoute.getName());
+        copy.setName(aCurrentRoute.getName(),false);
 
         List<Stop> copyStops = new ArrayList<Stop>();
 
@@ -124,8 +124,8 @@ public class Vehicle extends Account implements Locatable, Serializable
             copyStops.add(aCurrentRoute.getStopsList().get(i));
         }
         this.currentRoute = copy;
-        if(!(aCurrentRoute.getActiveVehicles().contains(this))){ //if the routes current vehicle ArrayList does not include this vehicle
-            aCurrentRoute.addActiveVehicle(this);
+        if(!(aCurrentRoute.getActiveVehicles().contains(this))){ //if the routes of the current vehicle ArrayList does not include this vehicle
+            aCurrentRoute.addActiveVehicle(this,true);
         }
     }
 

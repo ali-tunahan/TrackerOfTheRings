@@ -196,13 +196,13 @@ public class CompanyEditRoute extends Fragment {
 
                 if(status == EDIT) {
                     //set the new location of the stop here
-                    tempRoute.setName(routeName.getText().toString());
+                    tempRoute.setName(routeName.getText().toString(),true);
                     tempRoute = null;
                     NavHostFragment.findNavController(CompanyEditRoute.this)
                             .navigate(R.id.action_companyEditRoute_to_companyRouteInfoFragment);
                 }else if(status == NEW) {
                     //set the new location of the stop here
-                    tempRoute.setName(routeName.getText().toString());
+                    tempRoute.setName(routeName.getText().toString(),true);
                     companyRoutesFragment.getRoutesList().add(tempRoute);
                     tempRoute = null;
                     NavHostFragment.findNavController(CompanyEditRoute.this)

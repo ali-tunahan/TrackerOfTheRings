@@ -197,7 +197,7 @@ public class CompanyAddStopToRoute extends Fragment {
         bottomBar.findViewById(R.id.floatingActionButtonAddStopToRouteConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CompanyEditRoute.getTempRoute().setStopsList(new ArrayList<Stop>());
+                CompanyEditRoute.getTempRoute().setStopsList(new ArrayList<Stop>(),true);
                 for (Stop s : stopsListToAdd) {
 
                     CompanyEditRoute.getTempRoute().addStop(s);
