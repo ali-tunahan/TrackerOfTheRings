@@ -84,6 +84,7 @@ public class Company extends Account implements Serializable
 	 * @param newRoute
 	 */
 	public void addRoute(Route newRoute){
+		checkIfCompanyHaveTheStops(newRoute);
 		routes.add(newRoute);
 	}
 
