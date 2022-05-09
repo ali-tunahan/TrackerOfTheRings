@@ -39,7 +39,7 @@ public class companyRoutesFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+    private static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -133,7 +133,7 @@ public class companyRoutesFragment extends Fragment {
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
-        bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
+        bottomBar.setContentView(R.layout.bottom_dialog_company_stops_routes_vehicles);
         TextView text = new TextView(this.getContext());
         text.append("ROUTES LIST");
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
@@ -175,6 +175,15 @@ public class companyRoutesFragment extends Fragment {
                 }
             });
         }
+        bottomBar.findViewById(R.id.floatingActionButton2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomBar.hide();
+                CompanyEditRoute.setStatus(CompanyEditRoute.NEW);
+                NavHostFragment.findNavController(companyRoutesFragment.this)
+                        .navigate(R.id.action_companyRoutesFragment_to_companyEditRoute);
+            }
+        });
         isEntered = true;
         bottomBar.show();
     }

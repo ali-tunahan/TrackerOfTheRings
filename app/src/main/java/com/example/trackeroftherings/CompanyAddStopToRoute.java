@@ -36,6 +36,7 @@ public class CompanyAddStopToRoute extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
+
     private static List<Stop> stopsListToAdd = new ArrayList<Stop>(); //later change with actual stops list stop array list
     public static List<Stop> stopsList = new ArrayList<Stop>(); //later change with actual stops list stop array list
 
@@ -45,6 +46,11 @@ public class CompanyAddStopToRoute extends Fragment {
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+
+    public static List<Stop> getStopsListToAdd() {
+        return stopsListToAdd;
+    }
 
     public static void addStopsListToAdd(Stop s) {
         CompanyAddStopToRoute.stopsListToAdd.add(s);
@@ -85,7 +91,7 @@ public class CompanyAddStopToRoute extends Fragment {
             @Override
             public void onClick(View v) {
                 NavHostFragment.findNavController(CompanyAddStopToRoute.this)
-                        .navigate(R.id.action_companyStopsFragment_to_companyMapsFragment);
+                        .navigate(R.id.action_companyAddStopToRoute2_to_companyMapsFragment);
             }
         });
 
@@ -124,6 +130,7 @@ public class CompanyAddStopToRoute extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
+        stopsListToAdd.clear();
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_company_addstop_toroute);
         TextView text = new TextView(this.getContext());
@@ -165,7 +172,8 @@ public class CompanyAddStopToRoute extends Fragment {
             b.setTextSize(20);
             b.setTextColor(Color.parseColor("#FFFFFFFF"));
             b.setBackgroundColor(R.color.teal_200);
-            if(stopsListToAdd.contains(stopsList.get(i))) {
+            if(CompanyEditRoute.getTempRoute().getStopsList().contains(stopsList.get(i))) {
+                stopsListToAdd.add(stopsList.get(i));
                 b.setBackgroundColor(Color.parseColor("#DC952D"));
             }
             b.setGravity(Gravity.CENTER);
@@ -189,12 +197,13 @@ public class CompanyAddStopToRoute extends Fragment {
         bottomBar.findViewById(R.id.floatingActionButtonAddStopToRouteConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CompanyEditRoute.getTempRoute().setStopsList(new ArrayList<Stop>());
+                for (Stop s : stopsListToAdd) {
 
-                CompanyRouteInfoFragment.getRouteToDisplay().setStopsList(new ArrayList<Stop>());
-                for(Stop s: stopsListToAdd){
-
-                    CompanyRouteInfoFragment.getRouteToDisplay().addStop(s);
+                    CompanyEditRoute.getTempRoute().addStop(s);
                 }
+
+                stopsListToAdd.clear();
                 bottomBar.hide();
                 NavHostFragment.findNavController(CompanyAddStopToRoute.this)
                         .navigate(R.id.action_companyAddStopToRoute2_to_companyEditRoute);

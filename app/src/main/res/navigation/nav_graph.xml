@@ -269,5 +269,8 @@
         <action
             android:id="@+id/action_companyAddStopToRoute2_to_companyEditRoute"
             app:destination="@id/companyEditRoute" />
+        <action
+            android:id="@+id/action_companyAddStopToRoute2_to_companyMapsFragment"
+            app:destination="@id/companyMapsFragment" />
     </fragment>
 </navigation>

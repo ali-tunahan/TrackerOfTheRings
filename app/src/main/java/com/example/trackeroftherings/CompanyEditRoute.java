@@ -37,6 +37,7 @@ public class CompanyEditRoute extends Fragment {
     public static final int EMPTY = 0;
     public static final int EDIT = 1;
     public static final int NEW = 2;
+    private static Route tempRoute = null;
     private static int status = EMPTY;
     private TextView selectedStopText = null;
     private int selectedStopIndex = 0;
@@ -49,6 +50,12 @@ public class CompanyEditRoute extends Fragment {
 
     public static void setStatus(int status) {
         CompanyEditRoute.status = status;
+    }
+    public static int getStatus() {
+        return status;
+    }
+    public static Route getTempRoute() {
+        return tempRoute;
     }
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -87,7 +94,7 @@ public class CompanyEditRoute extends Fragment {
             @Override
             public void onClick(View v) {
                 NavHostFragment.findNavController(CompanyEditRoute.this)
-                        .navigate(R.id.action_companyEditStop_to_companyMapsFragment);
+                        .navigate(R.id.action_companyEditRoute_to_companyMapsFragment);
             }
         });
 
@@ -119,62 +126,68 @@ public class CompanyEditRoute extends Fragment {
             }
         };
  */
+        if(tempRoute == null) {
+            if (status == EDIT)
+                tempRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+            else if (status == NEW)
+                tempRoute = new Route("", DriverCompanyLoginFragment.getCompanyID());
+        }
         showBottomSheetDialog();
         return binding.getRoot();
     }
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
+
         BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_edit_route);
-        Route editRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+
         EditText routeName = bottomBar.findViewById(R.id.editTextRouteName);
         if(status == EDIT) {
             routeName.setText(CompanyRouteInfoFragment.getRouteToDisplay().getName());
         }
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
+            for (int i = 0; i < tempRoute.getStopsList().size(); i++) {
+                TextView stopText = new TextView(this.getContext());
+                stopText.setText(tempRoute.getStopsList().get(i).getName());
+                stopText.setId(i);
+                stopText.setTextSize(20);
+                stopText.setTextColor(Color.parseColor("#FFFFFFFF"));
+                stopText.setBackgroundColor(R.color.teal_200);
+                stopText.setGravity(Gravity.CENTER);
+                stopText.setPadding(15, 10, 15, 10);
+                stopText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+                int finalI = stopText.getId();
+                stopText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (selectedStopText == null) {
+                            stopText.setBackgroundColor(Color.parseColor("#DC952D"));
+                            selectedStopText = stopText;
+                            selectedStopIndex = stopText.getId();
+                        } else {
+                            int biggerIndex = Math.max(selectedStopIndex, stopText.getId());
+                            int smallerIndex = Math.min(selectedStopIndex, stopText.getId());
+                            float tempY = stopText.getY();
+                            stopText.setY(selectedStopText.getY());
+                            selectedStopText.setY(tempY);
+                            selectedStopText.setBackgroundColor(R.color.teal_200);
+                            Stop tempStop = tempRoute.getStopsList().get(smallerIndex);
+                            tempRoute.getStopsList().remove(smallerIndex);
+                            tempRoute.getStopsList().add(smallerIndex, tempRoute.getStopsList().get(biggerIndex - 1));
+                            tempRoute.getStopsList().remove(biggerIndex);
+                            tempRoute.getStopsList().add(biggerIndex, tempStop);
+                            int tempTextIndex = stopText.getId();
+                            stopText.setId(selectedStopText.getId());
+                            selectedStopText.setId(tempTextIndex);
+                            selectedStopText = null;
+                            selectedStopIndex = 0;
 
-        for(int i = 0; i < editRoute.getStopsList().size(); i++){
-            TextView stopText = new TextView(this.getContext());
-            stopText.setText(editRoute.getStopsList().get(i).getName());
-            stopText.setId(i);
-            stopText.setTextSize(20);
-            stopText.setTextColor(Color.parseColor("#FFFFFFFF"));
-            stopText.setBackgroundColor(R.color.teal_200);
-            stopText.setGravity(Gravity.CENTER);
-            stopText.setPadding(15, 10, 15, 10);
-            stopText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-            int finalI = stopText.getId();
-            stopText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(selectedStopText == null){
-                        stopText.setBackgroundColor(Color.parseColor("#DC952D"));
-                        selectedStopText = stopText;
-                        selectedStopIndex = stopText.getId();
+                        }
                     }
-                    else{
-                        int biggerIndex = Math.max(selectedStopIndex, stopText.getId());
-                        int smallerIndex = Math.min(selectedStopIndex, stopText.getId());
-                        float tempY = stopText.getY();
-                        stopText.setY(selectedStopText.getY());
-                        selectedStopText.setY(tempY);
-                        selectedStopText.setBackgroundColor(R.color.teal_200);
-                        Stop tempStop = editRoute.getStopsList().get(smallerIndex);
-                        editRoute.getStopsList().remove(smallerIndex);
-                        editRoute.getStopsList().add(smallerIndex, editRoute.getStopsList().get(biggerIndex - 1));
-                        editRoute.getStopsList().remove(biggerIndex);
-                        editRoute.getStopsList().add(biggerIndex,tempStop);
-                        int tempTextIndex = stopText.getId();
-                        stopText.setId(selectedStopText.getId());
-                        selectedStopText.setId(tempTextIndex);
-                        selectedStopText = null;
-                        selectedStopIndex = 0;
+                });
+                linear1.addView(stopText);
 
-                    }
-                }
-            });
-            linear1.addView(stopText);
         }
         bottomBar.findViewById(R.id.floatingActionButtonEditConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,11 +196,15 @@ public class CompanyEditRoute extends Fragment {
 
                 if(status == EDIT) {
                     //set the new location of the stop here
-                    editRoute.setName(routeName.getText().toString());
+                    tempRoute.setName(routeName.getText().toString());
+                    tempRoute = null;
                     NavHostFragment.findNavController(CompanyEditRoute.this)
                             .navigate(R.id.action_companyEditRoute_to_companyRouteInfoFragment);
                 }else if(status == NEW) {
                     //set the new location of the stop here
+                    tempRoute.setName(routeName.getText().toString());
+                    companyRoutesFragment.getRoutesList().add(tempRoute);
+                    tempRoute = null;
                     NavHostFragment.findNavController(CompanyEditRoute.this)
                             .navigate(R.id.action_companyEditRoute_to_companyRoutesFragment);
                 }
