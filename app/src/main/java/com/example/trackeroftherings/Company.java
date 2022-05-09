@@ -101,6 +101,7 @@ public class Company extends Account implements Serializable
 	 */
 	public void addVehicle(Vehicle newVehicle){
 		vehicles.add(newVehicle);
+
 	}
 
 	/**

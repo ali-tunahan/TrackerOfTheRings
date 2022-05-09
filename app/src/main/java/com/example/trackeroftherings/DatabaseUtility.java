@@ -123,7 +123,9 @@ public class DatabaseUtility {
                     Stop currentStop = data.getValue(Stop.class);
                     if (currentStop.equals(oldStop)){
                         String key = data.getKey();
+                        reference.child(key).removeValue();
                         reference.child(key).setValue(newStop);
+                        //reference.child(key).setValue(newStop);
                     }
                 }
             }
@@ -158,4 +160,31 @@ public class DatabaseUtility {
             }
         });
     }
+
+    public static void addRouteToStop(Stop oldStop, Stop newStop){
+        DatabaseReference reference = stopsReference;
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()){
+                    Stop currentStop = data.getValue(Stop.class);
+                    if (currentStop.equals(oldStop)){
+                        String key = data.getKey();
+                        List<Route> existingRoutes = currentStop.getRoutesList();
+                        for(Route currentRoute : existingRoutes){
+                            newStop.addRoute(currentRoute);
+                        }
+
+                        reference.child(key).setValue(newStop);
+                        //reference.child(key).setValue(newStop);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }

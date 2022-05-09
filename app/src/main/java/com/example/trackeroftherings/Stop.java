@@ -107,10 +107,6 @@ public class Stop implements Locatable, Serializable
 	 * Accessor method for routesList
 	 * @return ArrayList<Route> routesList
 	 */
-	public List <Route> getRouteList ()
-	{
-		return this.routesList;
-	}
 
 	/**
 	 * Accessor method for companyID
@@ -134,13 +130,26 @@ public class Stop implements Locatable, Serializable
 		this.routesList.remove(aRoute);
 	}
 
+	public List<Route> getRoutesList() {
+		return routesList;
+	}
+
+	public void setRoutesList(List<Route> routesList) {
+		this.routesList = routesList;
+	}
+
+	public void setCompanyID(String companyID) {
+		this.companyID = companyID;
+	}
+
 	public boolean equals(@NonNull Stop aStop){
-		if(aStop.getCompanyID().equals(this.getCompanyID())&& aStop.getName().equals(this.getName())){
+		if(aStop.getCompanyID().equals(this.getCompanyID()) && aStop.getName().equals(this.getName())){
 			return true;
 		}
 		else{
 			return false;
 		}
 	}
+
 
 }

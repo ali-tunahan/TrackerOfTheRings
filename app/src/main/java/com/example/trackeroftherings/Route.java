@@ -87,7 +87,7 @@ public class Route implements Serializable
     public void addStop(int i, Stop aStop){
         //Adding the new route to the stop reference in the database
         Stop oldStop = aStop;
-        List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRouteList());
+        List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRoutesList());
         newRoutesList.add(this);
         Stop newStop = new Stop(aStop.getName(), aStop.getLocation(), newRoutesList,aStop.getCompanyID());
         DatabaseUtility.change(oldStop,newStop);
@@ -96,10 +96,16 @@ public class Route implements Serializable
     public void addStop(Stop aStop){ //adds the route to stops route list
         //Adding the new route to the stop reference in the database
         Stop oldStop = aStop;
-        List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRouteList());
-        newRoutesList.add(this);
-        Stop newStop = new Stop(aStop.getName(), aStop.getLocation(), newRoutesList,aStop.getCompanyID());
-        DatabaseUtility.change(oldStop,newStop);
+        List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRoutesList());
+        newRoutesList.add(new Route(this.name,this.companyID));
+        /*
+        String name = oldStop.getName();
+        LocationPlus locationPlus = oldStop.getLocation();
+        String companyID = oldStop.getCompanyID();
+        Stop newStop = new Stop(name,locationPlus,companyID);*/
+        oldStop.setRoutesList(newRoutesList);
+        //update the database
+        DatabaseUtility.change(new Stop(oldStop.getName(),oldStop.getLocation(),oldStop.getCompanyID()),oldStop);
         stopsList.add(aStop);
     }
 
