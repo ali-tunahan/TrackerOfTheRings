@@ -41,7 +41,7 @@ public class UserStopsFragment extends Fragment {
     private static boolean isEntered = false;
     public static List<Stop> stopsList = new ArrayList<Stop>();
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
@@ -49,6 +49,34 @@ public class UserStopsFragment extends Fragment {
     LocationCallback locationCallBack;
 
     public Company company;
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            MainActivity.userStopsLocationHandler.updateGPS();
+            SecondFragment.getController().updateVehicleLocations();
+
+            mMap.clear();
+            for(int i = 0; i < LocationController.getVehicles().size(); i++) {
+                Vehicle currentVehicle = LocationController.getVehicles().get(i);
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                    System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                }
+            }
+            mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLongitude()));
+
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
+
+
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -69,6 +97,19 @@ public class UserStopsFragment extends Fragment {
             for(Stop stop : LocationController.getStops()) {
                 googleMap.addMarker(new MarkerOptions().position(new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude())).title(stop.getName()));
             }
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
+            googleMap.clear();
+            MainActivity.userStopsLocationHandler.startLocationUpdates();
+            MainActivity.userStopsLocationHandler.updateGPS();
+            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLongitude()));
+
         }
     };
 

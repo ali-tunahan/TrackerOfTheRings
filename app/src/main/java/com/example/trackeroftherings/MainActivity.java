@@ -1,5 +1,6 @@
 package com.example.trackeroftherings;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -30,9 +31,13 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     public static LocationHandler locationHandler;
     public static LocationHandler driverLocationHandler;
+    public static LocationHandler userRoutesLocationHandler;
+    public static  LocationHandler userStopsLocationHandler;
     public OnLocationUpdateListener onLocationUpdateListener;
     public OnLocationUpdateListener driverOnLocationUpdateListener;
-    public static Vehicle kendrick = new Vehicle("kendrick", "123456", "123");
+    public OnLocationUpdateListener userRoutesOnLocationUpdateListener;
+    public OnLocationUpdateListener userStopsOnLocationUpdateListener;
+    //public static Vehicle kendrick = new Vehicle("kendrick", "123456", "123");
     public static VehicleUpdater vehicleUpdater;
     public static LocationPlus dummyLoc = new LocationPlus();
 
@@ -55,19 +60,37 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        dummyvehiclelist.add(kendrick);
-        dummystops.add(dummyStop);
-        dummyRoute.addStop(dummyStop);
-        dummyRoute.addActiveVehicle(kendrick);
-        kendrick.setCurrentRoute(dummyRoute);
-        DatabaseUtility.add(kendrick);
+        //dummyvehiclelist.add(kendrick);
+        //dummystops.add(dummyStop);
+        //dummyRoute.addStop(dummyStop);
+        //.addActiveVehicle(kendrick);
+        //kendrick.setCurrentRoute(dummyRoute);
+        //DatabaseUtility.add(kendrick);
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
+        userRoutesOnLocationUpdateListener = UserRoutesFragment.onLocationUpdateListener;
+        userStopsOnLocationUpdateListener = UserStopsFragment.onLocationUpdateListener;
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
-      
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
-        vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
+        userRoutesLocationHandler = new LocationHandler(MainActivity.this, userRoutesOnLocationUpdateListener);
+        userStopsLocationHandler = new LocationHandler(MainActivity.this, userStopsOnLocationUpdateListener);
+        Vehicle vroom = new Vehicle("vroom", "123", "123");
+        Location vroomLocation = new Location("");
+        vroomLocation.setLatitude(41.003234);
+        vroomLocation.setLongitude(29.071808);
+        LocationPlus vroomLocationPlus = new LocationPlus(vroomLocation);
+        vroom.setLocation(vroomLocationPlus);
+        DatabaseUtility.add(vroom);
+
+        Vehicle greer = new Vehicle("greer", "123", "123");
+        Location greerLocation = new Location("");
+        greerLocation.setLatitude(41.608048);
+        greerLocation.setLongitude(33.357822);
+        LocationPlus greerLocationPlus = new LocationPlus(greerLocation);
+        greer.setLocation(greerLocationPlus);
+        DatabaseUtility.add(greer);
+        //vehicleUpdater = new VehicleUpdater(kendrick, MainActivity.this);
 
         //used for uploading some objects to database do not delete
         /*
