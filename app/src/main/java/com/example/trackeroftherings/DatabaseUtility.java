@@ -205,7 +205,7 @@ public class DatabaseUtility {
      */
     public static void changeRouteName(Route oldRoute, String newName){
         Route newRoute = new Route(oldRoute);
-        newRoute.setName(newName,false);
+        newRoute.setName(newName);
         change(oldRoute,newRoute);
     }
 
@@ -216,13 +216,13 @@ public class DatabaseUtility {
      */
     public static void changeStopsList(Route oldRoute, List<Stop> stops){
         Route newRoute = new Route(oldRoute);
-        newRoute.setStopsList(stops,false);
+        newRoute.setStopsList(stops);
         change(oldRoute,newRoute);
     }
 
     public static void changeStopsLocation(Stop oldStop, LocationPlus locationPlus){
         Stop newStop = new Stop(oldStop);
-        newStop.setLocationLocally(locationPlus);
+        newStop.setLocation(locationPlus);
         change(oldStop,newStop);
     }
 

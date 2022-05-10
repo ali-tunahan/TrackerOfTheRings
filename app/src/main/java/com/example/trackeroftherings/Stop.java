@@ -67,20 +67,18 @@ public class Stop implements Locatable, Serializable
 	public void setName (String aName)
 	{
 		this.name = aName;
-		DatabaseUtility.changeStopName(this,aName);
 	}
 
 	/**
 	 * Mutator for location
 	 * @param aLocation
 	 */
-	public void setLocation (LocationPlus aLocation)
+	public void setLocationDatabase (LocationPlus aLocation)
 	{
 		this.location = aLocation;
-		DatabaseUtility.changeStopsLocation(this,aLocation);
 	}
 
-	public void setLocationLocally(LocationPlus location){
+	public void setLocation(LocationPlus location){
 		this.location = location;
 	}
 	/**

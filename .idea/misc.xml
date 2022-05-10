@@ -3,10 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/activity_main.xml" value="0.21197916666666666" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/activity_maps.xml" value="0.25" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/app.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog.xml" value="0.21197916666666666" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/drawable/options_hamburger_menubar.xml" value="0.3828125" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/activity_main.xml" value="0.2595108695652174" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
@@ -52,6 +50,7 @@
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/layout/fragment_user_stops.xml" value="0.24003623188405798" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/NavigatorOfTheRings/app/src/main/res/menu/menu_main.xml" value="0.21927083333333333" />
         <entry key="..\:/Users/tunah/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/activity_maps.xml" value="0.55" />
+        <entry key="..\:/Users/tunah/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/fragment_first.xml" value="0.3458333333333333" />
       </map>
     </option>
   </component>

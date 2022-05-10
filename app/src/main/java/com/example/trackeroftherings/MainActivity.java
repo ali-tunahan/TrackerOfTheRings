@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static  LocationHandler userStopsLocationHandler;
     public static  LocationHandler companyRoutesLocationHandler;
     public static  LocationHandler companyRouteInfoLocationHandler;
-    public static  LocationHandler companyEditRouteLocationHandler;;
+    public static  LocationHandler companyEditRouteLocationHandler;
     public static  LocationHandler companyAddStopToRouteLocationHandler;
     public OnLocationUpdateListener onLocationUpdateListener;
     public OnLocationUpdateListener driverOnLocationUpdateListener;

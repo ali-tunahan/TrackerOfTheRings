@@ -50,6 +50,8 @@ public class Route implements Serializable
     public Route(){
         stopsList = new ArrayList<>();
         activeVehicles = new ArrayList<>();
+        this.companyID = "";
+        this.name = "";
     }
 
     /**
@@ -73,22 +75,22 @@ public class Route implements Serializable
         return name;
     }
 
-    public void setName(String name, boolean writeToDatabase) {
+    public void setName(String name) {
         this.name = name;
-        if (writeToDatabase){
+        /*if (writeToDatabase){
             DatabaseUtility.changeRouteName(this, name);
-        }
+        }*/
     }
 
     public List<Stop> getStopsList() {
         return stopsList;
     }
 
-    public void setStopsList(List<Stop> stopsList, boolean writeToDatabase) {
+    public void setStopsList(List<Stop> stopsList) {
         this.stopsList = stopsList;
-        if (writeToDatabase){
+        /*if (writeToDatabase){
             DatabaseUtility.changeStopsList(this,stopsList);
-        }
+        }*/
     }
 
     public void setActiveVehicles(List<Vehicle> activeVehicles) {
@@ -148,9 +150,9 @@ public class Route implements Serializable
 
     public void addActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
         this.activeVehicles.add(aVehicle);
-        if (writeToDatabase){
+        /*if (writeToDatabase){
             DatabaseUtility.changeActiveVehicles(this,aVehicle);
-        }
+        }*/
 
     }
 

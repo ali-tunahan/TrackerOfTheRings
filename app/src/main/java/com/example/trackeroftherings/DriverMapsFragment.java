@@ -233,7 +233,7 @@ public class DriverMapsFragment extends Fragment {
                         }
                     }
                     if(DriverCompanyLoginFragment.getSelfVehicle() != null)
-                        selectedRoute.addActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle());
+                        selectedRoute.addActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle(),true);
                     binding.cancel.setVisibility(View.VISIBLE);
                     binding.cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
