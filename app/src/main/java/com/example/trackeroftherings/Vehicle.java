@@ -54,6 +54,8 @@ public class Vehicle extends Account implements Locatable, Serializable
         this.setPassword(aVehicle.getPassword());
         this.setCompanyID(aVehicle.getCompanyID());
         this.setCompany(authenticateCompanyID(aVehicle.getCompanyID()));
+        this.setCurrentRoute(new Route(aVehicle.getCurrentRoute()),false);
+        this.isActive = aVehicle.isActive;
     }  
     
     /**
@@ -61,10 +63,11 @@ public class Vehicle extends Account implements Locatable, Serializable
 	 * @param isActive
 	 */
     public void setActive(boolean isActive, boolean writeToDatabase) {
+        if (writeToDatabase){
+            DatabaseUtility.setVehicleActivity(this,isActive);
+        }
         this.isActive = isActive;
-
     }
-
 
     /**
      * If the vehicle is near x meters of a stop method returns true using the haversine formula
@@ -105,8 +108,7 @@ public class Vehicle extends Account implements Locatable, Serializable
             for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
                 copyStops.add(currentRoute.getStopsList().get(i));
             }
-            this.setCurrentRoute(newRoute);
-            
+            this.setCurrentRoute(newRoute,false);
 
         }
     }
@@ -115,7 +117,16 @@ public class Vehicle extends Account implements Locatable, Serializable
 	 * Initializes the copy of the chosen route to currentRoute
 	 * @param aCurrentRoute
 	 */
-    public void setCurrentRoute(Route aCurrentRoute){
+    public void setCurrentRoute(Route aCurrentRoute, boolean writeToDatabase){
+
+        if (aCurrentRoute == null){
+            this.currentRoute = null;
+            return;
+        }
+
+        if (writeToDatabase){
+            DriverCompanyLoginFragment.getSelfVehicle().setActive(true,false);
+        }
         Route copy = new Route();
         copy.setName(aCurrentRoute.getName(),false);
 
@@ -124,10 +135,8 @@ public class Vehicle extends Account implements Locatable, Serializable
         for(int i = 0; i < aCurrentRoute.getStopsList().size();i++){
             copyStops.add(aCurrentRoute.getStopsList().get(i));
         }
+
         this.currentRoute = copy;
-        if(!(aCurrentRoute.getActiveVehicles().contains(this))){ //if the routes of the current vehicle ArrayList does not include this vehicle
-            aCurrentRoute.addActiveVehicle(this,true);
-        }
     }
 
     /**

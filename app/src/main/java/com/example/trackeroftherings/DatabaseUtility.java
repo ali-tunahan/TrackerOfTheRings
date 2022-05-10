@@ -194,8 +194,9 @@ public class DatabaseUtility {
      */
     public static void changeStopName(Stop oldStop, String newName){
         Stop newStop = new Stop(oldStop);
-        newStop.setName(newName);
-        change(oldStop,newStop);
+        newStop.setName(newName,false);
+        Stop oldStopCopy = new Stop(oldStop);
+        change(oldStopCopy,newStop);
     }
 
     /**
@@ -205,8 +206,9 @@ public class DatabaseUtility {
      */
     public static void changeRouteName(Route oldRoute, String newName){
         Route newRoute = new Route(oldRoute);
-        newRoute.setName(newName);
-        change(oldRoute,newRoute);
+        newRoute.setName(newName,false);
+        Route oldRouteCopy = new Route(oldRoute);
+        change(oldRouteCopy,newRoute);
     }
 
     /**
@@ -223,13 +225,37 @@ public class DatabaseUtility {
     public static void changeStopsLocation(Stop oldStop, LocationPlus locationPlus){
         Stop newStop = new Stop(oldStop);
         newStop.setLocation(locationPlus);
-        change(oldStop,newStop);
+        Stop oldStopCopy = new Stop(oldStop);
+        change(oldStopCopy,newStop);
     }
 
     public static void changeActiveVehicles(Route oldRoute, Vehicle vehicle){
         Route newRoute = new Route(oldRoute);
         newRoute.addActiveVehicle(vehicle,false);
-        change(oldRoute,newRoute);
+        Route oldRouteCopy = new Route(oldRoute);
+        change(oldRouteCopy,newRoute);
+    }
+
+    public static void removeActiveVehicles(Route oldRoute, Vehicle vehicle){
+        Route newRoute = new Route(oldRoute);
+        newRoute.removeActiveVehicle(vehicle,false);
+        Route oldRouteCopy = new Route(oldRoute);
+        change(oldRouteCopy,newRoute);
+    }
+
+    public static void setVehicleActivity(Vehicle oldVehicle, boolean isActive){
+        Vehicle newVehicle = new Vehicle(oldVehicle);
+        newVehicle.setActive(isActive,false);
+        Vehicle oldVehicleCopy = new Vehicle(oldVehicle);
+        change(oldVehicleCopy,newVehicle);
+    }
+
+    public static void changeCurrentRoute(Vehicle oldVehicle, Route newRoute){
+        Vehicle newVehicle = new Vehicle(oldVehicle);
+        newVehicle.setCurrentRoute(newRoute,false);
+        newVehicle.setActive(true,false);
+        Vehicle oldVehicleCopy = new Vehicle(oldVehicle);
+        change(oldVehicleCopy,newVehicle);
     }
 
 

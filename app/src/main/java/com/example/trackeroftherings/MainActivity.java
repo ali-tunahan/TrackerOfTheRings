@@ -60,13 +60,6 @@ public class MainActivity extends AppCompatActivity {
     public static LocationController controller;
     public MainActivity mainActivity = this;
 
-    //public static VehicleUpdater vehicleUpdater;
-    public static LocationPlus dummyLoc = new LocationPlus();
-
-    public static Stop dummyStop = new Stop("name", dummyLoc, "123");
-    public static List<Stop> dummystops = new ArrayList<Stop>();
-    public static  Route dummyRoute = new Route("dummies", "123");
-    public static List<Vehicle> dummyvehiclelist = new ArrayList<>();
 
 
     @Override

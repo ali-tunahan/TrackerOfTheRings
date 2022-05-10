@@ -38,10 +38,17 @@ public class Route implements Serializable
      * Copy constructor
      */
     public Route(Route route) {
-        this.name = route.getName();
-        this.stopsList = route.getStopsList();
-        this.activeVehicles = route.getActiveVehicles();
-        this.companyID = route.getCompanyID();
+        if (route == null){
+            this.name = null;
+            this.stopsList = new ArrayList<Stop>();
+            this.activeVehicles = new ArrayList<Vehicle>();
+            this.companyID = null;
+        }else{
+            this.name = route.getName();
+            this.stopsList = route.getStopsList();
+            this.activeVehicles = new ArrayList<Vehicle>(route.getActiveVehicles());
+            this.companyID = route.getCompanyID();
+        }
     }
 
     /**
@@ -149,11 +156,17 @@ public class Route implements Serializable
     }
 
     public void addActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
-        this.activeVehicles.add(aVehicle);
-        /*if (writeToDatabase){
+        if (writeToDatabase){
             DatabaseUtility.changeActiveVehicles(this,aVehicle);
-        }*/
+        }
+        this.activeVehicles.add(aVehicle);
+    }
 
+    public void removeActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
+        if (writeToDatabase){
+            DatabaseUtility.removeActiveVehicles(this,aVehicle);
+        }
+        this.activeVehicles.remove(aVehicle);
     }
 
     public void controlVehiclesActivity(){

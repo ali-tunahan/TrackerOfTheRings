@@ -131,16 +131,8 @@ public class CompanyVehicleFragment extends Fragment {
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);
-        //change with actual stops and proper locations
-        if(!isEntered){
-            vehiclesList.add(new Vehicle("vehicle0","pw0","companyID"));
-            vehiclesList.add(new Vehicle("vehicle1","pw1","companyID"));
-            vehiclesList.add(new Vehicle("vehicle2","pw2","companyID"));
-            vehiclesList.add(new Vehicle("vehicle3","pw3","companyID"));
-        }
-        for(int i = 0; i < vehiclesList.size(); i++){
-            vehiclesList.get(i).setCurrentRoute(new Route("vehicleRoute" + i,"companyID"));
-        }
+
+        vehiclesList = LocationController.getVehicles();
 
         for(int i = 0; i < vehiclesList.size(); i++){
             Button b = new Button(this.getContext());
