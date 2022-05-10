@@ -184,8 +184,6 @@ public class CompanyAddStopToRoute extends Fragment {
                 }
                 selectedRoute.setStopsList(new ArrayList<Stop>());
 
-                CompanyEditRoute.getTempRoute().setStopsList(new ArrayList<Stop>(),true);
-
                 for (Stop s : stopsListToAdd) {
 
                     selectedRoute.addStop(s);
