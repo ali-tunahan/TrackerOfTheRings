@@ -128,31 +128,8 @@ public class companyStopsFragment extends Fragment {
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);
         //change with actual stops and proper locations
-        if(!isEntered){
-            stopsList.add(new Stop("Tunus", new LocationPlus("provider1"),"id1"));
-            stopsList.add(new Stop("METU Subway", new LocationPlus("provider2"),"id1"));
-            stopsList.add(new Stop("Bilkent Library", new LocationPlus("provider3"),"id1"));
-            stopsList.add(new Stop("Bilkent Library1", new LocationPlus("provider4"),"id1"));
-            stopsList.add(new Stop("Bilkent Library2", new LocationPlus("provider5"),"id1"));
-            stopsList.add(new Stop("Bilkent Library3", new LocationPlus("provider6"),"id1"));
-            stopsList.add(new Stop("Bilkent Library4", new LocationPlus("provider7"),"id1"));
-            stopsList.add(new Stop("Bilkent Library5", new LocationPlus("provider8"),"id1"));
-            stopsList.add(new Stop("Bilkent Library6", new LocationPlus("provider9"),"id1"));
-            stopsList.add(new Stop("Bilkent Library7", new LocationPlus("provider10"),"id1"));
-            stopsList.add(new Stop("Bilkent Library8", new LocationPlus("provider11"),"id1"));
-            stopsList.add(new Stop("Bilkent Library9", new LocationPlus("provider12"),"id1"));
-            stopsList.add(new Stop("Bilkent Library10", new LocationPlus("provider13"),"id1"));
-        }
-        for(int i = 0; i < stopsList.size(); i++){//delete after setting proper stops with actual route info
-            if(!isEntered) {
-                Route newRoute0 = new Route("Route" + i,"companyID");
-                Route newRoute1 = new Route("Route" + 2 * i,"companyID");
-                Route newRoute2 = new Route("Route" + 3 * i,"companyID");
-                newRoute0.addStop(stopsList.get(i));
-                newRoute1.addStop(stopsList.get(i));
-                newRoute2.addStop(stopsList.get(i));
-            }
-        }
+
+        stopsList = LocationController.getStops();
 
         for(int i = 0; i < stopsList.size(); i++){
             Button b = new Button(this.getContext());

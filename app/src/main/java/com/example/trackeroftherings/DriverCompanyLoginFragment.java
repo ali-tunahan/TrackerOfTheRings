@@ -21,7 +21,7 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
     private static Vehicle selfVehicle = null;
     private static String companyID = ""; //public since it should be used outside of this class
     public static VehicleUpdater vehicleUpdater;
-    LocationController controller;
+    private static LocationController controller;
     public static String getCompanyID() {
         return companyID;
     }//maybe static??

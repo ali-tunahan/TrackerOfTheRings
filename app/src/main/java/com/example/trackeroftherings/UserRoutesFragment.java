@@ -26,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -51,19 +52,35 @@ public class UserRoutesFragment extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
-            MainActivity.userRoutesLocationHandler.updateGPS();
-            SecondFragment.getController().updateVehicleLocations();
+            try {
+                MainActivity.userRoutesLocationHandler.updateGPS();
+                SecondFragment.getController().updateVehicleLocations();
 
-            mMap.clear();
-            for(int i = 0; i < LocationController.getVehicles().size(); i++) {
-                Vehicle currentVehicle = LocationController.getVehicles().get(i);
-                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
-                    System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                mMap.clear();
+
+                for (int i = 0; i < LocationController.getRoutes().size(); i++) {
+                    Route currentRoute = LocationController.getRoutes().get(i);
+
+                    for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                        Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                        if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                            System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                        }
+                    }
+
+                    for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                        if (currentRoute.getStopsList().get(j).getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
+                            LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                        }
+                    }
+
                 }
-            }
-            mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+            }catch (NullPointerException e){
 
+            }
         }
 
         @Override
@@ -91,14 +108,17 @@ public class UserRoutesFragment extends Fragment {
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
             mMap = googleMap;
+            googleMap.clear();
+            LatLng currentLatLong = new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
-            googleMap.clear();
             MainActivity.userRoutesLocationHandler.startLocationUpdates();
             MainActivity.userRoutesLocationHandler.updateGPS();
             //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
 
         }
     };
