@@ -58,7 +58,9 @@ public class LocationController {
         readCompany(aCompanyID, new FirebaseCallbackCompany() {
             @Override
             public void onCallback(List<Company> companies) {
-                company = companies.get(0);
+                if (companies.size() > 0){
+                    company = companies.get(0);
+                }
             }
         });
 

@@ -121,7 +121,8 @@ public class Route implements Serializable
         //Adding the new route to the stop reference in the database
         Stop oldStop = aStop;
         List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRoutesList());
-        newRoutesList.add(new Route(this.name,this.companyID));
+        Route newRoute = new Route(this.name,this.companyID);
+        newRoutesList.add(newRoute);
         /*
         String name = oldStop.getName();
         LocationPlus locationPlus = oldStop.getLocation();
