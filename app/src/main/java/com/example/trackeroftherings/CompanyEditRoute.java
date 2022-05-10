@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -41,7 +42,7 @@ public class CompanyEditRoute extends Fragment {
     private static int status = EMPTY;
     private TextView selectedStopText = null;
     private int selectedStopIndex = 0;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
@@ -58,6 +59,46 @@ public class CompanyEditRoute extends Fragment {
         return tempRoute;
     }
 
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            try {
+                MainActivity.companyEditRouteLocationHandler.updateGPS();
+                DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+
+                Route currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+
+                for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                    Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                        System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                    }
+                }
+
+                for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                    if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                    }
+                }
+
+
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude()));
+            }catch (NullPointerException e){
+
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -71,9 +112,31 @@ public class CompanyEditRoute extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            Route currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+            MainActivity.companyEditRouteLocationHandler.startLocationUpdates();
+            MainActivity.companyEditRouteLocationHandler.updateGPS();
+            LatLng currentLatLong = new LatLng(MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude()));
+
+            for(int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                    System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                }
+            }
+
+            for(int j = 0; j < currentRoute.getStopsList().size(); j++){
+                if(currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                    LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                }
+            }
+
+
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
         }
     };
 

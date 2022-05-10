@@ -31,16 +31,32 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     public static LocationHandler locationHandler;
     public static LocationHandler driverLocationHandler;
+    public static LocationHandler companyMapsLocationHandler;
+    public static LocationHandler companyStopsLocationHandler;
+    public static LocationHandler companyEditStopLocationHandler;
+    public static LocationHandler companyStopInfoLocationHandler;
     public static LocationHandler userRoutesLocationHandler;
     public static LocationHandler routeInfoLocationHandler;
     public static LocationHandler userStopInfoLocationHandler;
     public static  LocationHandler userStopsLocationHandler;
+    public static  LocationHandler companyRoutesLocationHandler;
+    public static  LocationHandler companyRouteInfoLocationHandler;
+    public static  LocationHandler companyEditRouteLocationHandler;;
+    public static  LocationHandler companyAddStopToRouteLocationHandler;
     public OnLocationUpdateListener onLocationUpdateListener;
     public OnLocationUpdateListener driverOnLocationUpdateListener;
+    public OnLocationUpdateListener companyMapsOnLocationUpdateListener;
+    public OnLocationUpdateListener companyStopsOnLocationUpdateListener;
+    public OnLocationUpdateListener companyEditStopOnLocationUpdateListener;
+    public OnLocationUpdateListener companyStopInfoOnLocationUpdateListener;
     public OnLocationUpdateListener routeInfoOnLocationUpdateListener;
     public OnLocationUpdateListener userRoutesOnLocationUpdateListener;
     public OnLocationUpdateListener userStopsOnLocationUpdateListener;
     public OnLocationUpdateListener userStopInfoOnLocationUpdateListener;
+    public OnLocationUpdateListener companyRoutesOnLocationUpdateListener;
+    public OnLocationUpdateListener companyRouteInfoOnLocationUpdateListener;
+    public OnLocationUpdateListener companyEditRouteOnLocationUpdateListener;
+    public OnLocationUpdateListener companyAddStopToRouteOnLocationUpdateListener;
     public static LocationController controller;
     public MainActivity mainActivity = this;
 
@@ -76,6 +92,14 @@ public class MainActivity extends AppCompatActivity {
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
+        companyMapsOnLocationUpdateListener = CompanyMapsFragment.onLocationUpdateListener;
+        companyStopsOnLocationUpdateListener = companyStopsFragment.onLocationUpdateListener;
+        companyRoutesOnLocationUpdateListener = companyRoutesFragment.onLocationUpdateListener;
+        companyRouteInfoOnLocationUpdateListener = CompanyRouteInfoFragment.onLocationUpdateListener;
+        companyEditRouteOnLocationUpdateListener = CompanyEditRoute.onLocationUpdateListener;
+        companyAddStopToRouteOnLocationUpdateListener = CompanyAddStopToRoute.onLocationUpdateListener;
+        companyEditStopOnLocationUpdateListener = CompanyEditStop.onLocationUpdateListener;
+        companyStopInfoOnLocationUpdateListener = CompanyStopInfo.onLocationUpdateListener;
         userRoutesOnLocationUpdateListener = UserRoutesFragment.onLocationUpdateListener;
         routeInfoOnLocationUpdateListener = RouteInfoFragment.onLocationUpdateListener;
         userStopInfoOnLocationUpdateListener = StopInfoFragment.onLocationUpdateListener;
@@ -83,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
         locationHandler = new LocationHandler(MainActivity.this, onLocationUpdateListener);
         driverLocationHandler = new LocationHandler(MainActivity.this, driverOnLocationUpdateListener);
         userRoutesLocationHandler = new LocationHandler(MainActivity.this, userRoutesOnLocationUpdateListener);
+        companyMapsLocationHandler = new LocationHandler(MainActivity.this, companyMapsOnLocationUpdateListener);
+        companyStopsLocationHandler = new LocationHandler(MainActivity.this, companyStopsOnLocationUpdateListener);
+        companyRoutesLocationHandler = new LocationHandler(MainActivity.this, companyRoutesOnLocationUpdateListener);
+        companyRouteInfoLocationHandler = new LocationHandler(MainActivity.this, companyRouteInfoOnLocationUpdateListener);
+        companyEditRouteLocationHandler = new LocationHandler(MainActivity.this, companyEditRouteOnLocationUpdateListener);
+        companyAddStopToRouteLocationHandler = new LocationHandler(MainActivity.this, companyAddStopToRouteOnLocationUpdateListener);
+        companyEditStopLocationHandler = new LocationHandler(MainActivity.this, companyEditStopOnLocationUpdateListener);
+        companyStopInfoLocationHandler = new LocationHandler(MainActivity.this, companyStopInfoOnLocationUpdateListener);
         routeInfoLocationHandler = new LocationHandler(MainActivity.this, routeInfoOnLocationUpdateListener);
         userStopsLocationHandler = new LocationHandler(MainActivity.this, userStopsOnLocationUpdateListener);
         userStopInfoLocationHandler = new LocationHandler(MainActivity.this, userStopInfoOnLocationUpdateListener);
@@ -102,13 +134,13 @@ public class MainActivity extends AppCompatActivity {
         greer.setLocation(greerLocationPlus);
         DatabaseUtility.add(greer);
 
-        Stop test = new Stop("stopppTest", new LocationPlus(), "123");
+       */ Stop test = new Stop("stopppTest", new LocationPlus(), "123");
         Location testLocation = new Location("");
         testLocation.setLatitude(40.703234);
         testLocation.setLongitude(32.771808);
         LocationPlus testLocationPlus = new LocationPlus(testLocation);
         test.setLocation(testLocationPlus);
-        DatabaseUtility.add(test);*/
+        DatabaseUtility.add(test);
 
 
         LoginUtility utilityObject = new LoginUtility();

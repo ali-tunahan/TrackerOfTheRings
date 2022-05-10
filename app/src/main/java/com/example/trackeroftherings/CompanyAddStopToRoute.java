@@ -22,9 +22,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -40,7 +44,7 @@ public class CompanyAddStopToRoute extends Fragment {
     private static List<Stop> stopsListToAdd = new ArrayList<Stop>(); //later change with actual stops list stop array list
     public static List<Stop> stopsList = new ArrayList<Stop>(); //later change with actual stops list stop array list
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
@@ -55,6 +59,47 @@ public class CompanyAddStopToRoute extends Fragment {
     public static void addStopsListToAdd(Stop s) {
         CompanyAddStopToRoute.stopsListToAdd.add(s);
     }
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            try {
+                MainActivity.companyAddStopToRouteLocationHandler.updateGPS();
+                DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+
+                Route currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+
+                for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                    Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                        System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                    }
+                }
+
+                for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                    if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                    }
+                }
+
+
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude()));
+            }catch (NullPointerException e){
+
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -68,9 +113,31 @@ public class CompanyAddStopToRoute extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            Route currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+            MainActivity.companyAddStopToRouteLocationHandler.startLocationUpdates();
+            MainActivity.companyAddStopToRouteLocationHandler.updateGPS();
+            LatLng currentLatLong = new LatLng(MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude()));
+
+            for(int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                    System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                }
+            }
+
+            for(int j = 0; j < currentRoute.getStopsList().size(); j++){
+                if(currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                    LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                }
+            }
+
+
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
         }
     };
 

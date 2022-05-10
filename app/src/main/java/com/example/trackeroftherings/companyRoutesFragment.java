@@ -26,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -41,13 +42,53 @@ public class companyRoutesFragment extends Fragment {
     private static boolean isEntered = false;
     private static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public Location currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
 
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            try {
+                MainActivity.companyRoutesLocationHandler.updateGPS();
+                DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+
+                for (int i = 0; i < LocationController.getRoutes().size(); i++) {
+                    Route currentRoute = LocationController.getRoutes().get(i);
+
+                    for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                        Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                        if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                            System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                        }
+                    }
+
+                    for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                        if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                            LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                        }
+                    }
+
+                }
+                }catch (NullPointerException e){
+
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     public static List<Route> getRoutesList() {
         return routesList;
@@ -70,9 +111,39 @@ public class companyRoutesFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
+            googleMap.clear();
+            LatLng currentLatLong = new LatLng(MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
+            MainActivity.companyRoutesLocationHandler.startLocationUpdates();
+            MainActivity.companyRoutesLocationHandler.updateGPS();
+            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
+            for (int i = 0; i < LocationController.getRoutes().size(); i++) {
+                Route currentRoute = LocationController.getRoutes().get(i);
+
+                for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                    Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                        System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                    }
+                }
+
+                for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                    if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                    }
+                }
+
+            }
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+
         }
     };
 

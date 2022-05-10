@@ -33,6 +33,10 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
         return selfVehicle;
     }
 
+    public static LocationController getController() {
+        return controller;
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
