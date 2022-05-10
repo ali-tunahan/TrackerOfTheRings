@@ -22,9 +22,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.trackeroftherings.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -38,12 +42,42 @@ public class companyStopsFragment extends Fragment {
     private static boolean isEntered = false;
     public static List<Stop> stopsList = new ArrayList<Stop>(); //later change with actual stops list stop array list
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            MainActivity.companyStopsLocationHandler.updateGPS();
+            DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+            mMap.clear();
+            for(int i = 0; i < LocationController.getVehicles().size(); i++) {
+                Vehicle currentVehicle = LocationController.getVehicles().get(i);
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                }
+            }
+            for(int i = 0; i < LocationController.getStops().size(); i++){
+                if(LocationController.getStops().get(i).getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
+                    LatLng stopLatLong = new LatLng(LocationController.getStops().get(i).getLocation().getLatitude(), LocationController.getStops().get(i).getLocation().getLongitude());
+                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                }
+            }
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLongitude()));
+
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -61,6 +95,22 @@ public class companyStopsFragment extends Fragment {
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            googleMap.clear();
+            MainActivity.companyStopsLocationHandler.startLocationUpdates();
+            MainActivity.companyStopsLocationHandler.updateGPS();
+            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
+            LatLng currentLatLong = new LatLng(MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyStopsLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
+            for(int i = 0; i < LocationController.getStops().size(); i++){
+                if(LocationController.getStops().get(i).getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
+                    LatLng stopLatLong = new LatLng(LocationController.getStops().get(i).getLocation().getLatitude(), LocationController.getStops().get(i).getLocation().getLongitude());
+                    googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                }
+            }
         }
     };
 

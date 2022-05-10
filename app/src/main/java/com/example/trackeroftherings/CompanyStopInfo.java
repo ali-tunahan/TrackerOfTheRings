@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -37,12 +38,36 @@ public class CompanyStopInfo extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static Stop stopToDisplay = null;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            try {
+                MainActivity.companyStopInfoLocationHandler.updateGPS();
+                SecondFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+                LatLng stopLatLong = new LatLng(stopToDisplay.getLocation().getLatitude(), stopToDisplay.getLocation().getLongitude());
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(stopToDisplay.getName()));
+
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLongitude()));
+            }catch (NullPointerException e){
+
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -57,9 +82,15 @@ public class CompanyStopInfo extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            MainActivity.companyStopInfoLocationHandler.startLocationUpdates();
+            MainActivity.companyStopInfoLocationHandler.updateGPS();
+            LatLng currentLatLong = new LatLng(MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyStopInfoLocationHandler.getmLastKnownLocation().getLongitude()));
+            LatLng stopLatLong = new LatLng(stopToDisplay.getLocation().getLatitude(), stopToDisplay.getLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(stopToDisplay.getName()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)
+
         }
     };
 

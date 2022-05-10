@@ -28,7 +28,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -40,13 +42,37 @@ public class CompanyEditStop extends Fragment {
     public static final int EMPTY = 0;
     public static final int EDIT = 1;
     public static final int NEW = 2;
+    private static LatLng markerPosition = null;
     private static int status = EMPTY;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            try {
+                MainActivity.companyEditStopLocationHandler.updateGPS();
+                SecondFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+                markerPosition = new LatLng(CompanyStopInfo.getStopToDisplay().getLocation().getLatitude(), CompanyStopInfo.getStopToDisplay().getLocation().getLongitude());
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(markerPosition).title(CompanyStopInfo.getStopToDisplay().getName()));
+
+               }catch (NullPointerException e){
+
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     public static void setStatus(int status) {
         CompanyEditStop.status = status;
@@ -65,9 +91,34 @@ public class CompanyEditStop extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            MainActivity.companyEditStopLocationHandler.startLocationUpdates();
+            MainActivity.companyEditStopLocationHandler.updateGPS();
+            LatLng stopLatLong = new LatLng(CompanyStopInfo.getStopToDisplay().getLocation().getLatitude(), CompanyStopInfo.getStopToDisplay().getLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(CompanyStopInfo.getStopToDisplay().getName()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)
+
+
+            mMap = googleMap;
+
+
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    mMap.clear();
+                    mMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
+                }
+            });
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    try {
+                        return true;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+            });
         }
     };
 
@@ -140,7 +191,6 @@ public class CompanyEditStop extends Fragment {
                 bottomBar.hide();
 
                 if(status == EDIT) {
-                    //set the new location of the stop here
                     Stop selectedStop = null;
                     for(int i = 0; i < LocationController.getStops().size(); i++){
                         if(CompanyStopInfo.getStopToDisplay().equals(LocationController.getStops().get(i))){
@@ -148,10 +198,14 @@ public class CompanyEditStop extends Fragment {
                         }
                     }
                     selectedStop.setName(stopName.getText().toString());
+                    LocationPlus stopLocation = new LocationPlus();
+                    stopLocation.setLatitude(markerPosition.latitude);
+                    stopLocation.setLongitude(markerPosition.longitude);
+                    selectedStop.setLocation(stopLocation);
                     NavHostFragment.findNavController(CompanyEditStop.this)
                             .navigate(R.id.action_companyEditStop_to_companyStopInfoFragment);
                 }else if(status == NEW) {
-                    //set the new location of the stop here
+                    //add new stop (wip)
                     companyStopsFragment.stopsList.add(new Stop(stopName.getText().toString(), new LocationPlus("provider1"), DriverCompanyLoginFragment.getCompanyID()));
                     NavHostFragment.findNavController(CompanyEditStop.this)
                             .navigate(R.id.action_companyEditStop_to_companyStopsFragment);
