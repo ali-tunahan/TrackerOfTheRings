@@ -291,8 +291,9 @@ public class CompanyEditRoute extends Fragment {
                     NavHostFragment.findNavController(CompanyEditRoute.this)
                             .navigate(R.id.action_companyEditRoute_to_companyRouteInfoFragment);
                 }else if(status == NEW) {
-                    //set the new location of the stop here
+
                     tempRoute.setName(routeName.getText().toString(), false);
+                    tempRoute.setCompanyID(DriverCompanyLoginFragment.getCompanyID());
                     DatabaseUtility.add(tempRoute);
                     LocationController.addRoute(tempRoute);
                     NavHostFragment.findNavController(CompanyEditRoute.this)
