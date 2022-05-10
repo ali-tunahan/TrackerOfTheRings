@@ -38,10 +38,17 @@ public class Route implements Serializable
      * Copy constructor
      */
     public Route(Route route) {
-        this.name = route.getName();
-        this.stopsList = route.getStopsList();
-        this.activeVehicles = route.getActiveVehicles();
-        this.companyID = route.getCompanyID();
+        if (route == null){
+            this.name = null;
+            this.stopsList = new ArrayList<Stop>();
+            this.activeVehicles = new ArrayList<Vehicle>();
+            this.companyID = null;
+        }else{
+            this.name = route.getName();
+            this.stopsList = route.getStopsList();
+            this.activeVehicles = new ArrayList<Vehicle>(route.getActiveVehicles());
+            this.companyID = route.getCompanyID();
+        }
     }
 
     /**
@@ -75,11 +82,11 @@ public class Route implements Serializable
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        /*if (writeToDatabase){
+    public void setName(String name, boolean writeToDatabase) {
+        if (writeToDatabase){
             DatabaseUtility.changeRouteName(this, name);
-        }*/
+        }
+        this.name = name;
     }
 
     public List<Stop> getStopsList() {
@@ -114,7 +121,8 @@ public class Route implements Serializable
         //Adding the new route to the stop reference in the database
         Stop oldStop = aStop;
         List<Route> newRoutesList = new ArrayList<Route>(oldStop.getRoutesList());
-        newRoutesList.add(new Route(this.name,this.companyID));
+        Route newRoute = new Route(this.name,this.companyID);
+        newRoutesList.add(newRoute);
         /*
         String name = oldStop.getName();
         LocationPlus locationPlus = oldStop.getLocation();
@@ -149,11 +157,17 @@ public class Route implements Serializable
     }
 
     public void addActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
-        this.activeVehicles.add(aVehicle);
-        /*if (writeToDatabase){
+        if (writeToDatabase){
             DatabaseUtility.changeActiveVehicles(this,aVehicle);
-        }*/
+        }
+        this.activeVehicles.add(aVehicle);
+    }
 
+    public void removeActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
+        if (writeToDatabase){
+            DatabaseUtility.removeActiveVehicles(this,aVehicle);
+        }
+        this.activeVehicles.remove(aVehicle);
     }
 
     public void controlVehiclesActivity(){

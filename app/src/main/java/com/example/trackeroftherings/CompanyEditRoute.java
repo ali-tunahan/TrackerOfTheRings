@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +39,7 @@ public class CompanyEditRoute extends Fragment {
     public static final int EMPTY = 0;
     public static final int EDIT = 1;
     public static final int NEW = 2;
-    private static Route tempRoute = null;
+    private static Route tempRoute = new Route();
     private static int status = EMPTY;
     private TextView selectedStopText = null;
     private int selectedStopIndex = 0;
@@ -67,21 +68,25 @@ public class CompanyEditRoute extends Fragment {
                 DriverCompanyLoginFragment.getController().updateVehicleLocations();
 
                 mMap.clear();
-
-                Route currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
-
-                for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
-                    Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
-                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
-                        System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
-                        mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                Route currentRoute = null;
+                if(status == EDIT)
+                    currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+                else if(status == NEW)
+                    currentRoute = tempRoute;
+                if(currentRoute != null) {
+                    for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                        Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                        if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
+                            System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                        }
                     }
-                }
 
-                for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
-                    if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
-                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
-                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                    for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                        if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                            LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                        }
                     }
                 }
 
@@ -113,24 +118,30 @@ public class CompanyEditRoute extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
-            Route currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+            Route currentRoute = null;
+            if(status == EDIT)
+                currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
+            else if(status == NEW && tempRoute != null)
+                currentRoute = tempRoute;
             MainActivity.companyEditRouteLocationHandler.startLocationUpdates();
             MainActivity.companyEditRouteLocationHandler.updateGPS();
             LatLng currentLatLong = new LatLng(MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyEditRouteLocationHandler.getmLastKnownLocation().getLongitude()));
 
-            for(int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
-                Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
-                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
-                    System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+            if(currentRoute != null) {
+                for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                    Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
+                        System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                    }
                 }
-            }
 
-            for(int j = 0; j < currentRoute.getStopsList().size(); j++){
-                if(currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
-                    LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
-                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                    if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                    }
                 }
             }
 
@@ -208,6 +219,9 @@ public class CompanyEditRoute extends Fragment {
         EditText routeName = bottomBar.findViewById(R.id.editTextRouteName);
         if(status == EDIT) {
             routeName.setText(CompanyRouteInfoFragment.getRouteToDisplay().getName());
+            tempRoute = new Route(CompanyRouteInfoFragment.getRouteToDisplay());
+        }else if(status == NEW && tempRoute == null){
+            tempRoute = new Route(routeName.getText().toString(),DriverCompanyLoginFragment.getCompanyID());
         }
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
             for (int i = 0; i < tempRoute.getStopsList().size(); i++) {
@@ -231,18 +245,24 @@ public class CompanyEditRoute extends Fragment {
                         } else {
                             int biggerIndex = Math.max(selectedStopIndex, stopText.getId());
                             int smallerIndex = Math.min(selectedStopIndex, stopText.getId());
-                            float tempY = stopText.getY();
-                            stopText.setY(selectedStopText.getY());
-                            selectedStopText.setY(tempY);
-                            selectedStopText.setBackgroundColor(R.color.teal_200);
-                            Stop tempStop = tempRoute.getStopsList().get(smallerIndex);
-                            tempRoute.getStopsList().remove(smallerIndex);
-                            tempRoute.getStopsList().add(smallerIndex, tempRoute.getStopsList().get(biggerIndex - 1));
-                            tempRoute.getStopsList().remove(biggerIndex);
-                            tempRoute.getStopsList().add(biggerIndex, tempStop);
-                            int tempTextIndex = stopText.getId();
-                            stopText.setId(selectedStopText.getId());
-                            selectedStopText.setId(tempTextIndex);
+                            if (biggerIndex == smallerIndex){
+                                Toast.makeText(getContext(), "Please select a stop different from the first one!", Toast.LENGTH_SHORT).show();
+                                stopText.setBackgroundColor(R.color.teal_200);
+                            }else{
+                                float tempY = stopText.getY();
+                                stopText.setY(selectedStopText.getY());
+                                selectedStopText.setY(tempY);
+                                selectedStopText.setBackgroundColor(R.color.teal_200);
+                                Stop tempStop = tempRoute.getStopsList().get(smallerIndex);
+                                tempRoute.getStopsList().remove(smallerIndex);
+                                tempRoute.getStopsList().add(smallerIndex, tempRoute.getStopsList().get(biggerIndex - 1));
+                                tempRoute.getStopsList().remove(biggerIndex);
+                                tempRoute.getStopsList().add(biggerIndex, tempStop);
+                                int tempTextIndex = stopText.getId();
+                                stopText.setId(selectedStopText.getId());
+                                selectedStopText.setId(tempTextIndex);
+
+                            }
                             selectedStopText = null;
                             selectedStopIndex = 0;
 
@@ -259,31 +279,23 @@ public class CompanyEditRoute extends Fragment {
 
                 if(status == EDIT) {
                     //set the new location of the stop here
-                    tempRoute.setName(routeName.getText().toString());
                     Route selectedRoute = null;
                     for(int i = 0; i < LocationController.getRoutes().size(); i++){
                         if(tempRoute.equals(LocationController.getRoutes().get(i))){
                             selectedRoute = LocationController.getRoutes().get(i);
                         }
                     }
-                    selectedRoute.setName(routeName.getText().toString());
+                    selectedRoute.setName(routeName.getText().toString(),true);
                     tempRoute = null;
 
                     NavHostFragment.findNavController(CompanyEditRoute.this)
                             .navigate(R.id.action_companyEditRoute_to_companyRouteInfoFragment);
                 }else if(status == NEW) {
-                    //set the new location of the stop here
-                    tempRoute.setName(routeName.getText().toString());
-                    companyRoutesFragment.getRoutesList().add(tempRoute);
-                    Route selectedRoute = null;
-                    for(int i = 0; i < LocationController.getRoutes().size(); i++){
-                        if(tempRoute.equals(LocationController.getRoutes().get(i))){
-                            selectedRoute = LocationController.getRoutes().get(i);
-                        }
-                    }
-                    selectedRoute.setName(routeName.getText().toString());
-                    companyRoutesFragment.getRoutesList().add(selectedRoute);
-                    tempRoute = null;
+
+                    tempRoute.setName(routeName.getText().toString(), false);
+                    tempRoute.setCompanyID(DriverCompanyLoginFragment.getCompanyID());
+                    DatabaseUtility.add(tempRoute);
+                    LocationController.addRoute(tempRoute);
                     NavHostFragment.findNavController(CompanyEditRoute.this)
                             .navigate(R.id.action_companyEditRoute_to_companyRoutesFragment);
                 }

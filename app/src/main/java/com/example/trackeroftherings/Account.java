@@ -29,7 +29,6 @@ public abstract class Account implements Serializable {
         this.username = username;
     }
 
-    //to do
     public Company authenticateCompanyID(String ID){
         return new Company();
     }

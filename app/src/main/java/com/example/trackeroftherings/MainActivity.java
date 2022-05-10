@@ -60,13 +60,6 @@ public class MainActivity extends AppCompatActivity {
     public static LocationController controller;
     public MainActivity mainActivity = this;
 
-    //public static VehicleUpdater vehicleUpdater;
-    public static LocationPlus dummyLoc = new LocationPlus();
-
-    public static Stop dummyStop = new Stop("name", dummyLoc, "123");
-    public static List<Stop> dummystops = new ArrayList<Stop>();
-    public static  Route dummyRoute = new Route("dummies", "123");
-    public static List<Vehicle> dummyvehiclelist = new ArrayList<>();
 
 
     @Override
@@ -83,12 +76,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        //dummyvehiclelist.add(kendrick);
-        //dummystops.add(dummyStop);
-        //dummyRoute.addStop(dummyStop);
-        //.addActiveVehicle(kendrick);
-        //kendrick.setCurrentRoute(dummyRoute);
-        //DatabaseUtility.add(kendrick);
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
@@ -118,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
         routeInfoLocationHandler = new LocationHandler(MainActivity.this, routeInfoOnLocationUpdateListener);
         userStopsLocationHandler = new LocationHandler(MainActivity.this, userStopsOnLocationUpdateListener);
         userStopInfoLocationHandler = new LocationHandler(MainActivity.this, userStopInfoOnLocationUpdateListener);
+
+
+        LoginUtility utilityObject = new LoginUtility();
+
+
         /*Vehicle vroom = new Vehicle("vroom", "123", "123");
         Location vroomLocation = new Location("");
         vroomLocation.setLatitude(41.003234);
@@ -134,21 +126,22 @@ public class MainActivity extends AppCompatActivity {
         greer.setLocation(greerLocationPlus);
         DatabaseUtility.add(greer);
 
-       */ Stop test = new Stop("stopppTest", new LocationPlus(), "123");
+       Stop test = new Stop("stopppTest", new LocationPlus(), "123");
         Location testLocation = new Location("");
         testLocation.setLatitude(40.703234);
         testLocation.setLongitude(32.771808);
         LocationPlus testLocationPlus = new LocationPlus(testLocation);
         test.setLocation(testLocationPlus);
-        DatabaseUtility.add(test);
+        DatabaseUtility.add(test);*/
 
 
-        LoginUtility utilityObject = new LoginUtility();
+
 
         //used for uploading some objects to database do not delete
         /*
-        Company c1 = new Company("Fellowship of the Ring ltd.şti","123456","123" );
-
+        Company c1 = new Company("dogo","123456","123" );
+        DatabaseUtility.add(c1);
+        /*
         Stop s1 = new Stop("bilkent", new LocationPlus(), "123");
         Stop s2 = new Stop("dorm", new LocationPlus(), "123");
         Stop s3 = new Stop("tunus", new LocationPlus(), "123");
@@ -178,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
         c1.addRoute(r1);
         c1.addRoute(r2);
 
-        v1.setCurrentRoute(r1);
-        v2.setCurrentRoute(r2);
+        v1.setCurrentRoute(r1,true);
+        v2.setCurrentRoute(r2,true);
 
-        v1.setActive(true);
-        v2.setActive(true);
+        v1.setActive(true,false);
+        v2.setActive(true,false);
 
         c1.addVehicle(v1);
         c1.addVehicle(v2);
@@ -192,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
         DatabaseUtility.add(r2);
         DatabaseUtility.add(v1);
         DatabaseUtility.add(v2);*/
-
     }
 
     public MainActivity getMain() {

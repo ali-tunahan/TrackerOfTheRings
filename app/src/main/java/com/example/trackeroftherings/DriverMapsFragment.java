@@ -232,9 +232,14 @@ public class DriverMapsFragment extends Fragment {
                             selectedRoute = LocationController.getRoutes().get(i);
                         }
                     }
-                    if(DriverCompanyLoginFragment.getSelfVehicle() != null)
+
+                    if(DriverCompanyLoginFragment.getSelfVehicle() != null){
                         selectedRoute.addActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle(),true);
+                        DriverCompanyLoginFragment.getSelfVehicle().setCurrentRoute(selectedRoute, true);
+                    }
+
                     binding.cancel.setVisibility(View.VISIBLE);
+                    Route finalSelectedRoute = selectedRoute;
                     binding.cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -246,6 +251,10 @@ public class DriverMapsFragment extends Fragment {
                                             confirmed = false;
                                             selectedButton = null;
                                             binding.cancel.setVisibility(View.INVISIBLE);
+                                            finalSelectedRoute.removeActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle(), true);
+                                            DriverCompanyLoginFragment.getSelfVehicle().setCurrentRoute(null,false);
+                                            DriverCompanyLoginFragment.getSelfVehicle().setActive(false,false);
+
                                         }
                                     })
                                     .setNegativeButton("NO", new DialogInterface.OnClickListener() {
