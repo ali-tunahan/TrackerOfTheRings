@@ -67,6 +67,7 @@ public class Stop implements Locatable, Serializable
 	public void setName (String aName)
 	{
 		this.name = aName;
+		DatabaseUtility.changeStopName(this,aName);
 	}
 
 	/**
@@ -76,8 +77,12 @@ public class Stop implements Locatable, Serializable
 	public void setLocation (LocationPlus aLocation)
 	{
 		this.location = aLocation;
+		DatabaseUtility.changeStopsLocation(this,aLocation);
 	}
 
+	public void setLocationLocally(LocationPlus location){
+		this.location = location;
+	}
 	/**
 	 * Adds aRoute to the end of routesList
 	 * @param aRoute
