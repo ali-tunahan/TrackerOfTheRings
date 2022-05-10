@@ -214,6 +214,7 @@ public class LocationController {
     }
 
     //Used for waiting for callback
+    //Source: https://www.youtube.com/watch?v=hnDkA0V1bU8
     private interface FirebaseCallbackRoute{
         void onCallback(List<Route> list);
     }
