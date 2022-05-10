@@ -96,15 +96,16 @@ public class Vehicle extends Account implements Locatable, Serializable
             Clock clock = Clock.systemDefaultZone();
             Instant instant = clock.instant();
             this.history.put(this.getNextStop(), instant.toString());
-            
-            Route newRoute = new Route();
-            newRoute.setName(currentRoute.getName());
-            List<Stop> copyStops = new ArrayList<Stop>();
+            if(this.currentRoute.getStopsList().size() > 0) {
+                Route newRoute = new Route();
+                newRoute.setName(currentRoute.getName());
+                List<Stop> copyStops = new ArrayList<Stop>();
 
-            for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
-                copyStops.add(currentRoute.getStopsList().get(i));
+                for (int i = 1; i < currentRoute.getStopsList().size(); i++) { // i = 1 so that the current route does not involve passed stop
+                    copyStops.add(currentRoute.getStopsList().get(i));
+                }
+                this.setCurrentRoute(newRoute);
             }
-            this.setCurrentRoute(newRoute);
             
 
         }
