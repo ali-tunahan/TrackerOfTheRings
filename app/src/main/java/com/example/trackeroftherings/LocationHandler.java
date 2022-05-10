@@ -46,7 +46,7 @@ public class LocationHandler {
         this.activity = activity;
         this.onLocationUpdateListener = onLocationUpdateListener;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);
-        //mMap = getmMap();
+
         createLocationRequest();
         getDeviceLocation();
 
@@ -76,8 +76,7 @@ public class LocationHandler {
 
     private void getDeviceLocation() {
         /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
+         * Retrieves the location of the local device using the FusedLocationClient, LocationRequest and LocationCallback
          */
         try {
             Task locationResult = mFusedLocationProviderClient.getLastLocation();
@@ -88,21 +87,21 @@ public class LocationHandler {
                     if (mLastKnownLocation == null) {
                         updateStartedInternally = true;
                         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                    } else {
-                        // onLocationUpdateListener.onLocationChange(mLastKnownLocation);
                     }
-                } else {
-                    //onLocationUpdateListener.onError("Can't get Location");
+
                 }
             });
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
-            //onLocationUpdateListener.onError(e.getMessage());
+            onLocationUpdateListener.onError(e.getMessage());
 
         }
     }
 
     public void startLocationUpdates() {
+        /*
+         * Called when the user gives permission for location tracking to start location updates
+         */
         updateStartedInternally = false;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -126,6 +125,9 @@ public class LocationHandler {
 
     //other new Methods but not using right now..
     protected void createLocationRequest() {
+        /*
+         * Used to refresh and re-request the user's location every 5000ms (5 seconds) with the highest accuracy possible
+         */
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(5000);//set the interval in which you want to get locations
         mLocationRequest.setFastestInterval(5000);//if a location is available sooner you can get it (i.e. another app is using the location services)
@@ -137,9 +139,9 @@ public class LocationHandler {
     }
 
     public void updateGPS() {
-        // get permissions from the user to track GPS
-        // get current location from fused clients
-        // update UI - i.e. set all properties in their associated TextView elements
+        /*
+         * If user location can be retrieved, changes mLastKnownLocation to this new value
+         */
 
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -147,14 +149,7 @@ public class LocationHandler {
             mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(activity, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    //mMap = activity.mMap;
                     mLastKnownLocation = new LocationPlus(location);
-                    //MainActivity.vehicleUpdater.updateVehicle();
-
-                    //loco.trye(MapsActivity.this);
-                    //mMap.clear();
-                    //mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())).title("Long: " + mLastKnownLocation.getLongitude() + ", Lat: " +mLastKnownLocation.getLatitude()));
-                    //binding.textView.setText("Lat " +handler.getmLastKnownLocation().getLatitude() + " , Long " + handler.getmLastKnownLocation().getLongitude());
                 }
             });
         }
