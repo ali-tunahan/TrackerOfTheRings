@@ -64,8 +64,11 @@ public class Stop implements Locatable, Serializable
 	 * Mutator for name
 	 * @param aName
 	 */
-	public void setName (String aName)
+	public void setName (String aName, boolean writeToDatabase)
 	{
+		if (writeToDatabase){
+			DatabaseUtility.changeStopName(this, aName);
+		}
 		this.name = aName;
 	}
 
@@ -75,7 +78,9 @@ public class Stop implements Locatable, Serializable
 	 */
 	public void setLocationDatabase (LocationPlus aLocation)
 	{
+		DatabaseUtility.changeStopsLocation(this, aLocation);
 		this.location = aLocation;
+
 	}
 
 	public void setLocation(LocationPlus location){
@@ -164,6 +169,7 @@ public class Stop implements Locatable, Serializable
 			return false;
 		}
 	}
+
 
 
 }

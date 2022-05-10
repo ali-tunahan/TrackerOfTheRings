@@ -60,8 +60,9 @@ public class Vehicle extends Account implements Locatable, Serializable
 	 * Mutator for boolean isActive
 	 * @param isActive
 	 */
-    public void setActive(boolean isActive) {
+    public void setActive(boolean isActive, boolean writeToDatabase) {
         this.isActive = isActive;
+
     }
 
 
@@ -98,7 +99,7 @@ public class Vehicle extends Account implements Locatable, Serializable
             this.history.put(this.getNextStop(), instant.toString());
             
             Route newRoute = new Route();
-            newRoute.setName(currentRoute.getName());
+            newRoute.setName(currentRoute.getName(),true);
             List<Stop> copyStops = new ArrayList<Stop>();
 
             for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
@@ -116,7 +117,7 @@ public class Vehicle extends Account implements Locatable, Serializable
 	 */
     public void setCurrentRoute(Route aCurrentRoute){
         Route copy = new Route();
-        copy.setName(aCurrentRoute.getName());
+        copy.setName(aCurrentRoute.getName(),false);
 
         List<Stop> copyStops = new ArrayList<Stop>();
 

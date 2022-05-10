@@ -75,11 +75,11 @@ public class Route implements Serializable
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        /*if (writeToDatabase){
+    public void setName(String name, boolean writeToDatabase) {
+        if (writeToDatabase){
             DatabaseUtility.changeRouteName(this, name);
-        }*/
+        }
+        this.name = name;
     }
 
     public List<Stop> getStopsList() {

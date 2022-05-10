@@ -73,7 +73,7 @@ public class CompanyAddStopToRoute extends Fragment {
 
                 for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
                     Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
-                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
                         System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
                         mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
                     }
@@ -120,21 +120,24 @@ public class CompanyAddStopToRoute extends Fragment {
             LatLng currentLatLong = new LatLng(MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude()));
 
-            for(int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
-                Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
-                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
-                    System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+            if (CompanyEditRoute.getStatus() == CompanyEditRoute.EDIT){
+                for(int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
+                    Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
+                    if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
+                        System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                    }
                 }
-            }
 
-            for(int j = 0; j < currentRoute.getStopsList().size(); j++){
-                if(currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
-                    LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
-                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                for(int j = 0; j < currentRoute.getStopsList().size(); j++){
+                    if(currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                    }
                 }
-            }
 
+
+            }
 
             mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyAddStopToRouteLocationHandler.getmLastKnownLocation().getLongitude()));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
@@ -243,17 +246,24 @@ public class CompanyAddStopToRoute extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Route selectedRoute = null;
-                for(int i = 0; i < LocationController.getRoutes().size(); i++){
-                    if(CompanyEditRoute.getTempRoute().equals(LocationController.getRoutes().get(i))){
-                        selectedRoute = LocationController.getRoutes().get(i);
+                if(CompanyEditRoute.getStatus() == CompanyEditRoute.EDIT) {
+                    Route selectedRoute = null;
+                    for (int i = 0; i < LocationController.getRoutes().size(); i++) {
+                        if (CompanyEditRoute.getTempRoute().equals(LocationController.getRoutes().get(i))) {
+                            selectedRoute = LocationController.getRoutes().get(i);
+                        }
                     }
-                }
-                selectedRoute.setStopsList(new ArrayList<Stop>());
+                    selectedRoute.setStopsList(new ArrayList<Stop>());
 
-                for (Stop s : stopsListToAdd) {
+                    for (Stop s : stopsListToAdd) {
 
-                    selectedRoute.addStop(s);
+                        selectedRoute.addStop(s);
+                    }
+                }else if(CompanyEditRoute.getStatus() == CompanyEditRoute.NEW){
+                    CompanyEditRoute.getTempRoute().setStopsList(new ArrayList<Stop>());
+                    for (Stop s : stopsListToAdd) {
+                        CompanyEditRoute.getTempRoute().addStop(s);
+                    }
                 }
                 stopsListToAdd.clear();
                 bottomBar.hide();

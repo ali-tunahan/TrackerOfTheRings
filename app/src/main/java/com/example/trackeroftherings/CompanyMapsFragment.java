@@ -46,7 +46,7 @@ public class CompanyMapsFragment extends Fragment {
             mMap.clear();
             for(int i = 0; i < LocationController.getVehicles().size(); i++) {
                 Vehicle currentVehicle = LocationController.getVehicles().get(i);
-                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.getCompanyID().equals(SecondFragment.getUsersCompanyID()) && currentVehicle.isActive()) {
                     mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
                 }
             }

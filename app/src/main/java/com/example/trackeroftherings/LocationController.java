@@ -126,7 +126,6 @@ public class LocationController {
                         matchingVehicles.add(currentVehicle);
                     }
                 }
-
                 firebaseCallback.onCallback(matchingVehicles);
             }
             @Override
@@ -176,6 +175,18 @@ public class LocationController {
 
             }
         });
+    }
+
+    public static void addStop(Stop aStop){
+        stops.add(aStop);
+    }
+
+    public static void addRoute(Route aRoute){
+        routes.add(aRoute);
+    }
+
+    public static void addVehicle(Vehicle aVehicle){
+        vehicles.add(aVehicle);
     }
 
     //Used for waiting for callback

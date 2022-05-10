@@ -118,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
         routeInfoLocationHandler = new LocationHandler(MainActivity.this, routeInfoOnLocationUpdateListener);
         userStopsLocationHandler = new LocationHandler(MainActivity.this, userStopsOnLocationUpdateListener);
         userStopInfoLocationHandler = new LocationHandler(MainActivity.this, userStopInfoOnLocationUpdateListener);
+
+
+        LoginUtility utilityObject = new LoginUtility();
+
+
         /*Vehicle vroom = new Vehicle("vroom", "123", "123");
         Location vroomLocation = new Location("");
         vroomLocation.setLatitude(41.003234);
@@ -134,16 +139,16 @@ public class MainActivity extends AppCompatActivity {
         greer.setLocation(greerLocationPlus);
         DatabaseUtility.add(greer);
 
-       */ Stop test = new Stop("stopppTest", new LocationPlus(), "123");
+       Stop test = new Stop("stopppTest", new LocationPlus(), "123");
         Location testLocation = new Location("");
         testLocation.setLatitude(40.703234);
         testLocation.setLongitude(32.771808);
         LocationPlus testLocationPlus = new LocationPlus(testLocation);
         test.setLocation(testLocationPlus);
-        DatabaseUtility.add(test);
+        DatabaseUtility.add(test);*/
 
 
-        LoginUtility utilityObject = new LoginUtility();
+
 
         //used for uploading some objects to database do not delete
         /*
@@ -192,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
         DatabaseUtility.add(r2);
         DatabaseUtility.add(v1);
         DatabaseUtility.add(v2);*/
-
     }
 
     public MainActivity getMain() {

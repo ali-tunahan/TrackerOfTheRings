@@ -232,8 +232,12 @@ public class DriverMapsFragment extends Fragment {
                             selectedRoute = LocationController.getRoutes().get(i);
                         }
                     }
-                    if(DriverCompanyLoginFragment.getSelfVehicle() != null)
+                    if(DriverCompanyLoginFragment.getSelfVehicle() != null){
                         selectedRoute.addActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle(),true);
+                        DriverCompanyLoginFragment.getSelfVehicle().setActive(true,true);
+                        DriverCompanyLoginFragment.getSelfVehicle().setCurrentRoute(selectedRoute,true);
+                    }
+
                     binding.cancel.setVisibility(View.VISIBLE);
                     binding.cancel.setOnClickListener(new View.OnClickListener() {
                         @Override

@@ -57,7 +57,7 @@ public class CompanyRouteInfoFragment extends Fragment {
 
                 for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
                     Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
-                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                    if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
                         System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
                         mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
                     }
@@ -106,7 +106,7 @@ public class CompanyRouteInfoFragment extends Fragment {
 
             for(int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
                 Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
-                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null) {
+                if(currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
                     System.out.println("this is i value: " + k + " this is vehicle: " + currentVehicle.getUsername());
                     mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
                 }

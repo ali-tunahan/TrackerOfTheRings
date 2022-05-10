@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -94,22 +95,22 @@ public class CompanyEditStop extends Fragment {
             mMap = googleMap;
             MainActivity.companyEditStopLocationHandler.startLocationUpdates();
             MainActivity.companyEditStopLocationHandler.updateGPS();
-            LatLng stopLatLong = new LatLng(CompanyStopInfo.getStopToDisplay().getLocation().getLatitude(), CompanyStopInfo.getStopToDisplay().getLocation().getLongitude());
-            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(CompanyStopInfo.getStopToDisplay().getName()));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)
+            if (status == EDIT){
+                LatLng stopLatLong = new LatLng(CompanyStopInfo.getStopToDisplay().getLocation().getLatitude(), CompanyStopInfo.getStopToDisplay().getLocation().getLongitude());
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(CompanyStopInfo.getStopToDisplay().getName()));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)
 
+            }
 
-            mMap = googleMap;
-
-
-            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
                     mMap.clear();
-                    mMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
+                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
+                    markerPosition = latLng;
                 }
             });
-            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     try {
@@ -197,16 +198,26 @@ public class CompanyEditStop extends Fragment {
                             selectedStop = LocationController.getStops().get(i);
                         }
                     }
-                    selectedStop.setName(stopName.getText().toString());
                     LocationPlus stopLocation = new LocationPlus();
-                    stopLocation.setLatitude(markerPosition.latitude);
-                    stopLocation.setLongitude(markerPosition.longitude);
-                    selectedStop.setLocation(stopLocation);
+                    if (markerPosition != null){
+                        stopLocation.setLatitude(markerPosition.latitude);
+                        stopLocation.setLongitude(markerPosition.longitude);
+                        selectedStop.setLocation(stopLocation);
+                    }
+                    selectedStop.setName(stopName.getText().toString(),true);
+
+
                     NavHostFragment.findNavController(CompanyEditStop.this)
                             .navigate(R.id.action_companyEditStop_to_companyStopInfoFragment);
                 }else if(status == NEW) {
-                    //add new stop (wip)
-                    companyStopsFragment.stopsList.add(new Stop(stopName.getText().toString(), new LocationPlus("provider1"), DriverCompanyLoginFragment.getCompanyID()));
+                    LocationPlus locationPlus = new LocationPlus();
+                    if (markerPosition != null){
+                        locationPlus.setLongitude(markerPosition.longitude);
+                        locationPlus.setLatitude(markerPosition.latitude);
+                    }
+                    Stop newStop = new Stop(stopName.getText().toString(), locationPlus, DriverCompanyLoginFragment.getCompanyID());
+                    LocationController.addStop(newStop);
+                    DatabaseUtility.add(newStop);
                     NavHostFragment.findNavController(CompanyEditStop.this)
                             .navigate(R.id.action_companyEditStop_to_companyStopsFragment);
                 }
