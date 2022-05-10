@@ -65,7 +65,6 @@ public class LocationController {
         updateVehicleLocations();
     }
 
-    //problem with multiple vehicles with same company id
     public void updateVehicleLocations(){
         DatabaseReference reference = DatabaseUtility.vehiclesReference;
         reference.addValueEventListener(new ValueEventListener() {
@@ -74,12 +73,27 @@ public class LocationController {
                 for(DataSnapshot vehicleSnapshot : snapshot.getChildren()){
                     Vehicle v = vehicleSnapshot.getValue(Vehicle.class);
                     if (v.getCompanyID().equals(companyID)){
-                        if (vehicles.contains(v)){
+                        boolean contains = false;
+                        for (int i = 0; i < vehicles.size(); i++) {
+                            if (vehicles.get(i).equals(v)){
+                                contains = true;
+                            }
+                        }
+                        if (contains){
                             //removing the object if old version exists
                             vehicles.remove(v);
                         }
                         //adding the new object
-                        vehicles.add(v);
+                        boolean contains2 = false;
+                        for (int i = 0; i < vehicles.size(); i++) {
+                            if (vehicles.get(i).equals(v)){
+                                contains2 = true;
+                            }
+                        }
+                        if (!contains2){
+                            vehicles.add(v);
+                        }
+
                     }
                 }
             }
@@ -186,7 +200,15 @@ public class LocationController {
     }
 
     public static void addVehicle(Vehicle aVehicle){
-        vehicles.add(aVehicle);
+        boolean contains = false;
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).equals(aVehicle)){
+                contains = true;
+            }
+        }
+        if (!contains){
+            vehicles.add(aVehicle);
+        }
     }
 
     //Used for waiting for callback

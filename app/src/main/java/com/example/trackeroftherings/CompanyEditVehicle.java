@@ -65,9 +65,7 @@ public class CompanyEditVehicle extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         }
     };
 
@@ -142,21 +140,21 @@ public class CompanyEditVehicle extends Fragment {
                 bottomBar.hide();
 
                 if(status == EDIT) {
-                    //set the new location of the stop here
                     Vehicle selectedVehicle = null;
                     for(int i = 0; i < LocationController.getVehicles().size(); i++){
                         if(CompanyVehicleInfo.getvehicleToDisplay().equals(LocationController.getVehicles().get(i))){
                             selectedVehicle = LocationController.getVehicles().get(i);
                         }
                     }
-                    selectedVehicle.setUsername(userName.getText().toString());
-                    selectedVehicle.setPassword(password.getText().toString());
+
+                    selectedVehicle.changeInfo(userName.getText().toString(), password.getText().toString());
+
                     NavHostFragment.findNavController(CompanyEditVehicle.this)
                             .navigate(R.id.action_companyEditVehicle_to_companyVehicleInfo);
                 }else if(status == NEW) {
-                    //set the new location of the stop here
-                    //companyID??
-                    CompanyVehicleFragment.vehiclesList.add(new Vehicle(userName.getText().toString(),password.getText().toString(),DriverCompanyLoginFragment.getCompanyID()));
+                    Vehicle vehicle = new Vehicle(userName.getText().toString(),password.getText().toString(),DriverCompanyLoginFragment.getCompanyID());
+                    DatabaseUtility.add(vehicle);
+                    LocationController.addVehicle(vehicle);
                     NavHostFragment.findNavController(CompanyEditVehicle.this)
                             .navigate(R.id.action_companyEditVehicle_to_companyVehicleFragment);
                 }

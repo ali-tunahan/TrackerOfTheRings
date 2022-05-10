@@ -258,6 +258,15 @@ public class DatabaseUtility {
         change(oldVehicleCopy,newVehicle);
     }
 
+    public static void changeVehicleInfo(Vehicle oldVehicle, String name, String password){
+
+        Vehicle newVehicle = new Vehicle(oldVehicle);
+        newVehicle.setUsername(name);
+        newVehicle.setPassword(password);
+        Vehicle oldVehicleCopy = new Vehicle(oldVehicle);
+        change(oldVehicleCopy,newVehicle);
+    }
+
 
 
 

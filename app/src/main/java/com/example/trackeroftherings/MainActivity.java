@@ -76,12 +76,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        //dummyvehiclelist.add(kendrick);
-        //dummystops.add(dummyStop);
-        //dummyRoute.addStop(dummyStop);
-        //.addActiveVehicle(kendrick);
-        //kendrick.setCurrentRoute(dummyRoute);
-        //DatabaseUtility.add(kendrick);
 
         onLocationUpdateListener = MapsFragment.onLocationUpdateListener;
         driverOnLocationUpdateListener = DriverMapsFragment.onLocationUpdateListener;
@@ -145,8 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
         //used for uploading some objects to database do not delete
         /*
-        Company c1 = new Company("Fellowship of the Ring ltd.şti","123456","123" );
-
+        Company c1 = new Company("dogo","123456","123" );
+        DatabaseUtility.add(c1);
+        /*
         Stop s1 = new Stop("bilkent", new LocationPlus(), "123");
         Stop s2 = new Stop("dorm", new LocationPlus(), "123");
         Stop s3 = new Stop("tunus", new LocationPlus(), "123");
@@ -176,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
         c1.addRoute(r1);
         c1.addRoute(r2);
 
-        v1.setCurrentRoute(r1);
-        v2.setCurrentRoute(r2);
+        v1.setCurrentRoute(r1,true);
+        v2.setCurrentRoute(r2,true);
 
-        v1.setActive(true);
-        v2.setActive(true);
+        v1.setActive(true,false);
+        v2.setActive(true,false);
 
         c1.addVehicle(v1);
         c1.addVehicle(v2);

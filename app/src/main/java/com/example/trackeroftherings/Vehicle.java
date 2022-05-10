@@ -139,6 +139,16 @@ public class Vehicle extends Account implements Locatable, Serializable
         this.currentRoute = copy;
     }
 
+
+    public void changeInfo(String name, String password){
+
+        DatabaseUtility.changeVehicleInfo(this, name, password);
+
+        this.setUsername(name);
+        this.setPassword(password);
+
+    }
+
     /**
 	 * Accessor method for currentRoute
 	 * @return currentRoute
