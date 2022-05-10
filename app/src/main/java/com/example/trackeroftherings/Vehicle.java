@@ -16,6 +16,8 @@ public class Vehicle extends Account implements Locatable, Serializable
     private HashMap<Stop, String> history;
     private boolean isActive;
     private Route currentRoute;
+
+
     private LocationPlus location;
     private Company company;
 
@@ -37,7 +39,7 @@ public class Vehicle extends Account implements Locatable, Serializable
  * Empty constructor
  */
     public Vehicle(){}
-    
+
     /**
 	 * Accessor method for boolean isActive
 	 * @return isActive
@@ -45,6 +47,11 @@ public class Vehicle extends Account implements Locatable, Serializable
     public boolean isActive() {
         return isActive;
     }
+
+    public boolean getIsActive(){
+        return isActive;
+    }
+
     /**
      * Copy constructor
      * @param aVehicle
@@ -217,5 +224,14 @@ public class Vehicle extends Account implements Locatable, Serializable
             return false;
         }
 
+    }
+
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setCurrentRoute(Route currentRoute) {
+        this.currentRoute = currentRoute;
     }
 }
