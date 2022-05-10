@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
         greer.setLocation(greerLocationPlus);
         DatabaseUtility.add(greer);
 
-        Stop test = new Stop("test", new LocationPlus(), "123");
+        Stop test = new Stop("stopppTest", new LocationPlus(), "123");
         Location testLocation = new Location("");
-        testLocation.setLatitude(39.703234);
+        testLocation.setLatitude(40.703234);
         testLocation.setLongitude(32.771808);
         LocationPlus testLocationPlus = new LocationPlus(testLocation);
         test.setLocation(testLocationPlus);
