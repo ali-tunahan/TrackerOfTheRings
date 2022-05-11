@@ -163,10 +163,15 @@ public class StopInfoFragment extends Fragment {
         text.setText(stopToDisplay.getName());
         text.append("\n---ROUTES---\n" );
         if(stopToDisplay.getRoutesList() != null) {//nothing to change here, it seems
-            for(int i = 0; i < stopToDisplay.getRoutesList().size(); i++) {
-                if (!stopToDisplay.getRoutesList().get(i).getName().equals("")) {
+            for(int i = 0; i < LocationController.getRoutes().size(); i++) {
+                boolean check = false;
+                for(int j = 0; j < LocationController.getRoutes().get(i).getStopsList().size(); j++){
+                    if (LocationController.getRoutes().get(i).getStopsList().get(j).equals(stopToDisplay))
+                        check = true;
+                }
+                if (check) {
                     Button b = new Button(this.getContext());
-                    b.setText(stopToDisplay.getRoutesList().get(i).getName());
+                    b.setText(LocationController.getRoutes().get(i).getName());
                     b.setId(i);
                     b.setTextSize(20);
                     b.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -180,7 +185,7 @@ public class StopInfoFragment extends Fragment {
                         public void onClick(View v) {
                             bottomBar.hide();
                             for (int i = 0; i < LocationController.getRoutes().size(); i++) {
-                                if (LocationController.getRoutes().get(i).equals(stopToDisplay.getRoutesList().get(finalI))) {
+                                if (LocationController.getRoutes().get(i).equals(LocationController.getRoutes().get(finalI))) {
                                     RouteInfoFragment.setRouteToDisplay(LocationController.getRoutes().get(i));
                                 }
                             }

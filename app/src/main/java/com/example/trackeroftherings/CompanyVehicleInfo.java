@@ -88,7 +88,7 @@ public class CompanyVehicleInfo extends Fragment {
             mMap.clear();
             LatLng stopLatLong = new LatLng(vehicleToDisplay.getLocation().getLatitude(), vehicleToDisplay.getLocation().getLongitude());
             mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(vehicleToDisplay.getUsername() + " status: " + vehicleToDisplay.getIsActive()));
-
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)
 
         }
     };

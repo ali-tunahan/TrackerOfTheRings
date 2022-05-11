@@ -62,18 +62,16 @@ public class companyRoutesFragment extends Fragment {
                 for (int i = 0; i < LocationController.getRoutes().size(); i++) {
                     Route currentRoute = LocationController.getRoutes().get(i);
 
-                    for (int k = 0; k < currentRoute.getActiveVehicles().size(); k++) {
-                        Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
-                        if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
-                            System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                    for (int k = 0; k < LocationController.getVehicles().size(); k++) {
+                        if (LocationController.getVehicles().get(k).getUsername() != "kendrick" && LocationController.getVehicles().get(k).getLocation() != null && LocationController.getVehicles().get(k).isActive()) {
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(LocationController.getVehicles().get(k).getLocation().getLatitude(), LocationController.getVehicles().get(k).getLocation().getLongitude())).title(LocationController.getVehicles().get(k).getUsername()));
                         }
                     }
 
                     for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
                         if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
                             LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
-                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title(currentRoute.getStopsList().get(j).getName()));
                         }
                     }
 

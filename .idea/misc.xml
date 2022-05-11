@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/drawable/tick_icon.xml" value="0.21458333333333332" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/activity_maps.xml" value="0.25" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/app.xml" value="0.20520833333333333" />
@@ -10,7 +11,7 @@
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_company.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_company_addstop_toroute.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_company_stops_routes_vehicles.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_edit_route.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_edit_route.xml" value="0.25" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_edit_stop.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_edit_vehicle.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pesichra/AndroidStudioProjects/MyApplication3/app/src/main/res/layout/bottom_dialog_stop_route_info.xml" value="0.36666666666666664" />

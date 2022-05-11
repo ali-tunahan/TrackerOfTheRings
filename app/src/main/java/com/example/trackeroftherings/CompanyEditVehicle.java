@@ -97,7 +97,7 @@ public class CompanyEditVehicle extends Fragment {
                 mMap.clear();
                 LatLng stopLatLong = new LatLng(CompanyVehicleInfo.getvehicleToDisplay().getLocation().getLatitude(), CompanyVehicleInfo.getvehicleToDisplay().getLocation().getLongitude());
                 mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(CompanyVehicleInfo.getvehicleToDisplay().getUsername() + " status: " + CompanyVehicleInfo.getvehicleToDisplay().getIsActive()));
-
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)
             }
             catch (NullPointerException e){
 

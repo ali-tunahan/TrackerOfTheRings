@@ -218,6 +218,7 @@ public class DriverMapsFragment extends Fragment {
 
                     if(DriverCompanyLoginFragment.getSelfVehicle() != null){
                         selectedRoute.addActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle(),true);
+                        selectedRoute.setCompanyID(DriverCompanyLoginFragment.getCompanyID());
                         DriverCompanyLoginFragment.getSelfVehicle().setCurrentRoute(selectedRoute, true);
                     }
 

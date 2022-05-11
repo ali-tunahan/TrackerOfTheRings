@@ -50,7 +50,7 @@ public class CompanyStopInfo extends Fragment {
         public void onLocationChange(LocationPlus location) {
             try {
                 MainActivity.companyStopInfoLocationHandler.updateGPS();
-                SecondFragment.getController().updateVehicleLocations();
+                DriverCompanyLoginFragment.getController().updateVehicleLocations();
 
                 mMap.clear();
                 LatLng stopLatLong = new LatLng(stopToDisplay.getLocation().getLatitude(), stopToDisplay.getLocation().getLongitude());
@@ -163,10 +163,15 @@ public class CompanyStopInfo extends Fragment {
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
         text.setText(stopToDisplay.getName());
         if(stopToDisplay.getRoutesList() != null) {//nothing to change here, it seems
-            for(int i = 0; i < stopToDisplay.getRoutesList().size(); i++) {
-                if(!stopToDisplay.getRoutesList().get(i).getName().equals("")) {
+            for(int i = 0; i < LocationController.getRoutes().size(); i++) {
+                boolean check = false;
+                for(int j = 0; j < LocationController.getRoutes().get(i).getStopsList().size(); j++){
+                    if (LocationController.getRoutes().get(i).getStopsList().get(j).equals(stopToDisplay))
+                        check = true;
+                }
+                if (check) {
                     Button b = new Button(this.getContext());
-                    b.setText(stopToDisplay.getRoutesList().get(i).getName());
+                    b.setText(LocationController.getRoutes().get(i).getName());
                     b.setId(i);
                     b.setTextSize(20);
                     b.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -179,7 +184,11 @@ public class CompanyStopInfo extends Fragment {
                         @Override
                         public void onClick(View v) {
                             bottomBar.hide();
-                            CompanyRouteInfoFragment.setRouteToDisplay(stopToDisplay.getRoutesList().get(finalI));
+                            for (int i = 0; i < LocationController.getRoutes().size(); i++) {
+                                if (LocationController.getRoutes().get(i).equals(LocationController.getRoutes().get(finalI))) {
+                                    CompanyRouteInfoFragment.setRouteToDisplay(LocationController.getRoutes().get(i));
+                                }
+                            }
                             NavHostFragment.findNavController(CompanyStopInfo.this)
                                     .navigate(R.id.action_companyStopInfoFragment_to_companyRouteInfoFragment);
                         }
