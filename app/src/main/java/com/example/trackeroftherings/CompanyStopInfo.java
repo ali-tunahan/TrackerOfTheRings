@@ -164,26 +164,28 @@ public class CompanyStopInfo extends Fragment {
         text.setText(stopToDisplay.getName());
         if(stopToDisplay.getRoutesList() != null) {//nothing to change here, it seems
             for(int i = 0; i < stopToDisplay.getRoutesList().size(); i++) {
-                Button b = new Button(this.getContext());
-                b.setText(stopToDisplay.getRoutesList().get(i).getName());
-                b.setId(i);
-                b.setTextSize(20);
-                b.setTextColor(Color.parseColor("#FFFFFFFF"));
-                b.setBackgroundColor(R.color.teal_200);
-                b.setGravity(Gravity.CENTER);
-                b.setPadding(15, 10, 15, 10);
-                b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-                int finalI = i;
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bottomBar.hide();
-                        CompanyRouteInfoFragment.setRouteToDisplay(stopToDisplay.getRoutesList().get(finalI));
-                        NavHostFragment.findNavController(CompanyStopInfo.this)
-                                .navigate(R.id.action_companyStopInfoFragment_to_companyRouteInfoFragment);
-                    }
-                });
-                linear1.addView(b);
+                if(!stopToDisplay.getRoutesList().get(i).getName().equals("")) {
+                    Button b = new Button(this.getContext());
+                    b.setText(stopToDisplay.getRoutesList().get(i).getName());
+                    b.setId(i);
+                    b.setTextSize(20);
+                    b.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    b.setBackgroundColor(R.color.teal_200);
+                    b.setGravity(Gravity.CENTER);
+                    b.setPadding(15, 10, 15, 10);
+                    b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+                    int finalI = i;
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bottomBar.hide();
+                            CompanyRouteInfoFragment.setRouteToDisplay(stopToDisplay.getRoutesList().get(finalI));
+                            NavHostFragment.findNavController(CompanyStopInfo.this)
+                                    .navigate(R.id.action_companyStopInfoFragment_to_companyRouteInfoFragment);
+                        }
+                    });
+                    linear1.addView(b);
+                }
             }
         }
         bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {

@@ -164,30 +164,32 @@ public class StopInfoFragment extends Fragment {
         text.append("\n---ROUTES---\n" );
         if(stopToDisplay.getRoutesList() != null) {//nothing to change here, it seems
             for(int i = 0; i < stopToDisplay.getRoutesList().size(); i++) {
-                Button b = new Button(this.getContext());
-                b.setText(stopToDisplay.getRoutesList().get(i).getName());
-                b.setId(i);
-                b.setTextSize(20);
-                b.setTextColor(Color.parseColor("#FFFFFFFF"));
-                b.setBackgroundColor(R.color.teal_200);
-                b.setGravity(Gravity.CENTER);
-                b.setPadding(15, 10, 15, 10);
-                b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-                int finalI = i;
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bottomBar.hide();
-                        for(int i = 0; i < LocationController.getRoutes().size(); i++){
-                            if(LocationController.getRoutes().get(i).equals(stopToDisplay.getRoutesList().get(finalI))){
-                                RouteInfoFragment.setRouteToDisplay(LocationController.getRoutes().get(i));
+                if (!stopToDisplay.getRoutesList().get(i).getName().equals("")) {
+                    Button b = new Button(this.getContext());
+                    b.setText(stopToDisplay.getRoutesList().get(i).getName());
+                    b.setId(i);
+                    b.setTextSize(20);
+                    b.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    b.setBackgroundColor(R.color.teal_200);
+                    b.setGravity(Gravity.CENTER);
+                    b.setPadding(15, 10, 15, 10);
+                    b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+                    int finalI = i;
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bottomBar.hide();
+                            for (int i = 0; i < LocationController.getRoutes().size(); i++) {
+                                if (LocationController.getRoutes().get(i).equals(stopToDisplay.getRoutesList().get(finalI))) {
+                                    RouteInfoFragment.setRouteToDisplay(LocationController.getRoutes().get(i));
+                                }
                             }
+                            NavHostFragment.findNavController(StopInfoFragment.this)
+                                    .navigate(R.id.action_stopInfoFragment_to_routeInfoFragment);
                         }
-                        NavHostFragment.findNavController(StopInfoFragment.this)
-                                .navigate(R.id.action_stopInfoFragment_to_routeInfoFragment);
-                    }
-                });
-                linear1.addView(b);
+                    });
+                    linear1.addView(b);
+                }
             }
         }
         bottomBar.show();

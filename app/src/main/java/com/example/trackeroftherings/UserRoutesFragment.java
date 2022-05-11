@@ -190,30 +190,33 @@ public class UserRoutesFragment extends Fragment {
             routesList = LocationController.getRoutes();
         }
 
-        for(int i = 0; i < routesList.size(); i++){
-            Button b = new Button(this.getContext());
-            b.setText(routesList.get(i).getName());
-            b.setId(i);
-            b.setTextSize(20);
-            b.setTextColor(Color.parseColor("#FFFFFFFF"));
-            b.setBackgroundColor(R.color.teal_200);
-            b.setGravity(Gravity.CENTER);
-            b.setPadding(15, 10, 15, 10);
-            b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-            linear1.addView(b);
-            int finalI = i;
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bottomBar.hide();
-                    RouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
-                    NavHostFragment.findNavController(UserRoutesFragment.this)
-                            .navigate(R.id.action_userRoutesFragment_to_routeInfoFragment);
-                }
-            });
+        for(int i = 0; i < routesList.size(); i++) {
+            if (!routesList.get(i).getName().equals("")) {
+
+                Button b = new Button(this.getContext());
+                b.setText(routesList.get(i).getName());
+                b.setId(i);
+                b.setTextSize(20);
+                b.setTextColor(Color.parseColor("#FFFFFFFF"));
+                b.setBackgroundColor(R.color.teal_200);
+                b.setGravity(Gravity.CENTER);
+                b.setPadding(15, 10, 15, 10);
+                b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+                linear1.addView(b);
+                int finalI = i;
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomBar.hide();
+                        RouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
+                        NavHostFragment.findNavController(UserRoutesFragment.this)
+                                .navigate(R.id.action_userRoutesFragment_to_routeInfoFragment);
+                    }
+                });
+            }
+            isEntered = true;
+            bottomBar.show();
         }
-        isEntered = true;
-        bottomBar.show();
     }
 
     @Override
