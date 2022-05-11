@@ -15,4 +15,11 @@ public class LocationPlus extends Location {
         super(l);
     }
 
+    public LocationPlus(int lat, int lng)
+    {
+        super("");
+        this.setLatitude (lat);
+        this.setLongitude (lng);
+    }
+
 }
