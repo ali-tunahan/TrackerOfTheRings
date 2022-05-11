@@ -97,6 +97,9 @@ public class DriverMapsFragment extends Fragment {
             googleMap.clear();
             MainActivity.driverLocationHandler.startLocationUpdates();
             MainActivity.driverLocationHandler.updateGPS();
+            if (MainActivity.driverLocationHandler.getmLastKnownLocation() == null){
+                return;
+            }
             LatLng driverPos = new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().position(driverPos).title("You are here! Driver " + DriverCompanyLoginFragment.getSelfVehicle().getUsername()));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(driverPos,18.0f));
@@ -238,6 +241,7 @@ public class DriverMapsFragment extends Fragment {
                                             finalSelectedRoute.removeActiveVehicle(DriverCompanyLoginFragment.getSelfVehicle(), true);
                                             DriverCompanyLoginFragment.getSelfVehicle().setCurrentRoute(null,false);
                                             DriverCompanyLoginFragment.getSelfVehicle().setActive(false,false);
+                                            DriverCompanyLoginFragment.getSelfVehicle().getHistory().clear();
 
                                         }
                                     })

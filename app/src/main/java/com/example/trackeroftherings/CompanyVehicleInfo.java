@@ -32,6 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.w3c.dom.Text;
+
 public class CompanyVehicleInfo extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
@@ -167,15 +169,17 @@ public class CompanyVehicleInfo extends Fragment {
         (NullPointerException e){
             text.append("\n---ACTIVE ON ROUTE---\n" + "NONE");
         }
-        Button historyButton = new Button(this.getContext());
-        historyButton.setText("HISTORY");
-        historyButton.setId(0);
-        historyButton.setTextSize(20);
-        historyButton.setTextColor(Color.parseColor("#FFFFFFFF"));
-        historyButton.setBackgroundColor(R.color.teal_200);
-        historyButton.setGravity(Gravity.CENTER);
-        historyButton.setPadding(15, 10, 15, 10);
-        historyButton.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+        TextView historyText = new TextView(this.getContext());
+        historyText.setText("HISTORY: ");
+        historyText.setId(0);
+        historyText.setTextSize(20);
+        historyText.setTextColor(Color.parseColor("#FFFFFFFF"));
+        historyText.setBackgroundColor(R.color.teal_200);
+        historyText.setGravity(Gravity.CENTER);
+        historyText.setPadding(15, 10, 15, 10);
+        historyText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+        historyText.append( vehicleToDisplay.historyToString());
+
         bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +189,7 @@ public class CompanyVehicleInfo extends Fragment {
                         .navigate(R.id.action_companyVehicleInfo_to_companyEditVehicle);
             }
         });
-        linear1.addView(historyButton);
+        linear1.addView(historyText);
         bottomBar.show();
     }
 

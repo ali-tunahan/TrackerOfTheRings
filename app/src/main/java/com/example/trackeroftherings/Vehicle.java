@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
 import java.util.List;
+import java.util.Map;
 
 public class Vehicle extends Account implements Locatable, Serializable
 {
-    
-    private HashMap<Stop, String> history;
+
+    private Map<String, String> history;
     private boolean isActive;
     private Route currentRoute;
 
@@ -63,6 +64,7 @@ public class Vehicle extends Account implements Locatable, Serializable
         this.setCompany(authenticateCompanyID(aVehicle.getCompanyID()));
         this.setCurrentRoute(new Route(aVehicle.getCurrentRoute()),false);
         this.isActive = aVehicle.isActive;
+        this.history = new HashMap<String, String>();
     }  
     
     /**
@@ -76,18 +78,23 @@ public class Vehicle extends Account implements Locatable, Serializable
         this.isActive = isActive;
     }
 
+    public void setHistory(Map<String, String> history) {
+        this.history = history;
+    }
+
     /**
      * If the vehicle is near x meters of a stop method returns true using the haversine formula
      * @return boolean arrivedAtStop
      * https://www.movable-type.co.uk/scripts/latlong.html
      */
-    public boolean arrivedAtStop(){
-        int targetDistanceInMeters = 20;//x
+    public boolean arrivedAtStop(Stop stop){
+
+        int targetDistanceInMeters = 50;//x
         double R = 6371000;
         double number1 = this.getLocation().getLatitude()*Math.PI/180;
-        double number2 = this.getNextStop().getLocation().getLatitude()*Math.PI/180;
-        double delta1 = (this.getNextStop().getLocation().getLatitude()-this.getLocation().getLatitude())*Math.PI/180;
-        double delta2 = (this.getNextStop().getLocation().getLongitude()-this.getLocation().getLongitude())*Math.PI/180;
+        double number2 = stop.getLocation().getLatitude()*Math.PI/180;
+        double delta1 = (stop.getLocation().getLatitude()-this.getLocation().getLatitude())*Math.PI/180;
+        double delta2 = (stop.getLocation().getLongitude()-this.getLocation().getLongitude())*Math.PI/180;
         double a= Math.sin(delta1/2)* Math.sin(delta1/2) + Math.cos(number1)*Math.cos(number2)*Math.sin(delta2/2)*Math.sin(delta2/2);
         double result = Math.atan2(Math.sqrt(a), Math.sqrt(1-a))*2*R;
 
@@ -103,21 +110,30 @@ public class Vehicle extends Account implements Locatable, Serializable
      * Adds the time to history when the vehicle passes a stop and updates the currentRoute
      */
     public void addToHistory(){
-        if(this.arrivedAtStop()){
-            Clock clock = Clock.systemDefaultZone();
-            Instant instant = clock.instant();
-            this.history.put(this.getNextStop(), instant.toString());
-            
-            Route newRoute = new Route();
-            newRoute.setName(currentRoute.getName(),true);
-            List<Stop> copyStops = new ArrayList<Stop>();
-
-            for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
-                copyStops.add(currentRoute.getStopsList().get(i));
-            }
-            this.setCurrentRoute(newRoute,false);
-
+        if (this.getCurrentRoute()==null){
+            return;
         }
+        if (this.getCurrentRoute().getName() == null){
+            return;
+        }
+        for (int i = 0; i < LocationController.getRoutes().size(); i++){
+            if(this.getCurrentRoute().getName().equals(LocationController.getRoutes().get(i).getName()))
+                this.currentRoute = LocationController.getRoutes().get(i);
+        }
+
+        if(!(this.getCurrentRoute().getStopsList() == null)) {
+            for (int i = 0; i < this.getCurrentRoute().getStopsList().size(); i++) {
+
+                if (this.arrivedAtStop(this.getCurrentRoute().getStopsList().get(i))) {
+                    Clock clock = Clock.systemDefaultZone();
+                    Instant instant = clock.instant();
+                    this.history.put(this.getCurrentRoute().getStopsList().get(i).toString(), instant.toString());
+
+                    }
+            }
+        }
+
+
     }
 
     /**
@@ -201,7 +217,7 @@ public class Vehicle extends Account implements Locatable, Serializable
      * Accessor for vehicle history
      * @return history
      */
-    public HashMap<Stop, String> getHistory(){
+    public Map<String, String> getHistory(){
         return history;
     }
 
@@ -212,9 +228,6 @@ public class Vehicle extends Account implements Locatable, Serializable
         this.company = company;
     }
 
-    public void setHistory(HashMap<Stop, String> history) {
-        this.history = history;
-    }
 
     public boolean equals(@NonNull Vehicle aVehicle){
         if(aVehicle.getCompanyID().equals(this.getCompanyID())&& aVehicle.getPassword().equals(this.getPassword()) && aVehicle.getUsername().equals(this.getUsername())){
@@ -233,5 +246,14 @@ public class Vehicle extends Account implements Locatable, Serializable
 
     public void setCurrentRoute(Route currentRoute) {
         this.currentRoute = currentRoute;
+    }
+
+    public String historyToString(){
+        if(this.history == null){
+            return "No Activiy";
+        }
+        else{
+            return history.toString();
+        }
     }
 }
