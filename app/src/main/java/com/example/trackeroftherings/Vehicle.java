@@ -103,20 +103,24 @@ public class Vehicle extends Account implements Locatable, Serializable
      * Adds the time to history when the vehicle passes a stop and updates the currentRoute
      */
     public void addToHistory(){
-        if(this.arrivedAtStop()){
-            Clock clock = Clock.systemDefaultZone();
-            Instant instant = clock.instant();
-            this.history.put(this.getNextStop(), instant.toString());
-            
-            Route newRoute = new Route();
-            newRoute.setName(currentRoute.getName(),true);
-            List<Stop> copyStops = new ArrayList<Stop>();
+        if(!(this.getNextStop() == null)) {
+            if (this.arrivedAtStop()) {
+                Clock clock = Clock.systemDefaultZone();
+                Instant instant = clock.instant();
+                this.history.put(this.getNextStop(), instant.toString());
+                if (this.getCurrentRoute().getStopsList().size() > 0) {
 
-            for(int i = 1; i < currentRoute.getStopsList().size();i++){ // i = 1 so that the current route does not involve passed stop
-                copyStops.add(currentRoute.getStopsList().get(i));
+                    Route newRoute = new Route();
+                    newRoute.setName(currentRoute.getName(), true);
+                    List<Stop> copyStops = new ArrayList<Stop>();
+
+                    for (int i = 1; i < currentRoute.getStopsList().size(); i++) { // i = 1 so that the current route does not involve passed stop
+                        copyStops.add(currentRoute.getStopsList().get(i));
+                    }
+                    this.setCurrentRoute(newRoute, false);
+                }
+
             }
-            this.setCurrentRoute(newRoute,false);
-
         }
     }
 
@@ -233,5 +237,14 @@ public class Vehicle extends Account implements Locatable, Serializable
 
     public void setCurrentRoute(Route currentRoute) {
         this.currentRoute = currentRoute;
+    }
+
+    public String historyToString(){
+        if(this.history == null){
+            return "No Activiy";
+        }
+        else{
+            return history.toString();
+        }
     }
 }

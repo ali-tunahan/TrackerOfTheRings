@@ -170,6 +170,10 @@ public class Stop implements Locatable, Serializable
 		}
 	}
 
+	public String toString(){
+		return this.getName();
+	}
+
 
 
 }

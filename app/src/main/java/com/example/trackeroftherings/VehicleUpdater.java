@@ -20,8 +20,8 @@ public class VehicleUpdater {
         Vehicle updatedVehicle = new Vehicle(vehicle);
         locationHandler.updateGPS();
         updatedVehicle.setLocation(locationHandler.getmLastKnownLocation());
+        updatedVehicle.addToHistory();
         DatabaseUtility.change(vehicle, updatedVehicle);
     }
-
 
 }
