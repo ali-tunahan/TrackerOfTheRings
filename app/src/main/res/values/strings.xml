@@ -5,7 +5,7 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="previous">Prevıous</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
@@ -19,8 +19,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="driver">Driver</string>
-    <string name="login">Login</string>
+    <string name="driver">Drıver</string>
+    <string name="login">Logın</string>
     <string name="company">Company</string>
-    <string name="vehicles">Vehicles</string>
+    <string name="vehicles">Vehıcles</string>
 </resources>
