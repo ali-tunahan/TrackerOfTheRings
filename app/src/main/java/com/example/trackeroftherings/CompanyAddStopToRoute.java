@@ -220,9 +220,11 @@ public class CompanyAddStopToRoute extends Fragment {
             b.setTextSize(20);
             b.setTextColor(Color.parseColor("#FFFFFFFF"));
             b.setBackgroundColor(R.color.teal_200);
-            if(CompanyEditRoute.getTempRoute().getStopsList().contains(stopsList.get(i))) {
-                stopsListToAdd.add(stopsList.get(i));
-                b.setBackgroundColor(Color.parseColor("#DC952D"));
+            for(int j = 0; j < CompanyEditRoute.getTempRoute().getStopsList().size(); j++){
+                if(CompanyEditRoute.getTempRoute().getStopsList().get(j).equals(stopsList.get(i))) {
+                    stopsListToAdd.add(stopsList.get(i));
+                    b.setBackgroundColor(Color.parseColor("#DC952D"));
+                }
             }
             b.setGravity(Gravity.CENTER);
             b.setPadding(15, 10, 15, 10);

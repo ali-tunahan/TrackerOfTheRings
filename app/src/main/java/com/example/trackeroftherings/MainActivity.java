@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     public static LocationHandler routeInfoLocationHandler;
     public static LocationHandler userStopInfoLocationHandler;
     public static  LocationHandler userStopsLocationHandler;
+    public static LocationHandler companyVehicleInfoLocationHandler;
+    public static  LocationHandler companyEditVehicleLocationHandler;
     public static  LocationHandler companyRoutesLocationHandler;
     public static  LocationHandler companyRouteInfoLocationHandler;
     public static  LocationHandler companyEditRouteLocationHandler;
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     public OnLocationUpdateListener companyStopsOnLocationUpdateListener;
     public OnLocationUpdateListener companyEditStopOnLocationUpdateListener;
     public OnLocationUpdateListener companyStopInfoOnLocationUpdateListener;
+    public OnLocationUpdateListener companyEditVehicleOnLocationUpdateListener;
+    public OnLocationUpdateListener companyVehicleInfoOnLocationUpdateListener;
     public OnLocationUpdateListener routeInfoOnLocationUpdateListener;
     public OnLocationUpdateListener userRoutesOnLocationUpdateListener;
     public OnLocationUpdateListener userStopsOnLocationUpdateListener;
@@ -95,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         companyMapsOnLocationUpdateListener = CompanyMapsFragment.onLocationUpdateListener;
         companyStopsOnLocationUpdateListener = companyStopsFragment.onLocationUpdateListener;
         companyRoutesOnLocationUpdateListener = companyRoutesFragment.onLocationUpdateListener;
+        companyVehicleInfoOnLocationUpdateListener = CompanyVehicleInfo.onLocationUpdateListener;
+        companyEditVehicleOnLocationUpdateListener = CompanyEditVehicle.onLocationUpdateListener;
         companyRouteInfoOnLocationUpdateListener = CompanyRouteInfoFragment.onLocationUpdateListener;
         companyEditRouteOnLocationUpdateListener = CompanyEditRoute.onLocationUpdateListener;
         companyAddStopToRouteOnLocationUpdateListener = CompanyAddStopToRoute.onLocationUpdateListener;
@@ -110,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
         companyMapsLocationHandler = new LocationHandler(MainActivity.this, companyMapsOnLocationUpdateListener);
         companyStopsLocationHandler = new LocationHandler(MainActivity.this, companyStopsOnLocationUpdateListener);
         companyRoutesLocationHandler = new LocationHandler(MainActivity.this, companyRoutesOnLocationUpdateListener);
+        companyVehicleInfoLocationHandler = new LocationHandler(MainActivity.this, companyVehicleInfoOnLocationUpdateListener);
+        companyEditVehicleLocationHandler = new LocationHandler(MainActivity.this, companyEditVehicleOnLocationUpdateListener);
         companyRouteInfoLocationHandler = new LocationHandler(MainActivity.this, companyRouteInfoOnLocationUpdateListener);
         companyEditRouteLocationHandler = new LocationHandler(MainActivity.this, companyEditRouteOnLocationUpdateListener);
         companyAddStopToRouteLocationHandler = new LocationHandler(MainActivity.this, companyAddStopToRouteOnLocationUpdateListener);

@@ -37,11 +37,9 @@
         android:id="@+id/homepage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="220dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
         android:clickable="true"
-        map:layout_constraintEnd_toStartOf="@+id/options"
-        map:layout_constraintHorizontal_bias="0.833"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent"
         map:srcCompat="@android:drawable/ic_dialog_map" />

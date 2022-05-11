@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -37,12 +38,35 @@ public class CompanyVehicleInfo extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static Vehicle vehicleToDisplay = null;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            try {
+                MainActivity.companyVehicleInfoLocationHandler.updateGPS();
+                DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+                LatLng stopLatLong = new LatLng(vehicleToDisplay.getLocation().getLatitude(), vehicleToDisplay.getLocation().getLongitude());
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(vehicleToDisplay.getUsername() + " status: " + vehicleToDisplay.getIsActive()));
+
+                }catch (NullPointerException e){
+
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -57,9 +81,15 @@ public class CompanyVehicleInfo extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+            MainActivity.companyVehicleInfoLocationHandler.updateGPS();
+            DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+            mMap.clear();
+            LatLng stopLatLong = new LatLng(vehicleToDisplay.getLocation().getLatitude(), vehicleToDisplay.getLocation().getLongitude());
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(vehicleToDisplay.getUsername() + " status: " + vehicleToDisplay.getIsActive()));
+
+
         }
     };
 

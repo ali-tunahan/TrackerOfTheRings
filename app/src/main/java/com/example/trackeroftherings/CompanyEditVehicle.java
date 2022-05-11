@@ -28,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -41,7 +42,7 @@ public class CompanyEditVehicle extends Fragment {
     public static final int EDIT = 1;
     public static final int NEW = 2;
     private static int status = EMPTY;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private FragmentMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public LocationPlus currentLocation;
@@ -51,6 +52,29 @@ public class CompanyEditVehicle extends Fragment {
     public static void setStatus(int status) {
         CompanyEditVehicle.status = status;
     }
+
+    public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
+        @Override
+        public void onLocationChange(LocationPlus location) {
+            try {
+                MainActivity.companyEditVehicleLocationHandler.updateGPS();
+                DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+                LatLng stopLatLong = new LatLng(CompanyVehicleInfo.getvehicleToDisplay().getLocation().getLatitude(), CompanyVehicleInfo.getvehicleToDisplay().getLocation().getLongitude());
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(CompanyVehicleInfo.getvehicleToDisplay().getUsername() + " status: " + CompanyVehicleInfo.getvehicleToDisplay().getIsActive()));
+
+                 }catch (NullPointerException e){
+
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+            //Toast.makeText(MainActivity, "error", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -65,6 +89,20 @@ public class CompanyEditVehicle extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            try {
+                mMap = googleMap;
+                MainActivity.companyEditVehicleLocationHandler.updateGPS();
+                DriverCompanyLoginFragment.getController().updateVehicleLocations();
+
+                mMap.clear();
+                LatLng stopLatLong = new LatLng(CompanyVehicleInfo.getvehicleToDisplay().getLocation().getLatitude(), CompanyVehicleInfo.getvehicleToDisplay().getLocation().getLongitude());
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(CompanyVehicleInfo.getvehicleToDisplay().getUsername() + " status: " + CompanyVehicleInfo.getvehicleToDisplay().getIsActive()));
+
+            }
+            catch (NullPointerException e){
+
+            }
+
 
         }
     };

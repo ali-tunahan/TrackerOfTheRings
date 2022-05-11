@@ -97,8 +97,9 @@ public class DriverMapsFragment extends Fragment {
             googleMap.clear();
             MainActivity.driverLocationHandler.startLocationUpdates();
             MainActivity.driverLocationHandler.updateGPS();
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
-
+            LatLng driverPos = new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude());
+            googleMap.addMarker(new MarkerOptions().position(driverPos).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(driverPos,18.0f));
         }
     };
 
