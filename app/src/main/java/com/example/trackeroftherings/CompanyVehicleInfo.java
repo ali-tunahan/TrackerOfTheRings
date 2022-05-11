@@ -161,7 +161,6 @@ public class CompanyVehicleInfo extends Fragment {
         BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_stop_route_vehicle_edit_info);
         TextView text = bottomBar.findViewById(R.id.info);
-        LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
         text.setText("\n---VEHICLE NAME---\n" + vehicleToDisplay.getUsername());
         try {
             text.append("\n---ACTIVE ON ROUTE---\n" + vehicleToDisplay.getCurrentRoute().getName() + "\n");
@@ -169,17 +168,10 @@ public class CompanyVehicleInfo extends Fragment {
         (NullPointerException e){
             text.append("\n---ACTIVE ON ROUTE---\n" + "NONE");
         }
-        TextView historyText = new TextView(this.getContext());
-        historyText.setText("HISTORY: ");
-        historyText.setId(0);
-        historyText.setTextSize(20);
-        historyText.setTextColor(Color.parseColor("#FFFFFFFF"));
-        historyText.setBackgroundColor(R.color.teal_200);
-        historyText.setGravity(Gravity.CENTER);
-        historyText.setPadding(15, 10, 15, 10);
-        historyText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-        historyText.append( vehicleToDisplay.historyToString());
-
+        text.append("HISTORY: \n" + vehicleToDisplay.historyToString());
+        text.setGravity(Gravity.CENTER);
+        text.setPadding(15, 10, 15, 10);
+       // text.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
         bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +181,6 @@ public class CompanyVehicleInfo extends Fragment {
                         .navigate(R.id.action_companyVehicleInfo_to_companyEditVehicle);
             }
         });
-        linear1.addView(historyText);
         bottomBar.show();
     }
 
