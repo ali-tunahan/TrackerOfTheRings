@@ -53,9 +53,9 @@ public class StopInfoFragment extends Fragment {
 
                 mMap.clear();
                 LatLng stopLatLong = new LatLng(stopToDisplay.getLocation().getLatitude(), stopToDisplay.getLocation().getLongitude());
-                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title("You are here!"));
 
-                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.userStopInfoLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userStopInfoLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.userStopInfoLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userStopInfoLocationHandler.getmLastKnownLocation().getLongitude()));
+                mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(new LatLng(MainActivity.userStopInfoLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userStopInfoLocationHandler.getmLastKnownLocation().getLongitude())).title(getStopToDisplay().getName()));
             }catch (NullPointerException e){
 
             }
@@ -85,7 +85,7 @@ public class StopInfoFragment extends Fragment {
             MainActivity.userStopsLocationHandler.startLocationUpdates();
             MainActivity.userStopsLocationHandler.updateGPS();
             LatLng currentLatLong = new LatLng(MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLongitude());
-            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userStopsLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("You are here!"));
             LatLng stopLatLong = new LatLng(stopToDisplay.getLocation().getLatitude(), stopToDisplay.getLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(stopToDisplay.getName()));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)

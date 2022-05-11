@@ -65,14 +65,14 @@ public class UserRoutesFragment extends Fragment {
                         Vehicle currentVehicle = currentRoute.getActiveVehicles().get(k);
                         if (currentVehicle.getUsername() != "kendrick" && currentVehicle.getLocation() != null && currentVehicle.isActive()) {
                             System.out.println("this is i value: " + i + " this is vehicle: " + currentVehicle.getUsername());
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title("Lat: " + currentVehicle.getLocation().getLatitude() + " , Long: " + currentVehicle.getLocation().getLongitude()));
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(currentVehicle.getLocation().getLatitude(), currentVehicle.getLocation().getLongitude())).title(currentVehicle.getUsername()));
                         }
                     }
 
                     for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
                         if (currentRoute.getStopsList().get(j).getCompanyID().equals(SecondFragment.getUsersCompanyID())) {
                             LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
-                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));
+                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title(currentRoute.getStopsList().get(i).getName()));
                         }
                     }
 
@@ -110,7 +110,7 @@ public class UserRoutesFragment extends Fragment {
             mMap = googleMap;
             googleMap.clear();
             LatLng currentLatLong = new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude());
-            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("You are here!"));
 
             //LatLng sydney = new LatLng(-34, 151);
             //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));

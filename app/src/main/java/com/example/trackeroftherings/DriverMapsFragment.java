@@ -62,7 +62,7 @@ public class DriverMapsFragment extends Fragment {
             MainActivity.driverLocationHandler.updateGPS();
             DriverCompanyLoginFragment.vehicleUpdater.updateVehicle();
             drivermMap.clear();
-            drivermMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
+            drivermMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("You are here! Driver " + DriverCompanyLoginFragment.getSelfVehicle().getUsername()));
 
 
         }
@@ -98,7 +98,7 @@ public class DriverMapsFragment extends Fragment {
             MainActivity.driverLocationHandler.startLocationUpdates();
             MainActivity.driverLocationHandler.updateGPS();
             LatLng driverPos = new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude());
-            googleMap.addMarker(new MarkerOptions().position(driverPos).title("Lat: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude()));
+            googleMap.addMarker(new MarkerOptions().position(driverPos).title("You are here! Driver " + DriverCompanyLoginFragment.getSelfVehicle().getUsername()));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(driverPos,18.0f));
         }
     };
@@ -152,24 +152,6 @@ public class DriverMapsFragment extends Fragment {
     public void onMapReady(GoogleMap googleMap) {
         drivermMap = googleMap;
 
-
-        drivermMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                drivermMap.clear();
-                drivermMap.addMarker(new MarkerOptions().position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
-            }
-        });
-        drivermMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                try {
-                    return true;
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-        });
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
