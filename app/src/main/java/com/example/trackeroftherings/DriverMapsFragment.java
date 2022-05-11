@@ -29,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -45,7 +46,7 @@ public class DriverMapsFragment extends Fragment {
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
     private static boolean confirmed = false;
-    private Button selectedButton = null;
+    private static Button selectedButton = null;
     private static GoogleMap drivermMap;
     private FragmentDriverMapsBinding binding;
     public static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
@@ -64,6 +65,18 @@ public class DriverMapsFragment extends Fragment {
             drivermMap.clear();
             drivermMap.addMarker(new MarkerOptions().position(new LatLng(MainActivity.driverLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.driverLocationHandler.getmLastKnownLocation().getLongitude())).title("You are here! Driver " + DriverCompanyLoginFragment.getSelfVehicle().getUsername()));
 
+            for (int i = 0; i < LocationController.getRoutes().size(); i++) {
+                Route currentRoute = LocationController.getRoutes().get(i);
+
+
+                for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                    if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID()) && (selectedButton == null || currentRoute.equals(routesList.get(selectedButton.getId())))) {
+                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                        drivermMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title(currentRoute.getStopsList().get(i).getName()));
+                    }
+                }
+
+            }
 
         }
 

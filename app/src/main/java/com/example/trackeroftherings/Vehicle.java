@@ -125,7 +125,7 @@ public class Vehicle extends Account implements Locatable, Serializable
             for (int i = 0; i < this.getCurrentRoute().getStopsList().size(); i++) {
 
                 if (this.arrivedAtStop(this.getCurrentRoute().getStopsList().get(i))) {
-                    Clock clock = Clock.systemDefaultZone();
+                    Clock clock = Clock.systemUTC();
                     Instant instant = clock.instant();
                     this.history.put(this.getCurrentRoute().getStopsList().get(i).toString(), instant.toString());
 
