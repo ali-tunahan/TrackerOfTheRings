@@ -168,7 +168,7 @@ public class CompanyStopInfo extends Fragment {
                 for(int j = 0; j < LocationController.getRoutes().get(i).getStopsList().size(); j++){
                     if (LocationController.getRoutes().get(i).getStopsList().get(j) == null){
                         check = true;
-                        return;
+                        continue;
                     }
                     if (LocationController.getRoutes().get(i).getStopsList().get(j).equals(stopToDisplay))
                         check = true;
