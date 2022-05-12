@@ -39,9 +39,9 @@ public class LocationHandler {
     public GoogleMap mMap;
     public Context context;
 
-
-
-
+    /*
+     * Constructor initializes required variables, calls the location retrieval methods and properly defines the LocationCallback object for future use
+     */
     public LocationHandler(MainActivity activity , OnLocationUpdateListener onLocationUpdateListener) {
         this.context = activity.getApplicationContext();
         this.activity = activity;
@@ -130,7 +130,6 @@ public class LocationHandler {
     }
 
 
-    //other new Methods but not using right now..
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(5000);//set the interval in which you want to get locations
