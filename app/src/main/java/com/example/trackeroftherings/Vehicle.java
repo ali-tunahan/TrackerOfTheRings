@@ -89,6 +89,9 @@ public class Vehicle extends Account implements Locatable, Serializable
      */
     public boolean arrivedAtStop(Stop stop){
 
+        if (stop == null){
+            return false;
+        }
         int targetDistanceInMeters = 50;//x
         double R = 6371000;
         double number1 = this.getLocation().getLatitude()*Math.PI/180;

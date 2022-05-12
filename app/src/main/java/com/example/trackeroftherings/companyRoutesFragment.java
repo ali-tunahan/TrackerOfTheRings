@@ -133,6 +133,9 @@ public class companyRoutesFragment extends Fragment {
                 }
 
                 for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                    if (currentRoute.getStopsList().get(j) == null){
+                        return;
+                    }
                     if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
                         LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
                         mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title("Lat: " + stopLatLong.latitude + " , Long: " + stopLatLong.longitude));

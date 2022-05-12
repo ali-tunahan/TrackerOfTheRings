@@ -10,6 +10,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -83,7 +84,12 @@ public class LocationHandler {
             Task locationResult = mFusedLocationProviderClient.getLastLocation();
             locationResult.addOnCompleteListener(activity, task -> {
                 if (task.isSuccessful()) {
+                    Object o = task.getResult();
                     // Set the map's camera position to the current location of the device.
+                    if (o == null){
+                        Toast.makeText(activity, "Location could not be retrieved!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     mLastKnownLocation = new LocationPlus((Location)(task.getResult()));
                     if (mLastKnownLocation == null) {
                         updateStartedInternally = true;

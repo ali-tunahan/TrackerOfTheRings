@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,6 +31,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StopInfoFragment extends Fragment {
 
@@ -165,9 +169,15 @@ public class StopInfoFragment extends Fragment {
         if(stopToDisplay.getRoutesList() != null) {//nothing to change here, it seems
             for(int i = 0; i < LocationController.getRoutes().size(); i++) {
                 boolean check = false;
-                for(int j = 0; j < LocationController.getRoutes().get(i).getStopsList().size(); j++){
-                    if (LocationController.getRoutes().get(i).getStopsList().get(j).equals(stopToDisplay))
-                        check = true;
+                List<Route> routes = LocationController.getRoutes();
+                Route currentRoute = routes.get(i);
+                List<Stop> stopsOfCurrentRoute = currentRoute.getStopsList();
+                for(int j = 0; j < stopsOfCurrentRoute.size(); j++){
+                    Stop currentStop = stopsOfCurrentRoute.get(i);
+                    if (currentStop != null){
+                        if (LocationController.getRoutes().get(i).getStopsList().get(j).equals(stopToDisplay))
+                            check = true;
+                    }
                 }
                 if (check) {
                     Button b = new Button(this.getContext());

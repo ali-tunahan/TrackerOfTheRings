@@ -31,6 +31,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.util.List;
+
 public class CompanyRouteInfoFragment extends Fragment {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
@@ -111,9 +113,12 @@ public class CompanyRouteInfoFragment extends Fragment {
             }
 
             for(int j = 0; j < currentRoute.getStopsList().size(); j++){
-                if(currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
-                    LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
-                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title(currentRoute.getStopsList().get(j).getName()));
+                Stop currentStop = currentRoute.getStopsList().get(j);
+                if (currentStop != null){
+                    if(currentStop.getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
+                        LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title(currentRoute.getStopsList().get(j).getName()));
+                    }
                 }
             }
 
@@ -194,27 +199,30 @@ public class CompanyRouteInfoFragment extends Fragment {
         text.setText(routeToDisplay.getName());
         text.append("\n---STOPS---\n" );
         if(routeToDisplay.getStopsList() != null) {
-            for(int i = 0; i < routeToDisplay.getStopsList().size(); i++) {//nothing to change here, it seems
-                Button b = new Button(this.getContext());
-                b.setText(routeToDisplay.getStopsList().get(i).getName());
-                b.setId(i);
-                b.setTextSize(20);
-                b.setTextColor(Color.parseColor("#FFFFFFFF"));
-                b.setBackgroundColor(R.color.teal_200);
-                b.setGravity(Gravity.CENTER);
-                b.setPadding(15, 10, 15, 10);
-                b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-                int finalI = i;
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bottomBar.hide();
-                        CompanyStopInfo.setStopToDisplay(routeToDisplay.getStopsList().get(finalI));
-                        NavHostFragment.findNavController(CompanyRouteInfoFragment.this)
-                                .navigate(R.id.action_companyRouteInfoFragment_to_companyStopInfoFragment);
-                    }
-                });
-                linear1.addView(b);
+            List<Stop> stops = routeToDisplay.getStopsList();
+            for(int i = 0; i <stops.size(); i++) {//nothing to change here, it seems
+                if (stops.get(i) != null){
+                    Button b = new Button(this.getContext());
+                    b.setText(routeToDisplay.getStopsList().get(i).getName());
+                    b.setId(i);
+                    b.setTextSize(20);
+                    b.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    b.setBackgroundColor(R.color.teal_200);
+                    b.setGravity(Gravity.CENTER);
+                    b.setPadding(15, 10, 15, 10);
+                    b.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+                    int finalI = i;
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bottomBar.hide();
+                            CompanyStopInfo.setStopToDisplay(routeToDisplay.getStopsList().get(finalI));
+                            NavHostFragment.findNavController(CompanyRouteInfoFragment.this)
+                                    .navigate(R.id.action_companyRouteInfoFragment_to_companyStopInfoFragment);
+                        }
+                    });
+                    linear1.addView(b);
+                }
             }
         }
         bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {

@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 NavController navController = NavHostFragment.findNavController(getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main));
                 navController.navigateUp();
                 navController.navigate(R.id.FirstFragment);
+                LocationController.updateObjects();
             }
         });
         //setSupportActionBar(binding.toolbar);

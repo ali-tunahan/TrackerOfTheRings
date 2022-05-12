@@ -47,7 +47,7 @@ public class MapsFragment extends Fragment {
         public void onLocationChange(LocationPlus location) {
             MainActivity.locationHandler.updateGPS();
             SecondFragment.getController().updateVehicleLocations();
-
+            LocationController.updateVehicleLocations();
             mMap.clear();
             for(int i = 0; i < LocationController.getVehicles().size(); i++) {
                 Vehicle currentVehicle = LocationController.getVehicles().get(i);
@@ -93,6 +93,9 @@ public class MapsFragment extends Fragment {
             MainActivity.locationHandler.startLocationUpdates();
             MainActivity.locationHandler.updateGPS();
             //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
+            if (MainActivity.locationHandler.getmLastKnownLocation() == null){
+                return;
+            }
             LatLng currentLatLong = new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("You are here!"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)

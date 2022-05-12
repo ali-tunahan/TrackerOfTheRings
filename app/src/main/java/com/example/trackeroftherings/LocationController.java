@@ -67,7 +67,7 @@ public class LocationController {
         updateVehicleLocations();
     }
 
-    public void updateVehicleLocations(){
+    public static void updateVehicleLocations(){
         DatabaseReference reference = DatabaseUtility.vehiclesReference;
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,7 +83,15 @@ public class LocationController {
                         }
                         if (contains){
                             //removing the object if old version exists
-                            vehicles.remove(v);
+                            int index = 0;
+                            for (int i = 0; i < vehicles.size(); i++) {
+                                if (vehicles.get(i).equals(v)){
+                                    index = i;
+                                }
+                            }
+                            vehicles.remove(index);
+
+
                         }
                         //adding the new object
                         boolean contains2 = false;
@@ -107,7 +115,39 @@ public class LocationController {
         });
     }
 
-    private void readStops(String companyID, FirebaseCallbackStop firebaseCallback){
+    public static void updateObjects(){
+        readStops(LocationController.getCompanyID(), new FirebaseCallbackStop() {
+            @Override
+            public void onCallback(List<Stop> list) {
+                stops = list;
+            }
+        });
+
+        readVehicles(LocationController.getCompanyID(), new FirebaseCallbackVehicles() {
+            @Override
+            public void onCallback(List<Vehicle> list) {
+                vehicles = list;
+            }
+        });
+
+        readRoutes(LocationController.getCompanyID(), new FirebaseCallbackRoute() {
+            @Override
+            public void onCallback(List<Route> list) {
+                routes = list;
+            }
+        });
+
+        readCompany(LocationController.getCompanyID(), new FirebaseCallbackCompany() {
+            @Override
+            public void onCallback(List<Company> companies) {
+                if (companies.size() > 0){
+                    company = companies.get(0);
+                }
+            }
+        });
+    }
+
+    private static void readStops(String companyID, FirebaseCallbackStop firebaseCallback){
         DatabaseReference reference = DatabaseUtility.stopsReference;
         ArrayList<Stop> matchingStops = new ArrayList<Stop>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -130,7 +170,7 @@ public class LocationController {
 
     }
 
-    private void readVehicles(String companyID, FirebaseCallbackVehicles firebaseCallback){
+    private static void readVehicles(String companyID, FirebaseCallbackVehicles firebaseCallback){
         DatabaseReference reference = DatabaseUtility.vehiclesReference;
         ArrayList<Vehicle> matchingVehicles = new ArrayList<Vehicle>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -151,7 +191,7 @@ public class LocationController {
         });
     }
 
-    private void readRoutes(String companyID, FirebaseCallbackRoute firebaseCallback){
+    private static void readRoutes(String companyID, FirebaseCallbackRoute firebaseCallback){
         DatabaseReference reference = DatabaseUtility.routesReference;
         ArrayList<Route> matchingRoutes = new ArrayList<Route>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -172,7 +212,7 @@ public class LocationController {
         });
     }
 
-    private void readCompany(String companyID, FirebaseCallbackCompany firebaseCallback){
+    private static void readCompany(String companyID, FirebaseCallbackCompany firebaseCallback){
         DatabaseReference reference = DatabaseUtility.companiesReference;
         ArrayList<Company> matchingCompany = new ArrayList<Company>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {

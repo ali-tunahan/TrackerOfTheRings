@@ -70,6 +70,9 @@ public class DriverMapsFragment extends Fragment {
 
 
                 for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
+                    if (currentRoute.getStopsList().get(j) == null){
+                        return;
+                    }
                     if (currentRoute.getStopsList().get(j).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID()) && (selectedButton == null || currentRoute.equals(routesList.get(selectedButton.getId())))) {
                         LatLng stopLatLong = new LatLng(currentRoute.getStopsList().get(j).getLocation().getLatitude(), currentRoute.getStopsList().get(j).getLocation().getLongitude());
                         drivermMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).position(stopLatLong).title(currentRoute.getStopsList().get(i).getName()));
