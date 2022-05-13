@@ -161,6 +161,11 @@ public class DatabaseUtility {
         });
     }
 
+    /**
+     * add a route to a stop in the database
+     * @param oldStop
+     * @param newStop
+     */
     public static void addRouteToStop(Stop oldStop, Stop newStop){
         DatabaseReference reference = stopsReference;
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -195,6 +200,7 @@ public class DatabaseUtility {
     public static void changeStopName(Stop oldStop, String newName){
         Stop newStop = new Stop(oldStop);
         newStop.setName(newName,false);
+        //a copy of the old stop is created since the original one refers to a local copy which is changed by another method
         Stop oldStopCopy = new Stop(oldStop);
         change(oldStopCopy,newStop);
     }
@@ -222,6 +228,11 @@ public class DatabaseUtility {
         change(oldRoute,newRoute);
     }
 
+    /**
+     * method to change the location of a stop in the database
+     * @param oldStop
+     * @param locationPlus
+     */
     public static void changeStopsLocation(Stop oldStop, LocationPlus locationPlus){
         Stop newStop = new Stop(oldStop);
         newStop.setLocation(locationPlus);
@@ -229,6 +240,11 @@ public class DatabaseUtility {
         change(oldStopCopy,newStop);
     }
 
+    /**
+     * change the active vehicles of a Route in database
+     * @param oldRoute
+     * @param vehicle
+     */
     public static void changeActiveVehicles(Route oldRoute, Vehicle vehicle){
         Route newRoute = new Route(oldRoute);
         newRoute.addActiveVehicle(vehicle,false);
@@ -236,6 +252,11 @@ public class DatabaseUtility {
         change(oldRouteCopy,newRoute);
     }
 
+    /**
+     * remove an active vehicle from a route in database
+     * @param oldRoute
+     * @param vehicle
+     */
     public static void removeActiveVehicles(Route oldRoute, Vehicle vehicle){
         Route newRoute = new Route(oldRoute);
         newRoute.removeActiveVehicle(vehicle,false);
@@ -243,6 +264,11 @@ public class DatabaseUtility {
         change(oldRouteCopy,newRoute);
     }
 
+    /**
+     * set the activity of a vehicle in database
+     * @param oldVehicle
+     * @param isActive
+     */
     public static void setVehicleActivity(Vehicle oldVehicle, boolean isActive){
         Vehicle newVehicle = new Vehicle(oldVehicle);
         newVehicle.setActive(isActive,false);
@@ -250,6 +276,12 @@ public class DatabaseUtility {
         change(oldVehicleCopy,newVehicle);
     }
 
+    /**
+     * change the current route of the vehicle in database
+     * unused currently
+     * @param oldVehicle
+     * @param newRoute
+     */
     public static void changeCurrentRoute(Vehicle oldVehicle, Route newRoute){
         Vehicle newVehicle = new Vehicle(oldVehicle);
         newVehicle.setCurrentRoute(newRoute,false);
@@ -258,6 +290,12 @@ public class DatabaseUtility {
         change(oldVehicleCopy,newVehicle);
     }
 
+    /**
+     * change the name and password of a vehicle in database
+     * @param oldVehicle
+     * @param name
+     * @param password
+     */
     public static void changeVehicleInfo(Vehicle oldVehicle, String name, String password){
 
         Vehicle newVehicle = new Vehicle(oldVehicle);

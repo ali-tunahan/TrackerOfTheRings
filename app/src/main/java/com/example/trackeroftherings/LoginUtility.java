@@ -18,7 +18,10 @@ import java.util.List;
 public class LoginUtility {
     private static List<Company> company;
     private static List<Vehicle> vehicles;
-    
+
+    /**
+     * A constructor that reads all Accounts from the database
+     */
     public LoginUtility(){
         vehicles = new ArrayList<Vehicle>();
         readVehicles(new FirebaseCallbackVehicles() {
@@ -94,8 +97,11 @@ public class LoginUtility {
         }
         return null;
     }
-    
-    //read methods
+
+    /**
+     * Method to read all vehicles from the database
+     * @param firebaseCallback
+     */
     private void readVehicles(FirebaseCallbackVehicles firebaseCallback){
         DatabaseReference reference = DatabaseUtility.vehiclesReference;
         ArrayList<Vehicle> matchingVehicles = new ArrayList<Vehicle>();
@@ -115,7 +121,10 @@ public class LoginUtility {
             }
         });
     }
-
+    /**
+     * Method to read all companies from the database
+     * @param firebaseCallback
+     */
     private void readCompany(FirebaseCallbackCompany firebaseCallback){
         DatabaseReference reference = DatabaseUtility.companiesReference;
         ArrayList<Company> matchingCompany = new ArrayList<Company>();

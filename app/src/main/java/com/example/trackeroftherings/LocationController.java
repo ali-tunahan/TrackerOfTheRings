@@ -67,6 +67,9 @@ public class LocationController {
         updateVehicleLocations();
     }
 
+    /**
+     * Method to update the Vehicles ArrayList by reading changes on the database
+     */
     public static void updateVehicleLocations(){
         DatabaseReference reference = DatabaseUtility.vehiclesReference;
         reference.addValueEventListener(new ValueEventListener() {
@@ -115,6 +118,9 @@ public class LocationController {
         });
     }
 
+    /**
+     * Method to update all objects other than the vehicles
+     */
     public static void updateObjects(){
         readStops(LocationController.getCompanyID(), new FirebaseCallbackStop() {
             @Override
@@ -147,6 +153,11 @@ public class LocationController {
         });
     }
 
+    /**
+     * Method to read stops from the database
+     * @param companyID
+     * @param firebaseCallback
+     */
     private static void readStops(String companyID, FirebaseCallbackStop firebaseCallback){
         DatabaseReference reference = DatabaseUtility.stopsReference;
         ArrayList<Stop> matchingStops = new ArrayList<Stop>();
@@ -159,7 +170,7 @@ public class LocationController {
                         matchingStops.add(currentStop);
                     }
                 }
-
+                //When reading is finished, fires this object to pass the ArrayList
                 firebaseCallback.onCallback(matchingStops);
             }
             @Override
@@ -170,6 +181,11 @@ public class LocationController {
 
     }
 
+    /**
+     * Method to read vehicles from the database
+     * @param companyID
+     * @param firebaseCallback
+     */
     private static void readVehicles(String companyID, FirebaseCallbackVehicles firebaseCallback){
         DatabaseReference reference = DatabaseUtility.vehiclesReference;
         ArrayList<Vehicle> matchingVehicles = new ArrayList<Vehicle>();
@@ -182,6 +198,7 @@ public class LocationController {
                         matchingVehicles.add(currentVehicle);
                     }
                 }
+                //When reading is finished, fires this object to pass the ArrayList
                 firebaseCallback.onCallback(matchingVehicles);
             }
             @Override
@@ -191,6 +208,11 @@ public class LocationController {
         });
     }
 
+    /**
+     * Method to read routes from the database
+     * @param companyID
+     * @param firebaseCallback
+     */
     private static void readRoutes(String companyID, FirebaseCallbackRoute firebaseCallback){
         DatabaseReference reference = DatabaseUtility.routesReference;
         ArrayList<Route> matchingRoutes = new ArrayList<Route>();
@@ -203,6 +225,7 @@ public class LocationController {
                         matchingRoutes.add(currentRoute);
                     }
                 }
+                //When reading is finished, fires this object to pass the ArrayList
                 firebaseCallback.onCallback(matchingRoutes);
             }
             @Override
@@ -212,6 +235,11 @@ public class LocationController {
         });
     }
 
+    /**
+     * Method to read companies from the database (should be a single company in reality)
+     * @param companyID
+     * @param firebaseCallback
+     */
     private static void readCompany(String companyID, FirebaseCallbackCompany firebaseCallback){
         DatabaseReference reference = DatabaseUtility.companiesReference;
         ArrayList<Company> matchingCompany = new ArrayList<Company>();
@@ -224,6 +252,7 @@ public class LocationController {
                         matchingCompany.add(currentCompany);
                     }
                 }
+                //When reading is finished, fires this object to pass the ArrayList
                 firebaseCallback.onCallback(matchingCompany);
             }
             @Override
@@ -233,14 +262,26 @@ public class LocationController {
         });
     }
 
+    /**
+     * Method to add a Stop to the stops ArrayList
+     * @param aStop
+     */
     public static void addStop(Stop aStop){
         stops.add(aStop);
     }
 
+    /**
+     * Method to add a Route to the routes ArrayList
+     * @param aRoute
+     */
     public static void addRoute(Route aRoute){
         routes.add(aRoute);
     }
 
+    /**
+     * Method to add a Vehicle to vehicles ArrayList
+     * @param aVehicle
+     */
     public static void addVehicle(Vehicle aVehicle){
         boolean contains = false;
         for (int i = 0; i < vehicles.size(); i++) {
