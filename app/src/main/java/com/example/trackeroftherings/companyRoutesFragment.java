@@ -40,7 +40,7 @@ public class companyRoutesFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    private static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list route array list
+    private static List<Route> routesList = new ArrayList<Route>(); //later change with actual routes list from LocationController
 
     private static GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -53,6 +53,7 @@ public class companyRoutesFragment extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
+            //clear fragment, add all stops assigned to a route and all active vehicles
             try {
                 MainActivity.companyRoutesLocationHandler.updateGPS();
                 DriverCompanyLoginFragment.getController().updateVehicleLocations();
@@ -109,17 +110,14 @@ public class companyRoutesFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            //clear fragment, add all stops assigned to a route and all active vehicles
             mMap = googleMap;
             googleMap.clear();
             LatLng currentLatLong = new LatLng(MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("Lat: " + MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLatitude() + " , Long: " + MainActivity.companyRoutesLocationHandler.getmLastKnownLocation().getLongitude()));
 
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
             MainActivity.companyRoutesLocationHandler.startLocationUpdates();
             MainActivity.companyRoutesLocationHandler.updateGPS();
-            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
             for (int i = 0; i < LocationController.getRoutes().size(); i++) {
                 Route currentRoute = LocationController.getRoutes().get(i);
@@ -169,49 +167,21 @@ public class companyRoutesFragment extends Fragment {
             }
         });
 
-
-/*
-        setContentView(binding.getRoot());
-        Button button = (Button) binding.button2;
-        TextView text = (TextView) binding.textView;
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-
-        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
-
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
-
-        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
-
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                // save the location
-                Location location = locationResult.getLastLocation();
-            }
-        };
- */
         showBottomSheetDialog();
         return binding.getRoot();
     }
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
+        //add generic number of buttons according to route number retreived from LocationController
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_company_stops_routes_vehicles);
         TextView text = new TextView(this.getContext());
         text.append("ROUTES LIST");
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
-        linear1.addView(text);//change with actual routes list
-        routesList = LocationController.getRoutes();
+        linear1.addView(text);
+        routesList = LocationController.getRoutes();//change with actual routes list
 
         for(int i = 0; i < routesList.size(); i++){
 
@@ -230,6 +200,7 @@ public class companyRoutesFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     bottomBar.hide();
+                    //pass selected route info to CompanyRouteInfoFragment
                     CompanyRouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
                     NavHostFragment.findNavController(companyRoutesFragment.this)
                             .navigate(R.id.action_companyRoutesFragment_to_companyRouteInfoFragment);
@@ -237,9 +208,11 @@ public class companyRoutesFragment extends Fragment {
             });
         }
         bottomBar.findViewById(R.id.floatingActionButton2).setOnClickListener(new View.OnClickListener() {
+            //add new route
             @Override
             public void onClick(View v) {
                 bottomBar.hide();
+                //pass the information that it is a new route not editing of an existing one
                 CompanyEditRoute.setStatus(CompanyEditRoute.NEW);
                 NavHostFragment.findNavController(companyRoutesFragment.this)
                         .navigate(R.id.action_companyRoutesFragment_to_companyEditRoute);

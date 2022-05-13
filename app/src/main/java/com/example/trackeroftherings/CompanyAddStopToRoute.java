@@ -64,6 +64,7 @@ public class CompanyAddStopToRoute extends Fragment {
         @Override
         public void onLocationChange(LocationPlus location) {
             try {
+                //clear map, display active vehicles and stops on the route
                 MainActivity.companyAddStopToRouteLocationHandler.updateGPS();
                 DriverCompanyLoginFragment.getController().updateVehicleLocations();
 
@@ -113,6 +114,7 @@ public class CompanyAddStopToRoute extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            //clear map, display active vehicles and stops on the route
             mMap = googleMap;
             Route currentRoute = CompanyRouteInfoFragment.getRouteToDisplay();
             MainActivity.companyAddStopToRouteLocationHandler.startLocationUpdates();
@@ -166,34 +168,6 @@ public class CompanyAddStopToRoute extends Fragment {
         });
 
 
-/*
-        setContentView(binding.getRoot());
-        Button button = (Button) binding.button2;
-        TextView text = (TextView) binding.textView;
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-
-        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
-
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
-
-        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
-
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                // save the location
-                LocationPlus location = locationResult.getLastLocation();
-            }
-        };
- */
         showBottomSheetDialog();
         return binding.getRoot();
     }
@@ -209,10 +183,7 @@ public class CompanyAddStopToRoute extends Fragment {
         text.setGravity(Gravity.CENTER);
         linear1.addView(text);
         stopsList = LocationController.getStops();
-        //change with actual stops and proper locations
-
-
-
+        //display all stops, paint the ones that are already in the selected route
         for(int i = 0; i < stopsList.size(); i++){
             TextView b = new TextView(this.getContext());
             b.setText(stopsList.get(i).getName());
@@ -232,6 +203,7 @@ public class CompanyAddStopToRoute extends Fragment {
             linear1.addView(b);
             int finalI = i;
             b.setOnClickListener(new View.OnClickListener() {
+                //clicked buttons turn orange and are stored to later add to route stoplist
                 @Override
                 public void onClick(View v) {
                     if(!stopsListToAdd.contains(stopsList.get(finalI))) {
@@ -247,7 +219,7 @@ public class CompanyAddStopToRoute extends Fragment {
         bottomBar.findViewById(R.id.floatingActionButtonAddStopToRouteConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //confirmed, add all the stops that are selected to the route
                 if(CompanyEditRoute.getStatus() == CompanyEditRoute.EDIT) {
                     Route selectedRoute = null;
                     for (int i = 0; i < LocationController.getRoutes().size(); i++) {
