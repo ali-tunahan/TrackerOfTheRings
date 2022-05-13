@@ -40,7 +40,7 @@ public class CompanyVehicleFragment extends Fragment {
     public static final int DEFAULT_UPDATE_INTERVAL = 5;
     public static final int FASTEST_UPDATE_INTERVAL = 1;
     private static boolean isEntered = false;
-    public static List<Vehicle> vehiclesList = new ArrayList<Vehicle>(); //later change with actual stops list stop array list
+    public static List<Vehicle> vehiclesList = new ArrayList<Vehicle>(); //later change with actual vehicles list
 
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
@@ -62,9 +62,7 @@ public class CompanyVehicleFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         }
     };
 
@@ -90,34 +88,7 @@ public class CompanyVehicleFragment extends Fragment {
         });
 
 
-/*
-        setContentView(binding.getRoot());
-        Button button = (Button) binding.button2;
-        TextView text = (TextView) binding.textView;
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-
-        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
-
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
-
-        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
-
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                // save the location
-                LocationPlus location = locationResult.getLastLocation();
-            }
-        };
- */
         showBottomSheetDialog();
         return binding.getRoot();
     }
@@ -127,6 +98,7 @@ public class CompanyVehicleFragment extends Fragment {
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_company_stops_routes_vehicles);
         TextView text = new TextView(this.getContext());
+        //all vehicles list on buttons
         text.append("VEHICLES LIST");
         LinearLayout linear1 = bottomBar.findViewById(R.id.list);
         text.setGravity(Gravity.CENTER);
@@ -150,6 +122,7 @@ public class CompanyVehicleFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     bottomBar.hide();
+                    //pass selected vehicle info to CompanyVehicleInfo
                     CompanyVehicleInfo.setvehicleToDisplay(vehiclesList.get(finalI));
                     NavHostFragment.findNavController(CompanyVehicleFragment.this)
                             .navigate(R.id.action_companyVehicleFragment_to_companyVehicleInfo);
@@ -157,6 +130,7 @@ public class CompanyVehicleFragment extends Fragment {
             });
         }
         bottomBar.findViewById(R.id.floatingActionButton2).setOnClickListener(new View.OnClickListener() {
+            //add new vehicle
             @Override
             public void onClick(View v) {
                 bottomBar.hide();

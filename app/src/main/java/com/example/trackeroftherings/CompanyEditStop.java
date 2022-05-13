@@ -58,7 +58,7 @@ public class CompanyEditStop extends Fragment {
             try {
                 MainActivity.companyEditStopLocationHandler.updateGPS();
                 SecondFragment.getController().updateVehicleLocations();
-
+                //marker on stop to be edited, no markers if it is a new stop
                 mMap.clear();
                 markerPosition = new LatLng(CompanyStopInfo.getStopToDisplay().getLocation().getLatitude(), CompanyStopInfo.getStopToDisplay().getLocation().getLongitude());
                 mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(markerPosition).title(CompanyStopInfo.getStopToDisplay().getName()));
@@ -96,11 +96,13 @@ public class CompanyEditStop extends Fragment {
             MainActivity.companyEditStopLocationHandler.startLocationUpdates();
             MainActivity.companyEditStopLocationHandler.updateGPS();
             if (status == EDIT){
+                //marker on stop to be edited, no markers if it is a new stop
                 LatLng stopLatLong = new LatLng(CompanyStopInfo.getStopToDisplay().getLocation().getLatitude(), CompanyStopInfo.getStopToDisplay().getLocation().getLongitude());
                 mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(stopLatLong).title(CompanyStopInfo.getStopToDisplay().getName()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stopLatLong,18.0f));//moves camera (change to current location)
 
             }else if(status == NEW){
+                //move camera to current location if it is a new stop
                 LatLng currentLatLong = new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude());
                 googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("You are here!"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
@@ -110,6 +112,7 @@ public class CompanyEditStop extends Fragment {
             googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
+                    //keep the marker position for assigning stop location
                     mMap.clear();
                     mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).position(latLng).title("" + latLng.latitude + " , " + latLng.latitude));
                     markerPosition = latLng;
@@ -149,34 +152,6 @@ public class CompanyEditStop extends Fragment {
             }
         });
 
-/*
-        setContentView(binding.getRoot());
-        Button button = (Button) binding.button2;
-        TextView text = (TextView) binding.textView;
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-
-        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
-
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
-
-        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
-
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                // save the location
-                LocationPlus location = locationResult.getLastLocation();
-            }
-        };
- */
         showBottomSheetDialog();
         return binding.getRoot();
     }
@@ -190,12 +165,11 @@ public class CompanyEditStop extends Fragment {
             stopName.setText(CompanyStopInfo.getStopToDisplay().getName());
         }
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
-        //add putting markers on map click
         bottomBar.findViewById(R.id.floatingActionButtonEditConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomBar.hide();
-
+                //find the stop if it is editing of an existing one
                 if(status == EDIT) {
                     Stop selectedStop = null;
                     for(int i = 0; i < LocationController.getStops().size(); i++){
@@ -203,6 +177,7 @@ public class CompanyEditStop extends Fragment {
                             selectedStop = LocationController.getStops().get(i);
                         }
                     }
+                    //set the location and name, the methods also send the information to the database
                     LocationPlus stopLocation = new LocationPlus();
                     if (markerPosition != null){
                         stopLocation.setLatitude(markerPosition.latitude);
@@ -216,10 +191,12 @@ public class CompanyEditStop extends Fragment {
                             .navigate(R.id.action_companyEditStop_to_companyStopInfoFragment);
                 }else if(status == NEW) {
                     LocationPlus locationPlus = new LocationPlus();
+                    //set the location and name, the methods also send the information to the database
                     if (markerPosition != null){
                         locationPlus.setLongitude(markerPosition.longitude);
                         locationPlus.setLatitude(markerPosition.latitude);
                     }
+                    //new stop added
                     Stop newStop = new Stop(stopName.getText().toString(), locationPlus, DriverCompanyLoginFragment.getCompanyID());
                     LocationController.addStop(newStop);
                     DatabaseUtility.add(newStop);

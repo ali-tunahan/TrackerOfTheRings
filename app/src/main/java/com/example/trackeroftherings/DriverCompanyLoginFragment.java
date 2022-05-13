@@ -55,16 +55,18 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//check credentials
+                //set the credentials given to text and pass it to LoginUtility
                 String aUsername = binding.editTextDriverUsername.getText().toString();
                 String aPassword = binding.editTextPassword.getText().toString();
                 String aCompanyID = binding.editTextCompanyID.getText().toString();
+                //login state retreived from FirstFragment enables using one fragment for two usages, according to the selection the corresponding LoginUtility method is called
                 if(loginState == COMPANY ){
                     if(LoginUtility.companyLogin(aUsername, aPassword, aCompanyID) != null){
                         //navigate to company front page
 
                         companyID = aCompanyID;
                         controller = new LocationController(companyID);
-                        NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
+                        NavHostFragment.findNavController(DriverCompanyLoginFragment.this)
                                 .navigate(R.id.action_driverLoginFragment_to_companyMapsFragment);
                     }
                     else{
@@ -75,12 +77,11 @@ public class DriverCompanyLoginFragment extends Fragment {//change the name late
                     if(LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID) != null){
                         // navigate to driver front page
                         //set proper vehicle object according to credentials
-                        //login does not work because getVehicles returns null (fix)
                         selfVehicle = LoginUtility.vehicleLogin(aUsername, aPassword, aCompanyID);
                         vehicleUpdater = new VehicleUpdater(DriverCompanyLoginFragment.getSelfVehicle(), (MainActivity) getActivity());
                         companyID = aCompanyID;
                         controller = new LocationController(companyID);
-                        NavHostFragment.findNavController(DriverCompanyLoginFragment.this)//put this into the if statement later, this is here for testing
+                        NavHostFragment.findNavController(DriverCompanyLoginFragment.this)
                                 .navigate(R.id.action_driverLoginFragment_to_driverMapsFragment);
                     }else{
                         Toast.makeText(getActivity(), "Invalid credentials, try again!", Toast.LENGTH_SHORT).show();

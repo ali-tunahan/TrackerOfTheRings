@@ -36,14 +36,13 @@ public class SecondFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        //store company id before going to the maps
         binding.buttonMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String inputCompanyID = binding.editTextCompanyID.getText().toString();
-                //if (!DatabaseUtility.readCompanies(inputCompanyID).isEmpty()) {//If there is a company corresponding to the companyID
-                    usersCompanyID = inputCompanyID;
-                //}
+                usersCompanyID = inputCompanyID;
+
                 controller = new LocationController(usersCompanyID);
 
                 NavHostFragment.findNavController(SecondFragment.this)

@@ -53,6 +53,7 @@ public class UserRoutesFragment extends Fragment {
         @Override
         public void onLocationChange(LocationPlus location) {
             try {
+                //clear the map, display all stops that are assigned to a route and all active vehicles
                 MainActivity.userRoutesLocationHandler.updateGPS();
                 SecondFragment.getController().updateVehicleLocations();
 
@@ -103,21 +104,16 @@ public class UserRoutesFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            //clear the map, display all stops that are assigned to a route and all active vehicles
+
             mMap = googleMap;
             googleMap.clear();
             LatLng currentLatLong = new LatLng(MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.userRoutesLocationHandler.getmLastKnownLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("You are here!"));
 
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
             MainActivity.userRoutesLocationHandler.startLocationUpdates();
             MainActivity.userRoutesLocationHandler.updateGPS();
-            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));
 
         }
     };
@@ -143,35 +139,6 @@ public class UserRoutesFragment extends Fragment {
             }
         });
 
-
-/*
-        setContentView(binding.getRoot());
-        Button button = (Button) binding.button2;
-        TextView text = (TextView) binding.textView;
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-
-        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
-
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
-
-        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
-
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                // save the location
-                LocationPlus location = locationResult.getLastLocation();
-            }
-        };
- */
         showBottomSheetDialog();
         return binding.getRoot();
     }
@@ -179,6 +146,7 @@ public class UserRoutesFragment extends Fragment {
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
+        //get all the routes, display generic number of buttons according to route number retreived from LocationController
         bottomBar.setContentView(R.layout.bottom_dialog_stops_routes_info);
         TextView text = new TextView(this.getContext());
         text.append("ROUTES LIST");
@@ -207,6 +175,7 @@ public class UserRoutesFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         bottomBar.hide();
+                        //pass clicked route info to RouteInfoFragment
                         RouteInfoFragment.setRouteToDisplay(routesList.get(finalI));
                         NavHostFragment.findNavController(UserRoutesFragment.this)
                                 .navigate(R.id.action_userRoutesFragment_to_routeInfoFragment);

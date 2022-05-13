@@ -45,6 +45,7 @@ public class MapsFragment extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
+            //clear the map and display all locatable objects retreived from LocationController
             MainActivity.locationHandler.updateGPS();
             SecondFragment.getController().updateVehicleLocations();
             LocationController.updateVehicleLocations();
@@ -87,8 +88,8 @@ public class MapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
-            //LatLng sydney = new LatLng(-34, 151);
-            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //clear the map and display all locatable objects retreived from LocationController
+
             googleMap.clear();
             MainActivity.locationHandler.startLocationUpdates();
             MainActivity.locationHandler.updateGPS();
@@ -97,6 +98,7 @@ public class MapsFragment extends Fragment {
                 return;
             }
             LatLng currentLatLong = new LatLng(MainActivity.locationHandler.getmLastKnownLocation().getLatitude(), MainActivity.locationHandler.getmLastKnownLocation().getLongitude());
+            //display current position
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("You are here!"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
             for(int i = 0; i < LocationController.getStops().size(); i++){
@@ -126,35 +128,6 @@ public class MapsFragment extends Fragment {
 
 
 
-/*
-        setContentView(binding.getRoot());
-        Button button = (Button) binding.button2;
-        TextView text = (TextView) binding.textView;
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-
-        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
-
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
-
-        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
-
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                // save the location
-                LocationPlus location = locationResult.getLastLocation();
-            }
-        };
- */
-
         return binding.getRoot();
     }
 
@@ -164,7 +137,7 @@ public class MapsFragment extends Fragment {
 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        //set up onclicks
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -195,6 +168,7 @@ public class MapsFragment extends Fragment {
 
 
     public void showBottomSheetDialog(){
+        //navigation button onclicks
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog);
         bottomBar.findViewById(R.id.button_stops).setOnClickListener(new View.OnClickListener() {

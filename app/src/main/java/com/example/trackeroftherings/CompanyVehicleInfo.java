@@ -51,6 +51,7 @@ public class CompanyVehicleInfo extends Fragment {
         @Override
         public void onLocationChange(LocationPlus location) {
             try {
+                //marker on selected vehicle location
                 MainActivity.companyVehicleInfoLocationHandler.updateGPS();
                 DriverCompanyLoginFragment.getController().updateVehicleLocations();
 
@@ -84,6 +85,7 @@ public class CompanyVehicleInfo extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
+            //marker on selected vehicle location
             MainActivity.companyVehicleInfoLocationHandler.updateGPS();
             DriverCompanyLoginFragment.getController().updateVehicleLocations();
 
@@ -124,34 +126,7 @@ public class CompanyVehicleInfo extends Fragment {
             }
         });
 
-/*
-        setContentView(binding.getRoot());
-        Button button = (Button) binding.button2;
-        TextView text = (TextView) binding.textView;
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationRequest = com.google.android.gms.location.LocationRequest.create();
-
-        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
-
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
-
-        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
-
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                // save the location
-                LocationPlus location = locationResult.getLastLocation();
-            }
-        };
- */
         showBottomSheetDialog();
         return binding.getRoot();
     }
@@ -161,6 +136,7 @@ public class CompanyVehicleInfo extends Fragment {
         BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_stop_route_vehicle_edit_info);
         TextView text = bottomBar.findViewById(R.id.info);
+        //vehicle info, active route, history
         text.setText("\n---VEHICLE NAME---\n" + vehicleToDisplay.getUsername());
         try {
             text.append("\n---ACTIVE ON ROUTE---\n" + vehicleToDisplay.getCurrentRoute().getName() + "\n");
@@ -171,8 +147,8 @@ public class CompanyVehicleInfo extends Fragment {
         text.append("HISTORY: \n" + vehicleToDisplay.historyToString());
         text.setGravity(Gravity.CENTER);
         text.setPadding(15, 10, 15, 10);
-       // text.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
         bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {
+            //edit the vehicle
             @Override
             public void onClick(View v) {
                 bottomBar.hide();
