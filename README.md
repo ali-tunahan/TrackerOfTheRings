@@ -27,7 +27,8 @@ The main objective of the project is to help university student not miss their l
 * implementation 'androidx.navigation:navigation-ui:2.4.2'
 
 ### Installing
-
+* Get API key from https://developers.google.com/maps
+* Insert your own API key
 * Build APK from AndroidStudio
 
 ## Authors
