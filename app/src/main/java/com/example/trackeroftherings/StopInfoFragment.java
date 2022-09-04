@@ -54,7 +54,6 @@ public class StopInfoFragment extends Fragment {
             try {
                 MainActivity.userStopInfoLocationHandler.updateGPS();
                 SecondFragment.getController().updateVehicleLocations();
-                //clear the map, display current location and stop to display
 
                 mMap.clear();
                 LatLng stopLatLong = new LatLng(stopToDisplay.getLocation().getLatitude(), stopToDisplay.getLocation().getLongitude());
@@ -86,7 +85,6 @@ public class StopInfoFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //clear the map, display current location and stop to display
             mMap = googleMap;
             MainActivity.userStopsLocationHandler.startLocationUpdates();
             MainActivity.userStopsLocationHandler.updateGPS();
@@ -128,14 +126,40 @@ public class StopInfoFragment extends Fragment {
             }
         });
 
+/*
+        setContentView(binding.getRoot());
+        Button button = (Button) binding.button2;
+        TextView text = (TextView) binding.textView;
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        locationRequest = com.google.android.gms.location.LocationRequest.create();
+
+        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
+
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
+
+        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
+
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                // save the location
+                LocationPlus location = locationResult.getLastLocation();
+            }
+        };
+ */
         showBottomSheetDialog();
         return binding.getRoot();
     }
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
-        //get stopToDisplay's route information, set generic number of buttons for routes that navigate to route info fragments
         BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_stop_route_info);
         TextView text = bottomBar.findViewById(R.id.info);
@@ -172,7 +196,6 @@ public class StopInfoFragment extends Fragment {
                             bottomBar.hide();
                             for (int i = 0; i < LocationController.getRoutes().size(); i++) {
                                 if (LocationController.getRoutes().get(i).equals(LocationController.getRoutes().get(finalI))) {
-                                    //pass clicked route info to RouteInfoFragment
                                     RouteInfoFragment.setRouteToDisplay(LocationController.getRoutes().get(i));
                                 }
                             }

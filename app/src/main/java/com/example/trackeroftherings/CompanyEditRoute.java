@@ -63,7 +63,6 @@ public class CompanyEditRoute extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
-            //clear the map, markers for stops of the selected route and the active vehicles on the selected route
             try {
                 MainActivity.companyEditRouteLocationHandler.updateGPS();
                 DriverCompanyLoginFragment.getController().updateVehicleLocations();
@@ -118,7 +117,6 @@ public class CompanyEditRoute extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //clear the map, markers for stops of the selected route and the active vehicles on the selected route
             mMap = googleMap;
             Route currentRoute = null;
             if(status == EDIT)
@@ -174,7 +172,34 @@ public class CompanyEditRoute extends Fragment {
             }
         });
 
-        //tempRoute represents the selected route to edit or a new route to add depending on where the company comes to the fragment from
+/*
+        setContentView(binding.getRoot());
+        Button button = (Button) binding.button2;
+        TextView text = (TextView) binding.textView;
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        locationRequest = com.google.android.gms.location.LocationRequest.create();
+
+        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
+
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
+
+        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
+
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                // save the location
+                LocationPlus location = locationResult.getLastLocation();
+            }
+        };
+ */
         if(tempRoute == null) {
             if (status == EDIT)
                 tempRoute = CompanyRouteInfoFragment.getRouteToDisplay();
@@ -198,7 +223,6 @@ public class CompanyEditRoute extends Fragment {
         }else if(status == NEW && tempRoute == null){
             tempRoute = new Route(routeName.getText().toString(),DriverCompanyLoginFragment.getCompanyID());
         }
-        //display all the existing stops
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
             for (int i = 0; i < tempRoute.getStopsList().size(); i++) {
                 TextView stopText = new TextView(this.getContext());
@@ -214,7 +238,6 @@ public class CompanyEditRoute extends Fragment {
                 stopText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //first click selects a stop, second click swaps places with the first stop clicked
                         if (selectedStopText == null) {
                             stopText.setBackgroundColor(Color.parseColor("#DC952D"));
                             selectedStopText = stopText;
@@ -255,7 +278,7 @@ public class CompanyEditRoute extends Fragment {
                 bottomBar.hide();
 
                 if(status == EDIT) {
-                    //set the stopslist (in order), set the name and send to database
+                    //set the new location of the stop here
                     Route selectedRoute = null;
                     for(int i = 0; i < LocationController.getRoutes().size(); i++){
                         if(tempRoute.equals(LocationController.getRoutes().get(i))){
@@ -269,7 +292,6 @@ public class CompanyEditRoute extends Fragment {
                             .navigate(R.id.action_companyEditRoute_to_companyRouteInfoFragment);
                 }else if(status == NEW) {
 
-                    //set the stopslist (in order), set the name and send to database
                     tempRoute.setName(routeName.getText().toString(), false);
                     tempRoute.setCompanyID(DriverCompanyLoginFragment.getCompanyID());
                     DatabaseUtility.add(tempRoute);
@@ -280,7 +302,6 @@ public class CompanyEditRoute extends Fragment {
             }
         });
         bottomBar.findViewById(R.id.floatingActionButtonAddStopToRoute).setOnClickListener(new View.OnClickListener() {
-            //add new stop to the route
             @Override
             public void onClick(View v) {
                 bottomBar.hide();

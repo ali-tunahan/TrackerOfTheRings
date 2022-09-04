@@ -34,10 +34,8 @@ public class Route implements Serializable
         this.companyID = companyID;
     }
 
-
     /**
      * Copy constructor
-     * @param route
      */
     public Route(Route route) {
         if (route == null){
@@ -75,44 +73,26 @@ public class Route implements Serializable
         this.companyID = companyID;
     }
 
-    /**
-     * Accessor for active vehicles
-     * @return activeVehicles
-     */
+
     public List<Vehicle> getActiveVehicles() {
         return activeVehicles;
     }
-    /**
-     * Accessor for name
-     * @return name
-     */
+
     public String getName() {
         return name;
     }
 
-    /**
-     * Mutator for name
-     * @param name
-     * @param writeToDatabase
-     */
     public void setName(String name, boolean writeToDatabase) {
         if (writeToDatabase){
             DatabaseUtility.changeRouteName(this, name);
         }
         this.name = name;
     }
-    /**
-     * Accessor for stopsList
-     * @return stopsList
-     */
+
     public List<Stop> getStopsList() {
         return stopsList;
     }
 
-    /**
-     * Mutator for stopsList
-     * @param stopsList
-     */
     public void setStopsList(List<Stop> stopsList) {
         this.stopsList = stopsList;
         /*if (writeToDatabase){
@@ -120,26 +100,14 @@ public class Route implements Serializable
         }*/
     }
 
-    /**
-     * Mutator for activeVehicles
-     * @param activeVehicles
-     */
     public void setActiveVehicles(List<Vehicle> activeVehicles) {
         this.activeVehicles = activeVehicles;
     }
-    /**
-     * Accessor for companyID
-     * @return companyID
-     */
+
     public String getCompanyID(){
         return this.companyID;
     }
 
-    /**
-     * Adds the stop to index i in stopsList
-     * @param i
-     * @param aStop
-     */
     public void addStop(int i, Stop aStop){
         //Adding the new route to the stop reference in the database
         Stop oldStop = aStop;
@@ -149,11 +117,6 @@ public class Route implements Serializable
         DatabaseUtility.change(oldStop,newStop);
         stopsList.add(i, aStop);
     }
-
-    /**
-     * Adds the stop to StopsList
-     * @param aStop
-     */
     public void addStop(Stop aStop){ //adds the route to stops route list
         //Adding the new route to the stop reference in the database
         Stop oldStop = aStop;
@@ -171,10 +134,6 @@ public class Route implements Serializable
         stopsList.add(aStop);
     }
 
-    /**
-     * Deletes the last stop and returns it
-     * @return
-     */
     public Stop popStop(){
         Stop poppedStop = stopsList.get(stopsList.size()-1);
         stopsList.get(stopsList.size()-1).removeFromRoutesList(this);
@@ -183,46 +142,27 @@ public class Route implements Serializable
         return poppedStop;
     }
 
-    /**
-     * Deletes the stop at index i and return it
-     * @param i
-     * @return
-     */
     public Stop popStop(int i){
         Stop poppedStop = stopsList.get(i);
         stopsList.get(i).removeFromRoutesList(this);
         stopsList.remove(i);
         return poppedStop;
     }
-
-    /**
-     * Deletes the given stop and returns it
-     * @param aStop
-     * @return
-     */
     public Stop popStop(Stop aStop){
+        Stop poppedstop = aStop;
         aStop.removeFromRoutesList(this);
         stopsList.remove(aStop);
-        return aStop;
+        return poppedstop;
        
     }
 
-    /**
-     *  Adds the vehicle to activeVehicles list
-     * @param aVehicle
-     * @param writeToDatabase
-     */
     public void addActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
         if (writeToDatabase){
             DatabaseUtility.changeActiveVehicles(this,aVehicle);
         }
         this.activeVehicles.add(aVehicle);
     }
-    /**
-     *  Remove the vehicle from activeVehicles list
-     * @param aVehicle
-     * @param writeToDatabase
-     */
+
     public void removeActiveVehicle(Vehicle aVehicle, boolean writeToDatabase){
         if (writeToDatabase){
             DatabaseUtility.removeActiveVehicles(this,aVehicle);
@@ -230,9 +170,6 @@ public class Route implements Serializable
         this.activeVehicles.remove(aVehicle);
     }
 
-    /**
-     * Controls the vehicles' activity
-     */
     public void controlVehiclesActivity(){
         for (Vehicle aVehicle : activeVehicles) {
             if(!(aVehicle.isActive())){
@@ -241,11 +178,6 @@ public class Route implements Serializable
         }
     }
 
-    /**
-     * Equals method for Route
-     * @param aRoute
-     * @return
-     */
     public boolean equals(@NonNull Route aRoute){
         if(aRoute.getCompanyID().equals(this.getCompanyID())&& aRoute.getName().equals(this.getName())){
             return true;

@@ -36,7 +36,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="${MAPS_API_KEY}" /><!-- API key is pulled from local.properties. You can also just enter your API key here -->
 
         <activity
             android:name=".MainActivity"

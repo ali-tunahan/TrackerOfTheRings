@@ -40,7 +40,6 @@ public class CompanyMapsFragment extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
-            //clear map, add markers on all locatable objects
             MainActivity.companyMapsLocationHandler.updateGPS();
             DriverCompanyLoginFragment.getController().updateVehicleLocations();
 
@@ -81,14 +80,16 @@ public class CompanyMapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //clear map, add markers on all locatable objects
             mMap = googleMap;
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.clear();
             MainActivity.companyMapsLocationHandler.startLocationUpdates();
             MainActivity.companyMapsLocationHandler.updateGPS();
+            //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
             LatLng currentLatLong = new LatLng(MainActivity.companyMapsLocationHandler.getmLastKnownLocation().getLatitude(), MainActivity.companyMapsLocationHandler.getmLastKnownLocation().getLongitude());
             googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(currentLatLong).title("You are here!"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong,18.0f));//moves camera (change to current location)
             for(int i = 0; i < LocationController.getStops().size(); i++){
                 if(LocationController.getStops().get(i).getCompanyID().equals(DriverCompanyLoginFragment.getCompanyID())) {
                     LatLng stopLatLong = new LatLng(LocationController.getStops().get(i).getLocation().getLatitude(), LocationController.getStops().get(i).getLocation().getLongitude());
@@ -112,6 +113,35 @@ public class CompanyMapsFragment extends Fragment {
             }
         });
 
+
+/*
+        setContentView(binding.getRoot());
+        Button button = (Button) binding.button2;
+        TextView text = (TextView) binding.textView;
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        locationRequest = com.google.android.gms.location.LocationRequest.create();
+
+        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
+
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
+
+        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
+
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                // save the location
+                LocationPlus location = locationResult.getLastLocation();
+            }
+        };
+ */
 
         return binding.getRoot();
     }
@@ -138,6 +168,10 @@ public class CompanyMapsFragment extends Fragment {
             }
         });
 
+        // Add a marker in Sydney and move the camera
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
     }
 
@@ -145,7 +179,6 @@ public class CompanyMapsFragment extends Fragment {
     public void showBottomSheetDialog(){
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_company);
-        //onClicks similar to the user's one difference being the vehicle button
         bottomBar.findViewById(R.id.button_stops).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

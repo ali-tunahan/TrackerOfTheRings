@@ -77,10 +77,7 @@ public class Vehicle extends Account implements Locatable, Serializable
         }
         this.isActive = isActive;
     }
-    /**
-     * Mutator for history
-     * @param history
-     */
+
     public void setHistory(Map<String, String> history) {
         this.history = history;
     }
@@ -88,7 +85,7 @@ public class Vehicle extends Account implements Locatable, Serializable
     /**
      * If the vehicle is near x meters of a stop method returns true using the haversine formula
      * @return boolean arrivedAtStop
-     * Math from https://www.movable-type.co.uk/scripts/latlong.html
+     * https://www.movable-type.co.uk/scripts/latlong.html
      */
     public boolean arrivedAtStop(Stop stop){
 
@@ -168,11 +165,7 @@ public class Vehicle extends Account implements Locatable, Serializable
         this.currentRoute = copy;
     }
 
-    /**
-     * Changes the vehicle info in database
-     * @param name
-     * @param password
-     */
+
     public void changeInfo(String name, String password){
 
         DatabaseUtility.changeVehicleInfo(this, name, password);
@@ -231,26 +224,14 @@ public class Vehicle extends Account implements Locatable, Serializable
         return history;
     }
 
-    /**
-     * Accessor for company
-     * @return company
-     */
     public Company getCompany() {
         return company;
     }
-    /**
-     * Mutator for company
-     * @param company
-     */
     public void setCompany(Company company) {
         this.company = company;
     }
 
-    /**
-     * Equals method for vehicle
-     * @param aVehicle
-     * @return boolean
-     */
+
     public boolean equals(@NonNull Vehicle aVehicle){
         if(aVehicle.getCompanyID().equals(this.getCompanyID())&& aVehicle.getPassword().equals(this.getPassword()) && aVehicle.getUsername().equals(this.getUsername())){
             return true;
@@ -261,26 +242,15 @@ public class Vehicle extends Account implements Locatable, Serializable
 
     }
 
-    /**
-     * Sets the vehicle to active
-     * @param active
-     */
+
     public void setActive(boolean active) {
         isActive = active;
     }
 
-    /**
-     * Mutator for currentRoute
-     * @param currentRoute
-     */
     public void setCurrentRoute(Route currentRoute) {
         this.currentRoute = currentRoute;
     }
 
-    /**
-     * toString method
-     * @return String
-     */
     public String historyToString(){
         if(this.history == null){
             return "No Activiy";

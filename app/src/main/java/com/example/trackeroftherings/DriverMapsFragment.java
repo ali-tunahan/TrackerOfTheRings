@@ -59,7 +59,6 @@ public class DriverMapsFragment extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
-            //clear the map, maker on current location and all stops assigned to a route
 
             MainActivity.driverLocationHandler.updateGPS();
             DriverCompanyLoginFragment.vehicleUpdater.updateVehicle();
@@ -69,7 +68,7 @@ public class DriverMapsFragment extends Fragment {
             for (int i = 0; i < LocationController.getRoutes().size(); i++) {
                 Route currentRoute = LocationController.getRoutes().get(i);
 
-            //current invocation of onLocationChange removes the other stops that do not belong to the selected route once a route is selected
+
                 for (int j = 0; j < currentRoute.getStopsList().size(); j++) {
                     if (currentRoute.getStopsList().get(j) == null){
                         return;
@@ -104,9 +103,13 @@ public class DriverMapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //clear the map, maker on current location
-
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
             drivermMap = googleMap;
+            //LatLng sydney = new LatLng(-34, 151);
+            //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));//moves camera (change to current location)
             googleMap.clear();
             MainActivity.driverLocationHandler.startLocationUpdates();
             MainActivity.driverLocationHandler.updateGPS();
@@ -134,17 +137,52 @@ public class DriverMapsFragment extends Fragment {
         });
 
 
+/*
+        setContentView(binding.getRoot());
+        Button button = (Button) binding.button2;
+        TextView text = (TextView) binding.textView;
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        locationRequest = com.google.android.gms.location.LocationRequest.create();
+
+        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
+
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
+
+        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
+
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                // save the location
+                LocationPlus location = locationResult.getLastLocation();
+            }
+        };
+ */
+
         return binding.getRoot();
     }
     public void onMapReady(GoogleMap googleMap) {
         drivermMap = googleMap;
+
+
+        // Add a marker in Sydney and move the camera
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
     }
 
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
-        //set routes information on driver_route_selection and add generic number of buttons
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
         ArrayList<Button> buttonsList = new ArrayList<Button>();
         final BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
@@ -173,7 +211,6 @@ public class DriverMapsFragment extends Fragment {
             buttonsList.add(b);
 
             linear1.addView(b);
-            //once clicked, keep the selected information but do not assign it to the driver yet, that is for confirmation
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -187,7 +224,6 @@ public class DriverMapsFragment extends Fragment {
         }
         isEntered = true;
         bottomBar.findViewById(R.id.floatingActionButton6).setOnClickListener(new View.OnClickListener() {
-            //once confirmed set driver and route information accordingly
             @Override
             public void onClick(View v) {
                 if(selectedButton != null){
@@ -210,7 +246,6 @@ public class DriverMapsFragment extends Fragment {
                     binding.cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //cancel popup information, removes driver and route information assigned previously
                             //https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
                             builder.setMessage("Do you really want to cancel ongoing route?")
                                     .setTitle("Cancel Ongoing Route?")

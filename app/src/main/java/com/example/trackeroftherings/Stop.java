@@ -31,7 +31,6 @@ public class Stop implements Locatable, Serializable
 
 	/**
 	 * Copy constructor
-	 * @param s
 	 */
 	public Stop(Stop s) {
 		this.name = s.getName();
@@ -83,10 +82,7 @@ public class Stop implements Locatable, Serializable
 		this.location = aLocation;
 
 	}
-	/**
-	 * Mutator for location
-	 * @param location
-	 */
+
 	public void setLocation(LocationPlus location){
 		this.location = location;
 	}
@@ -153,33 +149,18 @@ public class Stop implements Locatable, Serializable
 		this.routesList.remove(aRoute);
 	}
 
-	/**
-	 * Getter for routesList
-	 * @return routesList
-	 */
 	public List<Route> getRoutesList() {
 		return routesList;
 	}
-	/**
-	 * Mutator for routesList
-	 * @param routesList
-	 */
+
 	public void setRoutesList(List<Route> routesList) {
 		this.routesList = routesList;
 	}
-	/**
-	 * Mutator for companyID
-	 * @param companyID
-	 */
+
 	public void setCompanyID(String companyID) {
 		this.companyID = companyID;
 	}
 
-	/**
-	 * Equals method
-	 * @param aStop
-	 * @return boolean
-	 */
 	public boolean equals(@NonNull Stop aStop){
 		if(aStop.getCompanyID().equals(this.getCompanyID()) && aStop.getName().equals(this.getName())){
 			return true;
@@ -189,10 +170,6 @@ public class Stop implements Locatable, Serializable
 		}
 	}
 
-	/**
-	 * toString method returns name
-	 * @return String
-	 */
 	public String toString(){
 		return this.getName();
 	}

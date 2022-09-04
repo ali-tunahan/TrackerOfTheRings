@@ -28,7 +28,7 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //set onClicks on the screen
+
         binding.buttonUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

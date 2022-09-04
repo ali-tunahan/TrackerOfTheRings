@@ -6,10 +6,15 @@ apply plugin: 'com.android.application'
 // Add the following line:
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
+
 android {
     compileSdk 31
 
     defaultConfig {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('MAPS_API_KEY')}"]
+
         applicationId "com.example.trackeroftherings"
         minSdk 26
         targetSdk 31

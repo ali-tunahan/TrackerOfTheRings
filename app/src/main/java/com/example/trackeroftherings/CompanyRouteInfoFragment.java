@@ -49,7 +49,6 @@ public class CompanyRouteInfoFragment extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
-            //clear the map, display stops of the selected route and active vehicles on the route
             try {
                 MainActivity.companyRouteInfoLocationHandler.updateGPS();
                 DriverCompanyLoginFragment.getController().updateVehicleLocations();
@@ -100,7 +99,6 @@ public class CompanyRouteInfoFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
-            //clear the map, display stops of the selected route and active vehicles on the route
             Route currentRoute = routeToDisplay;
             MainActivity.companyRouteInfoLocationHandler.startLocationUpdates();
             MainActivity.companyRouteInfoLocationHandler.updateGPS();
@@ -159,6 +157,35 @@ public class CompanyRouteInfoFragment extends Fragment {
             }
         });
 
+/*
+        setContentView(binding.getRoot());
+        Button button = (Button) binding.button2;
+        TextView text = (TextView) binding.textView;
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        locationRequest = com.google.android.gms.location.LocationRequest.create();
+
+        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
+
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
+
+        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
+
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                // save the location
+                LocationPlus
+                 location = locationResult.getLastLocation();
+            }
+        };
+ */
         showBottomSheetDialog();
         return binding.getRoot();
     }
@@ -171,10 +198,9 @@ public class CompanyRouteInfoFragment extends Fragment {
         TextView text = bottomBar.findViewById(R.id.info);
         text.setText(routeToDisplay.getName());
         text.append("\n---STOPS---\n" );
-        //display generic number of buttons based on number of stops of the selected route retrieved from LocationController
         if(routeToDisplay.getStopsList() != null) {
             List<Stop> stops = routeToDisplay.getStopsList();
-            for(int i = 0; i <stops.size(); i++) {
+            for(int i = 0; i <stops.size(); i++) {//nothing to change here, it seems
                 if (stops.get(i) != null){
                     Button b = new Button(this.getContext());
                     b.setText(routeToDisplay.getStopsList().get(i).getName());
@@ -200,12 +226,10 @@ public class CompanyRouteInfoFragment extends Fragment {
             }
         }
         bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {
-            //edit button
             @Override
             public void onClick(View v) {
                 bottomBar.hide();
                 CompanyEditRoute.setStatus(CompanyEditRoute.EDIT);
-                //inform CompanyEditRoute fragment that it is the edit of an existing stop
                 NavHostFragment.findNavController(CompanyRouteInfoFragment.this)
                         .navigate(R.id.action_companyRouteInfoFragment_to_companyEditRoute);
             }

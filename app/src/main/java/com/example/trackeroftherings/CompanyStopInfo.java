@@ -48,7 +48,6 @@ public class CompanyStopInfo extends Fragment {
     public static OnLocationUpdateListener onLocationUpdateListener = new OnLocationUpdateListener() {
         @Override
         public void onLocationChange(LocationPlus location) {
-            //clear map and display current location and selected stop location
             try {
                 MainActivity.companyStopInfoLocationHandler.updateGPS();
                 DriverCompanyLoginFragment.getController().updateVehicleLocations();
@@ -83,7 +82,6 @@ public class CompanyStopInfo extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //clear map and display current location and selected stop location
             mMap = googleMap;
             MainActivity.companyStopInfoLocationHandler.startLocationUpdates();
             MainActivity.companyStopInfoLocationHandler.updateGPS();
@@ -125,21 +123,46 @@ public class CompanyStopInfo extends Fragment {
             }
         });
 
+/*
+        setContentView(binding.getRoot());
+        Button button = (Button) binding.button2;
+        TextView text = (TextView) binding.textView;
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        locationRequest = com.google.android.gms.location.LocationRequest.create();
+
+        locationRequest.setInterval(DEFAULT_UPDATE_INTERVAL * 1000); // default check speed
+
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL * 1000); //when set to most frequent update speed
+
+        locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY); // mode of location updating, currently set to best accuracy
+
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                // save the location
+                LocationPlus location = locationResult.getLastLocation();
+            }
+        };
+ */
         showBottomSheetDialog();
         return binding.getRoot();
     }
 
     @SuppressLint("ResourceAsColor")
     public void showBottomSheetDialog(){
-
         BottomSheetDialog bottomBar = new BottomSheetDialog(this.getContext());
         bottomBar.setContentView(R.layout.bottom_dialog_stop_route_vehicle_edit_info);
         TextView text = bottomBar.findViewById(R.id.info);
         LinearLayout linear1 = bottomBar.findViewById(R.id.linear);
         text.setText(stopToDisplay.getName());
-        if(stopToDisplay.getRoutesList() != null) {
-            //set buttons for all routes that the stop is assigned to (if there is any)
+        if(stopToDisplay.getRoutesList() != null) {//nothing to change here, it seems
             for(int i = 0; i < LocationController.getRoutes().size(); i++) {
                 boolean check = false;
                 for(int j = 0; j < LocationController.getRoutes().get(i).getStopsList().size(); j++){
@@ -166,7 +189,6 @@ public class CompanyStopInfo extends Fragment {
                         public void onClick(View v) {
                             bottomBar.hide();
                             for (int i = 0; i < LocationController.getRoutes().size(); i++) {
-                                //pass selected route info to CompanyRouteInfoFragment
                                 if (LocationController.getRoutes().get(i).equals(LocationController.getRoutes().get(finalI))) {
                                     CompanyRouteInfoFragment.setRouteToDisplay(LocationController.getRoutes().get(i));
                                 }
@@ -180,11 +202,9 @@ public class CompanyStopInfo extends Fragment {
             }
         }
         bottomBar.findViewById(R.id.floatingActionButtonEdit).setOnClickListener(new View.OnClickListener() {
-            //edit an existing stop
             @Override
             public void onClick(View v) {
                 bottomBar.hide();
-                //pass the info that it is editing of an existing stop (not creation of a new one)
                 CompanyEditStop.setStatus(CompanyEditStop.EDIT);
                 NavHostFragment.findNavController(CompanyStopInfo.this)
                         .navigate(R.id.action_companyStopInfoFragment_to_companyEditStop);
