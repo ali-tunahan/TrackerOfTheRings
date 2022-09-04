@@ -132,7 +132,7 @@ Perit Dinçer - [LinkedIn](https://www.linkedin.com/in/perit-dinçer-5a17b5238/)
 E-mail: peritdincer@gmail.com
 
 
-Project Link: [https://github.com/ali-tunahan/Tracker_Of_The_Rings](https://github.com/ali-tunahan/Tracker_Of_The_Rings)
+Project Link: [https://github.com/ali-tunahan/Tracker_Of_The_Rings](https://github.com/ali-tunahan/TrackerOfTheRings)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
