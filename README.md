@@ -1,9 +1,5 @@
 <div id="top"></div>
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -155,7 +151,5 @@ These resources helped me for this project
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/ali-tunahan-işık-921a23230/
 [Android.io]: https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white
 [Android-url]: https://www.android.com
