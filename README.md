@@ -144,6 +144,12 @@ E-mail: peritdincer@gmail.com
 
 ------------------------------------------------------------------------------------------
 
+Ali Deniz Ünal - 
+
+E-mail: -
+
+------------------------------------------------------------------------------------------
+
 
 Project Link: [https://github.com/ali-tunahan/Tracker_Of_The_Rings](https://github.com/ali-tunahan/TrackerOfTheRings)
 
