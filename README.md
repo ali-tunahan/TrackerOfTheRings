@@ -126,6 +126,16 @@ Ali Tunahan Işık - [LinkedIn](https://www.linkedin.com/in/ali-tunahan-işık-9
 E-mail: tunahan0735@gmail.com
 Alternative: tunahan.isik@ug.bilkent.edu.tr
 
+Umut Bora Çakmak - [LinkedIn](https://www.linkedin.com/in/umut-bora-çakmak-a0931a232/)
+E-mail: bora.umut1@hotmail.com
+
+Enis Kerem Çakmak - [LinkedIn](https://www.linkedin.com/in/enis-kerem-çakmak-a17947219/)
+E-mail: -
+
+Perit Dinçer - [LinkedIn](https://www.linkedin.com/in/perit-dinçer-5a17b5238/)
+E-mail: peritdincer@gmail.com
+
+
 Project Link: [https://github.com/ali-tunahan/Tracker_Of_The_Rings](https://github.com/ali-tunahan/Tracker_Of_The_Rings)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
