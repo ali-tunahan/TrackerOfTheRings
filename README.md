@@ -100,9 +100,9 @@ Locator of the Rings is an app to track rings and show Ring stops to users. The 
    ```
 4. Click the Company button and use the credentials below to test the app since currently there is no functionality to create company
 
-   Username: Bilkent
-   Password: 123456
-   Company ID: 123
+  * Username: Bilkent
+  * Password: 123456
+  * Company ID: 123
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
