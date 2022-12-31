@@ -103,6 +103,10 @@ Locator of the Rings is an app to track rings and show Ring stops to users. The 
   * Username: Bilkent
   * Password: 123456
   * Company ID: 123
+5. To test the Driver and share location use the credentials below
+  * Username: tester
+  * Password: a+
+  * companyID: 123
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
