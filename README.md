@@ -171,7 +171,7 @@ Project Link: [https://github.com/ali-tunahan/Tracker_Of_The_Rings](https://gith
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* [Location Retrieval on Android] (https://developer.android.com/training/location/retrieve-current)
+* [Location Retrieval on Android](https://developer.android.com/training/location/retrieve-current)
 * [Firebase documentation](https://firebase.google.com/docs)
 * [Img Shields](https://shields.io)
 * [Readme Template](https://github.com/othneildrew/Best-README-Template)
