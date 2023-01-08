@@ -143,7 +143,9 @@ E-mail: bora.umut1@hotmail.com
 
 Enis Kerem Çakmak - [LinkedIn](https://www.linkedin.com/in/enis-kerem-çakmak-a17947219/)
 
-E-mail: -
+E-mail: eniskeremcakmak@gmail.com
+
+Alternative: kerem.cakmak@ug.bilkent.edu.tr
 
 ------------------------------------------------------------------------------------------
 
@@ -168,8 +170,8 @@ Project Link: [https://github.com/ali-tunahan/Tracker_Of_The_Rings](https://gith
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-These resources helped me for this project
 
+* [Location Retrieval on Android] (https://developer.android.com/training/location/retrieve-current)
 * [Firebase documentation](https://firebase.google.com/docs)
 * [Img Shields](https://shields.io)
 * [Readme Template](https://github.com/othneildrew/Best-README-Template)
