@@ -157,7 +157,7 @@ E-mail: peritdincer@gmail.com
 
 Ali Deniz Ünal - 
 
-E-mail: -
+E-mail: alidenizunal11@gmail.com
 
 ------------------------------------------------------------------------------------------
 
